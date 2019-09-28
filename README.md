@@ -20,5 +20,5 @@ Member Names: </p>
   <li>Abdur Rahman Abul Hossain as [Rifat1]</li>
   <li>Muhammad Uwais Jahmeerbacus as [uwaisj241299]</li>
   <li>Zachary S. Cheema as [Sakif-Max-Flex]</li>
-  <li>Zoe S. Collins as [ ]</li>	
+  <li>Zoe S. Collins as [zscollins]</li>	
 <ol>
