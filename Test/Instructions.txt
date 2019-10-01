@@ -1,0 +1,41 @@
+Step 1:
+	Download Intellij
+
+Step 2:
+	Select the option "Check out from version control" and "Git"
+
+Step 3:
+	Copy the link in URL field:  https://github.com/mhnaeem/comp2005-fall19-group9.git
+
+Step 4:
+	Click "Clone"
+
+Step 5: 
+	Would you like to create an Intellij Project, click "Yes"
+
+Step 6:
+	Keep click "Yes" and Next until Intellij Opens.
+
+Step 7:
+	Right click on the .idea folder -> then go to git -> then select add to .gitignore. Press yes for all the dialogs.
+
+
+Step 8:
+	Play with the test folder
+
+
+(May need to login in your git account somewhere in between)
+
+
+To Upload Files Online:
+	Step 1:
+ 		Click on the "VCS" tab in the toolbar
+	
+	Step 2:
+		Select "Update Project"
+
+	Step 3:
+		Select the "Merge" option and click ok
+
+	Step 4:
+		Now the
