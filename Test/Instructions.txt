@@ -19,7 +19,6 @@ Step 6:
 Step 7:
 	Right click on the .idea folder -> then go to git -> then select add to .gitignore. Press yes for all the dialogs.
 
-
 Step 8:
 	Play with the test folder
 
@@ -38,4 +37,21 @@ To Upload Files Online:
 		Select the "Merge" option and click ok
 
 	Step 4:
-		Now the
+		If there are any conflicts then read instructions and fix them. 
+
+	Step 5:
+		Then right click all the files that need to be uploaded -> then git -> then add.
+	
+	Step 6:
+		Once you have completed all the additions, then click on "VCS" -> click on git -> click on commit
+	
+	Step 7: 
+		Type a message and commit everything.
+	
+
+	Step 8:
+		Go to VCS -> Go to Git -> then "Push"
+
+Yeah everything is now uploaded. :)
+
+I hope this is somewhat helpful.
