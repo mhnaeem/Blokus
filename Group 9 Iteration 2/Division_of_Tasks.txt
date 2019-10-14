@@ -1,0 +1,31 @@
+Zachary Cheema:											Difficulty:
+	Save Current Game Fully Dressed Use Case							3
+	Save Current Game Sequence Diagram								3
+	Create Main Menu Screen										1
+
+Abdur Rahman:
+	Load Saved Game Fully Dressed Use Case								3
+	Load Saved Game Sequence Diagram								3
+	Create Load Saved Game Screen									2
+											
+
+Muhammad Uwais:
+	Revised Domain Model										2
+	Revised Versions of the previously submitted 2 Full Use Case Descriptions			2
+	Create Start New Game Screen									3
+
+Zoe Collins:
+	Improve UI Sketches										2
+	Overall Class Diagram										3
+	Create Main Game Screen										3
+
+Muhammad Hammad:
+	List of Functions for the Application								3
+	Plan for Next Iteration										2
+	Create Main Game Screen										3
+
+
+
+
+
+
