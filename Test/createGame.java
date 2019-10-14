@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class createGame extends JFrame implements ActionListener
+public class createGame extends JFrame
 {
     private JPanel right,left,bottom; //right panel && left panel && bottom panel
     private JLabel playerlabel,humanlabel,computerlabel,colorblindlabel,selectcolorlabel,p1label,p2label,p3label,p4label,difficultylabel; //text labels for combo boxes
-    private JComboBox playerbox,humanbox,computerbox,colorblindbox,selectcolorbox,p1box,p2box,p3box,p4box,difficultybox; //combo boxes
+    private JComboBox<String> playerbox,humanbox,computerbox,colorblindbox,selectcolorbox,p1box,p2box,p3box,p4box,difficultybox; //combo boxes
     private JMenuBar menu; //menu bar
     private JMenu file,about; //menu items
     private JButton start,back; //start && back buttons
@@ -183,28 +183,28 @@ public class createGame extends JFrame implements ActionListener
             switch (s)
             {
                 case ("2"):
-                humanbox.setModel(new DefaultComboBoxModel(new String[] {"1","2"}));
-                computerbox.setModel(new DefaultComboBoxModel(new String[] {"0","1"}));
-                p1box.setModel(new DefaultComboBoxModel(new String[] {"Blue & Red","Yellow & Green"}));
-                p2box.setModel(new DefaultComboBoxModel(new String[] {"Blue & Red","Yellow & Green"}));
+                humanbox.setModel(new DefaultComboBoxModel<String>(new String[] {"1","2"}));
+                computerbox.setModel(new DefaultComboBoxModel<String>(new String[] {"0","1"}));
+                p1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue & Red","Yellow & Green"}));
+                p2box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue & Red","Yellow & Green"}));
                 map = new HashMap<>();
                 break;
                 case ("3"):
-                humanbox.setModel(new DefaultComboBoxModel(new String[] {"1","2","3"}));
-                computerbox.setModel(new DefaultComboBoxModel(new String[] {"0","1","2"}));
-                p1box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
-                p2box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
-                p3box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
+                humanbox.setModel(new DefaultComboBoxModel<String>(new String[] {"1","2","3"}));
+                computerbox.setModel(new DefaultComboBoxModel<String>(new String[] {"0","1","2"}));
+                p1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
+                p2box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
+                p3box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
                 alternate = "";
                 map = new HashMap<>();
                 break;
                 case ("4"):
-                humanbox.setModel(new DefaultComboBoxModel(new String[] {"1","2","3","4"}));
-                computerbox.setModel(new DefaultComboBoxModel(new String[] {"0","1","2","3"}));
-                p1box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
-                p2box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
-                p3box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
-                p4box.setModel(new DefaultComboBoxModel(new String[] {"Blue","Yellow","Red","Green"}));
+                humanbox.setModel(new DefaultComboBoxModel<String>(new String[] {"1","2","3","4"}));
+                computerbox.setModel(new DefaultComboBoxModel<String>(new String[] {"0","1","2","3"}));
+                p1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
+                p2box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
+                p3box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
+                p4box.setModel(new DefaultComboBoxModel<String>(new String[] {"Blue","Yellow","Red","Green"}));
                 map = new HashMap<>();
                 default:
                 //error occured
@@ -264,7 +264,7 @@ public class createGame extends JFrame implements ActionListener
                     if (playerbox.getSelectedIndex()!=-1)
                     {
                         int size = Integer.parseInt((String) playerbox.getSelectedItem());
-                        ArrayList<Integer> temp = new ArrayList();
+                        ArrayList<Integer> temp = new ArrayList<>();
                         while (temp.size()!=size)
                         {
                             int i = randgen.nextInt(size);
@@ -358,13 +358,13 @@ public class createGame extends JFrame implements ActionListener
     //action event for start button
     private void startEvent()
     {
-
+        System.out.println("test start button");
     }
 
     //action event for back button
-    private void backEvent();
+    private void backEvent()
     {
-        
+        System.out.println("test back button");
     }
     
 
