@@ -9,7 +9,6 @@ public class GameGUI extends JFrame {
 
     private Container contentPane = getContentPane();
     private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPiecesPanel, bottomPiecesPanel;
-    private ArrayList<ButtonGroup> pieces;
 
     public GameGUI(){
 
@@ -30,11 +29,11 @@ public class GameGUI extends JFrame {
         contentPane.add(bottomPiecesPanel, BorderLayout.SOUTH);
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
 
-        mainGridPanel.add(createGrid(20,20,40,40));
+        mainGridPanel.add(createGrid(20,20,35,35));
         leftPiecesPanel.add(createPlayingPieces());
         rightPiecesPanel.add(createPlayingPieces());
 
-        mainGridPanel.updateUI();
+        colourPieces();
 
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
@@ -68,7 +67,6 @@ public class GameGUI extends JFrame {
 
     private ArrayList<ArrayList<JButton>> createButtonsList(int gridRows, int gridColumns){
         ArrayList<ArrayList<JButton>> buttons = new ArrayList<>();
-        ArrayList<String> cubesNotEaten = new ArrayList<>();
 
         for (int r = 0; r < gridRows; r++) {
             buttons.add(new ArrayList<>());
@@ -76,7 +74,6 @@ public class GameGUI extends JFrame {
                 JButton btn = new JButton();
                 String nameStr = r + "," + c;
                 btn.setName(nameStr);
-                cubesNotEaten.add(nameStr);
                 buttons.get(r).add(btn);
             }
         }
@@ -97,6 +94,55 @@ public class GameGUI extends JFrame {
         main.add(pnl2);
 
         return main;
+    }
+
+    private void colourPieces(){
+        Component[] leftComponents = leftPiecesPanel.getComponents();
+        Component firstPanel = ((JPanel) leftComponents[0]).getComponents()[0];
+        Component secondPanel = ((JPanel) leftComponents[0]).getComponents()[1];
+
+        Component[] rightComponenets = rightPiecesPanel.getComponents();
+        Component thirdPanel = ((JPanel) rightComponenets[0]).getComponents()[0];
+        Component fourthPanel = ((JPanel) rightComponenets[0]).getComponents()[1];
+
+        for (int j = 0; j < 4; j++){
+            Component[] c = new Component[4];
+            Color color = Color.white;
+
+            if (j == 0) {
+                c = ((JPanel) firstPanel).getComponents();
+                color = Color.blue;
+            }
+            if (j == 1) {
+                c = ((JPanel) secondPanel).getComponents();
+                color = Color.green;
+            }
+            if (j == 2) {
+                c = ((JPanel) thirdPanel).getComponents();
+                color = Color.yellow;
+            }
+            if (j == 3) {
+                c = ((JPanel) fourthPanel).getComponents();
+                color = Color.red;
+            }
+
+            for(int i = 0; i < c.length; i++){
+                String name = c[i].getName();
+
+                //TODO: Zoe you can fill this if statement, it should add all the pieces for all the colours
+                //This is extremely inefficient however we will change it later
+                if(name.equals("0,0") || name.equals("0,1") || name.equals("0,2") || name.equals("0,3") || name.equals("0,5") || name.equals("0,6") || name.equals("0,7") || name.equals("0,8")
+                        || name.equals("0,11") || name.equals("0,12") || name.equals("0,13") || name.equals("0,14") || name.equals("1,8") || name.equals("1,13") || name.equals("2,0")
+                        || name.equals("2,3") || name.equals("2,4") || name.equals("2,6") || name.equals("2,10") || name.equals("2,11") || name.equals("2,15") || name.equals("3,0")
+                        || name.equals("3,3") || name.equals("3,4") || name.equals("3,6") || name.equals("3,11") || name.equals("3,14") || name.equals("3,15") || name.equals("3,16")
+                        || name.equals("4,0") || name.equals("4,1") || name.equals("4,3") || name.equals("4,6") || name.equals("4,7") || name.equals("4,8") || name.equals("4,11")
+                        || name.equals("4,12") || name.equals("4,15")){
+
+                    c[i].setBackground(color);
+                    //TODO: Can Set Name and other things here later
+                }
+            }
+        }
     }
 
     private class gridListener implements ActionListener {
