@@ -1,22 +1,17 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 public class GameGUI extends JFrame {
 
-    private int columns, rows;
     private Container contentPane = getContentPane();
     private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPiecesPanel, bottomPiecesPanel;
-    private ArrayList<ArrayList<JButton>> btns;
-    private ArrayList<String> cubesNotEaten;
     private ArrayList<ButtonGroup> pieces;
 
-    public GameGUI(Integer w, Integer h){
-        columns = w;
-        rows = h;
+    public GameGUI(){
 
         //Initializing all the panels
         mainGridPanel = new JPanel();
@@ -25,12 +20,7 @@ public class GameGUI extends JFrame {
         topPiecesPanel = new JPanel();
         bottomPiecesPanel = new JPanel();
 
-        //Setting layouts of all the panels
-        mainGridPanel.setLayout(new GridBagLayout());
-        leftPiecesPanel.setLayout(new GridLayout(11,2));
-        rightPiecesPanel.setLayout(new GridLayout(11,2));
-        topPiecesPanel.setLayout(new GridLayout(2,11));
-        bottomPiecesPanel.setLayout(new GridLayout(2,11));
+        //Setting layouts of all the panel
         contentPane.setLayout(new BorderLayout());
 
         //Adding the panels to the main frame
@@ -40,8 +30,10 @@ public class GameGUI extends JFrame {
         contentPane.add(bottomPiecesPanel, BorderLayout.SOUTH);
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
 
-        createGrid();
-        createPlayingPieces();
+        mainGridPanel.add(createGrid(20,20,40,40));
+        leftPiecesPanel.add(createPlayingPieces());
+        rightPiecesPanel.add(createPlayingPieces());
+
         mainGridPanel.updateUI();
 
         pack();
@@ -49,62 +41,62 @@ public class GameGUI extends JFrame {
         setVisible(true);
     }
 
-    private void createGrid(){
-        createButtonsList();
+    private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight){
+        JPanel tempPanel = new JPanel();
+        tempPanel.setLayout(new GridBagLayout());
+
+        ArrayList<ArrayList<JButton>> buttons = createButtonsList(gridRows, gridColumns);
+
         GridBagConstraints gbc = new GridBagConstraints();
-        for (int r = 0; r < rows; r++){
+
+        for (int r = 0; r < gridRows; r++){
             gbc.gridy = r;
-            for (int c = 0; c < columns; c++){
+            for (int c = 0; c < gridColumns; c++){
                 gbc.gridx = c;
-                JButton btn =  btns.get(r).get(c);
+                JButton btn =  buttons.get(r).get(c);
                 btn.setForeground(Color.white);
                 btn.setBackground(Color.white);
-                btn.setPreferredSize(new Dimension(32,32));
+                btn.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
                 btn.setFocusable(false);
                 btn.addActionListener(new gridListener());
-                mainGridPanel.add(btn,gbc);
+                tempPanel.setBorder(new EmptyBorder(1,1,1,1));
+                tempPanel.add(btn,gbc);
             }
         }
-        mainGridPanel.updateUI();
+        return tempPanel;
     }
 
-    private void createButtonsList(){
-        btns = new ArrayList<>();
-        cubesNotEaten = new ArrayList<>();
+    private ArrayList<ArrayList<JButton>> createButtonsList(int gridRows, int gridColumns){
+        ArrayList<ArrayList<JButton>> buttons = new ArrayList<>();
+        ArrayList<String> cubesNotEaten = new ArrayList<>();
 
-        for (int r = 0; r < rows; r++){
-            btns.add(new ArrayList<>());
-            for (int c = 0; c < columns; c++){
+        for (int r = 0; r < gridRows; r++) {
+            buttons.add(new ArrayList<>());
+            for (int c = 0; c < gridColumns; c++) {
                 JButton btn = new JButton();
-                String nameStr = r+","+c;
+                String nameStr = r + "," + c;
                 btn.setName(nameStr);
                 cubesNotEaten.add(nameStr);
-                btns.get(r).add(btn);
+                buttons.get(r).add(btn);
             }
         }
-        mainGridPanel.updateUI();
+        return buttons;
     }
 
-    private void createPlayingPieces(){
-        pieces = new ArrayList<>();
+    private JPanel createPlayingPieces(){
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
-        ArrayList<JPanel> pnls = new ArrayList<>();
-        pnls.add(rightPiecesPanel);
-        pnls.add(leftPiecesPanel);
-        pnls.add(topPiecesPanel);
-        pnls.add(bottomPiecesPanel);
+        JPanel pnl1 = createGrid(17,17, 20,20);
+        pnl1.setBorder(new EmptyBorder(30,30,30,30));
 
-        for (int i = 0; i < 4; i++){
-            pieces.add(new ButtonGroup());
-            ButtonGroup currPlayer = pieces.get(i);
-            for (int j = 1; j <= 21; j++){
-                JRadioButton tempBtn = new JRadioButton(Integer.toString(j));
-                tempBtn.addActionListener(new piecesManager());
-                tempBtn.setName(Integer.toString(j));
-                currPlayer.add(tempBtn);
-                pnls.get(i).add(tempBtn);
-            }
-        }
+        JPanel pnl2 = createGrid(17,17, 20,20);
+        pnl2.setBorder(new EmptyBorder(30,30,30,30));
+
+        main.add(pnl1);
+        main.add(pnl2);
+
+        return main;
     }
 
     private class gridListener implements ActionListener {
@@ -115,17 +107,6 @@ public class GameGUI extends JFrame {
             System.out.print("The button on location ");
             System.out.print(st);
             System.out.println(" was pressed.");
-        }
-    }
-
-    private class piecesManager implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e){
-            String st = ((JRadioButton) e.getSource()).getName();
-            System.out.print("Piece ");
-            System.out.print(st);
-            System.out.println(" was selected.");
         }
     }
 }
