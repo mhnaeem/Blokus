@@ -128,8 +128,4 @@ public class GameGUI extends JFrame {
             System.out.println(" was selected.");
         }
     }
-
-    public static void main(String[] args) {
-        new GameGUI(20,20);
-    }
 }
