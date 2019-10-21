@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import javax.swing.border.EmptyBorder;
 /**
  * Load Saved Game that includes the following:
- * Window title;
- * Blokus title on window; and
- * 3 Buttons.
- *
+ * Load Game Label;
+ * Load Game Buttons if there are any saved states;
  *
  * @author (Abdur Rahman Abul Hossain)
  * @version (Version 1.1)
@@ -19,18 +17,14 @@ public class loadSavedScreen extends JFrame {
     private JPanel fullPanel, topPanel, bottomPanel;
     private JLabel loadGame;
     private JScrollPane scroll;
-    private ArrayList<ArrayList<JButton>> btns;
-    // private int size=8;
-    private int columns, rows;
+    // private ArrayList<ArrayList<JButton>> btns;
 
 
 
     public loadSavedScreen(){
-        // setFrameDetails();
         super("LOAD GAME!");
 
         //Setting layouts of all the panel
-        // contentPane.setLayout(new BorderLayout());
         fullPanel=new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
         setupTopPanel();
@@ -40,31 +34,30 @@ public class loadSavedScreen extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+
+    //Setting up Load Game label on top panel
     private void setupTopPanel(){
         topPanel=new JPanel(new FlowLayout(1));
         loadGame=new JLabel("Load Game!");
         topPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
-
 
         // Putting Load Game Label on Top Panel
         loadGame.setFont(new Font(Font.SERIF, Font.BOLD, 50));
         loadGame.setAlignmentX(Font.CENTER_BASELINE);
         topPanel.add(loadGame);
 
-
-        //Adding the Top panel to the main frame
+        //Adding the Top panel to the fullPanel
         fullPanel.add(topPanel, BorderLayout.NORTH);
-
-
-
-
     }
+
+
+    //Setting up Load Game buttons on bottom panel
     private void setupBottomPanel(int rows, int columns){
 
         bottomPanel=new JPanel(new GridBagLayout());
-        // bottomPanel.setBorder(new EmptyBorder(20, 150, 0, 150));
-
         GridBagConstraints gbc = new GridBagConstraints();
+
+        //Creating Load Game Buttons and adding them to bottom panel
         for(int r=0;r<rows;r++){
             gbc.gridy=r;
             for(int c=0;c<columns;c++){
@@ -74,11 +67,11 @@ public class loadSavedScreen extends JFrame {
             }
         }
 
+        //Adding scrollbar to bottom panel
         scroll=new JScrollPane(bottomPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        // scroll.setBounds(600,400,30,60);
-        // scroll.setMaximumSize(new Dimension(20,20));
+        //Adding scroll to fullPanel
         fullPanel.add(scroll,BorderLayout.CENTER);
-        // contentPane.add(bottomPanel, BorderLayout.CENTER);
+
 
 
     }
