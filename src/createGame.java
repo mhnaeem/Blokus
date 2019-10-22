@@ -172,7 +172,7 @@ public class createGame extends JFrame {
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx =0;
-        gbc.weighty =0;
+        gbc.weighty =.11;
 
         for (int row=7;row<11;row++){
             gbc.gridx = 0;
@@ -180,10 +180,8 @@ public class createGame extends JFrame {
             gbc.gridx = 1;
             row++;
             right.add(labelList.get(row),gbc);
-            gbc.weighty = 0;
             gbc.ipadx=0;
             gbc.ipady=0;
-            gbc.weighty=.1;
             gbc.gridy++;
             gbc.gridx = 0;
             row--;
@@ -192,7 +190,6 @@ public class createGame extends JFrame {
             row++;
             right.add(boxList.get(row),gbc);
             gbc.gridy++;
-            gbc.weighty=.1;
         }
 
         //bottom panel
