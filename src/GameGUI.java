@@ -33,7 +33,7 @@ public class GameGUI extends JFrame {
         leftPiecesPanel.add(createPlayingPieces());
         rightPiecesPanel.add(createPlayingPieces());
 
-        colourPieces();
+        colourPieces(); 
 
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
@@ -129,14 +129,21 @@ public class GameGUI extends JFrame {
             for(int i = 0; i < c.length; i++){
                 String name = c[i].getName();
 
-                //TODO: Zoe you can fill this if statement, it should add all the pieces for all the colours
                 //This is extremely inefficient however we will change it later
                 if(name.equals("0,0") || name.equals("0,1") || name.equals("0,2") || name.equals("0,3") || name.equals("0,5") || name.equals("0,6") || name.equals("0,7") || name.equals("0,8")
-                        || name.equals("0,11") || name.equals("0,12") || name.equals("0,13") || name.equals("0,14") || name.equals("1,8") || name.equals("1,13") || name.equals("2,0")
-                        || name.equals("2,3") || name.equals("2,4") || name.equals("2,6") || name.equals("2,10") || name.equals("2,11") || name.equals("2,15") || name.equals("3,0")
-                        || name.equals("3,3") || name.equals("3,4") || name.equals("3,6") || name.equals("3,11") || name.equals("3,14") || name.equals("3,15") || name.equals("3,16")
-                        || name.equals("4,0") || name.equals("4,1") || name.equals("4,3") || name.equals("4,6") || name.equals("4,7") || name.equals("4,8") || name.equals("4,11")
-                        || name.equals("4,12") || name.equals("4,15")){
+                        || name.equals("0,11") || name.equals("0,12") || name.equals("0,13") || name.equals("0,14") || name.equals("1,8") || name.equals("1,13") || name.equals("3,0")
+                        || name.equals("3,3") || name.equals("3,4") || name.equals("3,6") || name.equals("3,10") || name.equals("3,11") || name.equals("3,15") || name.equals("4,0")
+                        || name.equals("4,3") || name.equals("4,4") || name.equals("4,6") || name.equals("4,11") || name.equals("4,14") || name.equals("4,15") || name.equals("4,16")
+                        || name.equals("5,0") || name.equals("5,1") || name.equals("5,3") || name.equals("5,6") || name.equals("5,7") || name.equals("5,8") || name.equals("5,11")
+                        || name.equals("5,12") || name.equals("5,15") || name.equals("7,0") || name.equals("7,3") || name.equals("7,4") || name.equals("7,6") || name.equals("7,10")
+                        || name.equals("7,11") || name.equals("7,12") || name.equals("7,14") || name.equals("7,15") || name.equals("8,0") || name.equals("8,1") || name.equals("8,3")
+                        || name.equals("8,6") || name.equals("8,7") || name.equals("8,11") || name.equals("8,15") || name.equals("8,16") || name.equals("9,0") || name.equals("9,3")
+                        || name.equals("9,4") || name.equals("9,7") || name.equals("9,8") || name.equals("9,11") || name.equals("9,15") || name.equals("11,0") || name.equals("11,1")
+                        || name.equals("11,2") || name.equals("11,5") || name.equals("11,6") || name.equals("11,9") || name.equals("11,12") || name.equals("11,13") || name.equals("11,15")
+                        || name.equals("12,2") || name.equals("12,3") || name.equals("12,6") || name.equals("12,7") || name.equals("12,9") || name.equals("12,10") || name.equals("12,12")
+                        || name.equals("12,13") || name.equals("14,0") || name.equals("14,1") || name.equals("14,2") || name.equals("14,3") || name.equals("14,4") || name.equals("14,6")
+                        || name.equals("14,7") || name.equals("14,8") || name.equals("14,10") || name.equals("14,11"))
+                {
 
                     c[i].setBackground(color);
                     //TODO: Can Set Name and other things here later
