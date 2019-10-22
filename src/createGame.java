@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
-public class createGame<list1> extends JFrame {
+public class createGame extends JFrame {
     private JLabel playerLabel, humanLabel, computerLabel, difficultyLabel, isColorblindLabel, scoringLabel, isRandomLabel, player1Label, player2Label, player3Label, player4Label;
     private JComboBox<String> playerBox, humanBox, computerBox, difficultyBox, isColorblindBox, scoringBox, isRandomBox, player1Box, player2Box, player3Box, player4Box;
     private ArrayList<JLabel> labelList;
