@@ -4,40 +4,67 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class GameGUI extends JFrame {
 
     private Container contentPane = getContentPane();
-    private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPiecesPanel, bottomPiecesPanel;
+    private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
+    private int numberOfPlayers;
 
-    public GameGUI(){
+    /* The panels are set based on indexes, in the following order
+       2 Players = [Player 1, Player 2]
+       3 Players = [Player 1, Player 2, Player 3]
+       4 Players = [Player 1, Player 2, Player 3, Player 4]
 
+       [1]   [Main Grid]    [2]
+       [3]   [Main Grid]    [4]
+     */
+    private ArrayList<JPanel> listOfPiecesPanels;
+
+    // Meant to hold the player number and the colours
+    // For example: { 1 : Color.blue, 2 : Color.green}
+    private HashMap<Integer, Color> mapOfColours;
+
+    public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours){
+
+        this.numberOfPlayers = number_of_players;
+        this.mapOfColours = map_of_colours;
+
+        createMainPanels();
+
+        //Create the main grid
+        mainGridPanel.add(createGrid(20,20,35,35));
+
+        //Create the player pieces on the left and right, depending on the number of players
+        createPlayingPieces();
+
+        //Colour the pieces for the players
+        colourPieces();
+
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
+        setVisible(true);
+    }
+
+    private void createMainPanels(){
         //Initializing all the panels
         mainGridPanel = new JPanel();
         leftPiecesPanel = new JPanel();
         rightPiecesPanel = new JPanel();
-        topPiecesPanel = new JPanel();
-        bottomPiecesPanel = new JPanel();
+        topPanel = new JPanel();
+        bottomPanel = new JPanel();
 
-        //Setting layouts of all the panel
+        //Setting layouts of all the panels
         contentPane.setLayout(new BorderLayout());
 
         //Adding the panels to the main frame
         contentPane.add(leftPiecesPanel, BorderLayout.WEST);
         contentPane.add(rightPiecesPanel, BorderLayout.EAST);
-        contentPane.add(topPiecesPanel, BorderLayout.NORTH);
-        contentPane.add(bottomPiecesPanel, BorderLayout.SOUTH);
+        contentPane.add(topPanel, BorderLayout.NORTH);
+        contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
-
-        mainGridPanel.add(createGrid(20,20,35,35));
-        leftPiecesPanel.add(createPlayingPieces());
-        rightPiecesPanel.add(createPlayingPieces());
-
-        colourPieces(); 
-
-        pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
-        setVisible(true);
     }
 
     private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight){
@@ -58,7 +85,7 @@ public class GameGUI extends JFrame {
                 btn.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
                 btn.setFocusable(false);
                 btn.addActionListener(new gridListener());
-                tempPanel.setBorder(new EmptyBorder(1,1,1,1));
+                tempPanel.setBorder(new EmptyBorder(0,0,0,0));
                 tempPanel.add(btn,gbc);
             }
         }
@@ -80,57 +107,46 @@ public class GameGUI extends JFrame {
         return buttons;
     }
 
-    private JPanel createPlayingPieces(){
-        JPanel main = new JPanel();
-        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+    private void createPlayingPieces() {
 
-        JPanel pnl1 = createGrid(17,17, 20,20);
-        pnl1.setBorder(new EmptyBorder(30,30,30,30));
+        listOfPiecesPanels = new ArrayList<>();
 
-        JPanel pnl2 = createGrid(17,17, 20,20);
-        pnl2.setBorder(new EmptyBorder(30,30,30,30));
+        for (int i = 0; i < 4; i++){
+            JPanel tempPnl = createGrid(16, 17, 20, 20);
+            tempPnl.setBorder(new EmptyBorder(30, 30, 30, 30));
+            listOfPiecesPanels.add(tempPnl);
+        }
 
-        main.add(pnl1);
-        main.add(pnl2);
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        return main;
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+
+        leftPanel.add(listOfPiecesPanels.get(0));
+        rightPanel.add(listOfPiecesPanels.get(1));
+
+        if (numberOfPlayers == 3){
+            leftPanel.add(listOfPiecesPanels.get(2));
+        }
+        if (numberOfPlayers == 4){
+            leftPanel.add(listOfPiecesPanels.get(2));
+            rightPanel.add(listOfPiecesPanels.get(3));
+        }
+
+        leftPiecesPanel.add(leftPanel);
+        rightPiecesPanel.add(rightPanel);
     }
 
     private void colourPieces(){
-        Component[] leftComponents = leftPiecesPanel.getComponents();
-        Component firstPanel = ((JPanel) leftComponents[0]).getComponents()[0];
-        Component secondPanel = ((JPanel) leftComponents[0]).getComponents()[1];
-
-        Component[] rightComponenets = rightPiecesPanel.getComponents();
-        Component thirdPanel = ((JPanel) rightComponenets[0]).getComponents()[0];
-        Component fourthPanel = ((JPanel) rightComponenets[0]).getComponents()[1];
-
-        for (int j = 0; j < 4; j++){
-            Component[] c = new Component[4];
-            Color color = Color.white;
-
-            if (j == 0) {
-                c = ((JPanel) firstPanel).getComponents();
-                color = Color.blue;
-            }
-            if (j == 1) {
-                c = ((JPanel) secondPanel).getComponents();
-                color = Color.green;
-            }
-            if (j == 2) {
-                c = ((JPanel) thirdPanel).getComponents();
-                color = Color.yellow;
-            }
-            if (j == 3) {
-                c = ((JPanel) fourthPanel).getComponents();
-                color = Color.red;
-            }
-
-            for(int i = 0; i < c.length; i++){
+        for (int j = 1; j <= this.numberOfPlayers; j++) {
+            Color color = mapOfColours.get(j);
+            Component[] c = listOfPiecesPanels.get(j-1).getComponents();
+            for (int i = 0; i < c.length; i++) {
                 String name = c[i].getName();
 
                 //This is extremely inefficient however we will change it later
-                if(name.equals("0,0") || name.equals("0,1") || name.equals("0,2") || name.equals("0,3") || name.equals("0,5") || name.equals("0,6") || name.equals("0,7") || name.equals("0,8")
+                if (name.equals("0,0") || name.equals("0,1") || name.equals("0,2") || name.equals("0,3") || name.equals("0,5") || name.equals("0,6") || name.equals("0,7") || name.equals("0,8")
                         || name.equals("0,11") || name.equals("0,12") || name.equals("0,13") || name.equals("0,14") || name.equals("1,8") || name.equals("1,13") || name.equals("3,0")
                         || name.equals("3,3") || name.equals("3,4") || name.equals("3,6") || name.equals("3,10") || name.equals("3,11") || name.equals("3,15") || name.equals("4,0")
                         || name.equals("4,3") || name.equals("4,4") || name.equals("4,6") || name.equals("4,11") || name.equals("4,14") || name.equals("4,15") || name.equals("4,16")
@@ -142,11 +158,12 @@ public class GameGUI extends JFrame {
                         || name.equals("11,2") || name.equals("11,5") || name.equals("11,6") || name.equals("11,9") || name.equals("11,12") || name.equals("11,13") || name.equals("11,15")
                         || name.equals("12,2") || name.equals("12,3") || name.equals("12,6") || name.equals("12,7") || name.equals("12,9") || name.equals("12,10") || name.equals("12,12")
                         || name.equals("12,13") || name.equals("14,0") || name.equals("14,1") || name.equals("14,2") || name.equals("14,3") || name.equals("14,4") || name.equals("14,6")
-                        || name.equals("14,7") || name.equals("14,8") || name.equals("14,10") || name.equals("14,11"))
-                {
+                        || name.equals("14,7") || name.equals("14,8") || name.equals("14,10") || name.equals("14,11")) {
 
                     c[i].setBackground(color);
                     //TODO: Can Set Name and other things here later
+                } else {
+                    c[i].setEnabled(false);
                 }
             }
         }
