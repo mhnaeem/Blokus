@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
-public class createGame extends JFrame {
+public class CreateGame extends JFrame {
     private JLabel playerLabel, humanLabel, computerLabel, difficultyLabel, isColorblindLabel, scoringLabel, isRandomLabel, player1Label, player2Label, player3Label, player4Label;
     private JComboBox<String> playerBox, humanBox, computerBox, difficultyBox, isColorblindBox, scoringBox, isRandomBox, player1Box, player2Box, player3Box, player4Box;
     private ArrayList<JLabel> labelList;
@@ -24,15 +24,19 @@ public class createGame extends JFrame {
     private JMenu file,about;
     private JMenuItem reset,load,exit;
     private JButton start,back;
+    private Border innerBorder,outerBorder;
+    private GridBagConstraints gbc = new GridBagConstraints();
     private static Dimension d;
     private static String s ="";
-    private static int size = 0;
+    public static int size = 0;
+    public static int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
+    public static String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
 
-    public createGame() {
+
+    public CreateGame() {
         super("Blokus Game");
-        menu();
-
-        components();
+        createMenu();
+        createComponents();
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850, 425);
@@ -40,9 +44,10 @@ public class createGame extends JFrame {
     }
 
     /**
-     * creates Menu Bor and adds Menu Bar to JFrame
+     * creates Menu Bor with its components
+     * adds Menu to JFrame
      */
-    private void menu()
+    private void createMenu()
     {
         menu = new JMenuBar();
         file = new JMenu("File");
@@ -59,14 +64,12 @@ public class createGame extends JFrame {
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
         setJMenuBar(menu);
-
     }
 
     /**
-     * creates components and adds them to JFrame Container
+     * creates Labels
      */
-    private void components() {
-        //create Labels
+    private void createLabels(){
         playerLabel = new JLabel("Number Of Players");
         humanLabel = new JLabel("Number Of Human Players");
         computerLabel = new JLabel("Number Of Computer Players");
@@ -78,10 +81,12 @@ public class createGame extends JFrame {
         player2Label = new JLabel("Player 2");
         player3Label = new JLabel("Player 3");
         player4Label = new JLabel("Player 4");
+    }
 
-        labelList = new ArrayList<>(Arrays.asList(playerLabel,humanLabel,computerLabel,difficultyLabel,isColorblindLabel,scoringLabel,isRandomLabel,player1Label,player2Label,player3Label,player4Label));
-
-        //create ComboBoxes
+    /**
+     * creates ComboBoxes
+     */
+    private void createComboBoxes(){
         playerBox = new JComboBox<>(new String[]{"2","3","4"});
         humanBox = new JComboBox<>();
         computerBox = new JComboBox<>();
@@ -93,58 +98,97 @@ public class createGame extends JFrame {
         player2Box = new JComboBox<>();
         player3Box = new JComboBox<>();
         player4Box = new JComboBox<>();
+    }
 
-        boxList = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox,player1Box,player2Box,player3Box,player4Box));
-        playerBoxList = new ArrayList<>(Arrays.asList(player1Box,player2Box,player3Box,player4Box));
-        playerNumberEventBoxList = new ArrayList<>(Arrays.asList(humanBox,computerBox,player1Box,player2Box,player3Box,player4Box));
-
-        boxList.forEach(x->x.setSelectedItem(null));
-
-        //add Events to comboBoxes
+    /**
+     * adds ActionListeners to combo boxes
+     */
+    private void addActionListenerToComboBoxes(){
         playerBox.addActionListener(x->playerNumberEvent());
         humanBox.addActionListener(x->humanNumberEvent());
         computerBox.addActionListener(x->computerNumberEvent());
         isRandomBox.addActionListener(x->isRandomEvent());
         playerBoxList.forEach(player->player.addActionListener(x->playerColorEvent(player)));
+    }
+
+    /**
+     * sets comboBoxes preferences
+     * sets default size
+     * sets default selection to null
+     */
+    private void setComboBoxPreferences(){
+        boxList.forEach(x->x.setSelectedItem(null));
         d = new Dimension(115,20);
         boxList.forEach(box -> {box.setPreferredSize(d);box.setMinimumSize(d);box.setMaximumSize(d);});
+    }
 
-        //create Buttons and add Events to buttons
+    /**
+     * creates Buttons
+     * adds ActionListeners to buttons
+     */
+    private void createButtons(){
         start = new JButton("Start");
         back = new JButton("Back");
         start.addActionListener(x->startEvent());
         back.addActionListener(x->backEvent());
+    }
 
-       //create Panels and set Layouts and to main container
-        Border innerBorder = BorderFactory.createEmptyBorder(25,25,25,25);
-        Border outerBorder = BorderFactory.createLineBorder(Color.BLACK,2);
+    /**
+     * creates components and adds them to JFrame Container
+     */
+    private void createComponents() {
+        createLabels();
+        createComboBoxes();
+
+        //ArrayList of Labels and ComboBoxes
+        labelList = new ArrayList<>(Arrays.asList(playerLabel,humanLabel,computerLabel,difficultyLabel,isColorblindLabel,scoringLabel,isRandomLabel,player1Label,player2Label,player3Label,player4Label));
+        boxList = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox,player1Box,player2Box,player3Box,player4Box));
+        playerBoxList = new ArrayList<>(Arrays.asList(player1Box,player2Box,player3Box,player4Box));
+        playerNumberEventBoxList = new ArrayList<>(Arrays.asList(humanBox,computerBox,player1Box,player2Box,player3Box,player4Box));
+
+        addActionListenerToComboBoxes();
+        setComboBoxPreferences();
+
+        createButtons();
+
+       //create Panels
+        innerBorder = BorderFactory.createEmptyBorder(25,25,25,25);
+        outerBorder = BorderFactory.createLineBorder(Color.BLACK,2);
+        createLeftPanel();
+        createRightPanel();
+        createInnerPanel();
+        createBottomPanel();
+
+        //create main panel which contains inner and bottom panel
+        main = new JPanel();
+        main.setLayout(new BorderLayout());
+        main.add(inner,BorderLayout.CENTER);
+        main.add(bottom,BorderLayout.SOUTH);
+        getContentPane().add(main);
+    }
+
+    /**
+     * sets a panel size to fixed size
+     * '@param (panel,width,height)'
+     */
+    private void setPanelSize(JPanel panel, int width, int height){
+        panel.setPreferredSize(new Dimension(width,height));
+        panel.setMinimumSize(new Dimension(width,height));
+        panel.setMaximumSize(new Dimension(width,height));
+    }
+
+    /**
+     * creates the Left Panel
+     */
+    private void createLeftPanel(){
         left = new JPanel();
         left.setLayout(new GridBagLayout());
         left.setBorder(BorderFactory.createCompoundBorder(outerBorder,innerBorder));
-        left.setPreferredSize(new Dimension(300,100));
-        left.setMinimumSize(new Dimension(300,100));
-        left.setMaximumSize(new Dimension(300,100));
-        right = new JPanel();
-        right.setLayout(new GridBagLayout());
-        right.setBorder(BorderFactory.createCompoundBorder(outerBorder,innerBorder));
-        right.setPreferredSize(new Dimension(300,100));
-        right.setMinimumSize(new Dimension(300,100));
-        right.setMaximumSize(new Dimension(300,100));
-        inner = new JPanel();
-        inner.setLayout(new GridBagLayout());
-        main = new JPanel();
-        main.setLayout(new BorderLayout());
-        bottom = new JPanel();
-        bottom.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        setPanelSize(left,300,100);
         gbc.gridy = 0;
         gbc.weightx = .5;
         gbc.weighty = .5;
         gbc.fill = GridBagConstraints.NONE;
-
-        //left panel
         for (int row=0;row<5;row++){
             gbc.gridx = 0;
             gbc.anchor = GridBagConstraints.WEST;
@@ -154,17 +198,27 @@ public class createGame extends JFrame {
             left.add(boxList.get(row),gbc);
             gbc.gridy++;
         }
+    }
 
-        //right panel
+    /**
+     * creates the Right Panel
+     */
+    private void createRightPanel(){
+        right = new JPanel();
+        right.setLayout(new GridBagLayout());
+        right.setBorder(BorderFactory.createCompoundBorder(outerBorder,innerBorder));
+        setPanelSize(right,300,100);
         gbc.gridy =0;
         gbc.weightx = .25;
         gbc.weighty = .25;
         for (int row=5;row<7;row++){
             gbc.gridx = 0;
             gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(0,63,0,0);
             right.add(labelList.get(row),gbc);
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(0,0,0,0);
             right.add(boxList.get(row),gbc);
             gbc.gridy++;
         }
@@ -173,7 +227,6 @@ public class createGame extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx =0;
         gbc.weighty =.11;
-
         for (int row=7;row<11;row++){
             gbc.gridx = 0;
             right.add(labelList.get(row),gbc);
@@ -191,30 +244,42 @@ public class createGame extends JFrame {
             right.add(boxList.get(row),gbc);
             gbc.gridy++;
         }
+    }
 
+    /**
+     * creates the Inner Panel
+     * the inner panel contains the right and left panel
+     */
+    private void createInnerPanel(){
+        inner = new JPanel();
+        inner.setLayout(new GridBagLayout());
+        //inner panel
+        gbc.ipadx =100;
+        gbc.ipady =200;
+        gbc.weighty =1;
+        gbc.weightx =1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        inner.add(left,gbc);
+        gbc.gridx = 1;
+        inner.add(right,gbc);
+        gbc.gridy =1;
+    }
+
+    /**
+     * creates the Bottom Panel
+     * bottom panel contains start and back buttons
+     */
+    private void createBottomPanel(){
+        bottom = new JPanel();
+        bottom.setLayout(new FlowLayout(FlowLayout.CENTER));
         //bottom panel
         bottom.add(start);
         bottom.add(back);
-
-        //inner panel
-        GridBagConstraints gc = new GridBagConstraints();
-        gc.ipadx =100;
-        gc.ipady =200;
-        gc.weighty =1;
-        gc.weightx =1;
-        gc.gridx = 0;
-        gc.gridy = 0;
-        inner.add(left,gc);
-        gc.gridx = 1;
-        inner.add(right,gc);
-        gc.gridy =1;
-
-        //main panel
-        main.add(inner,BorderLayout.CENTER);
-        main.add(bottom,BorderLayout.SOUTH);
-        getContentPane().add(main);
     }
 
+
+    //ACTION EVENTS
     /**
      * adds option for number of human player, computer player and available colors for each player respectively according to the total number of players
      * removes and clears all previously selected options
@@ -350,13 +415,52 @@ public class createGame extends JFrame {
             playerBoxList.forEach(box -> {if ((box.getSelectedIndex()==-1)&&(playerBoxList.indexOf(box)<size)){s= s+ x + errormsgPlayerColor.get(playerBoxList.indexOf(box));}});
         }
         if (s.equals("")) {
-            //TODO return selected parameters here
+            setSelectedParameters();
+            this.dispose();
+            new GameGUI();
         }
         else{
             JOptionPane.showMessageDialog(null,s);
+            setSelectedParameterToNull();
         }
+        System.out.println("This is a test for static variables:\n"+"Player Number:"+playerNumber+"\nHuman Number:"+humanNumber+"\nComputer Number:"+computerNumber+"\nSelected Difficulty:"+difficulty+"\nColorblind:"+colorblind+"\nScoring Type:"+scoringType+"\nAlternate Color:"+alternateColor+"\nPlayer 1 Color:"+player1Color+"\nPlayer 2 Color:"+player2Color+"\nPlayer 3 Color:"+player3Color+"\nPlayer 4 Color:"+player4Color);
+    }
 
+    /**
+     * assigns selected parameters to static class variables
+     */
+    private void setSelectedParameters(){
+        playerNumber = Integer.parseInt((String) playerBox.getSelectedItem() );
+        humanNumber = Integer.parseInt((String)humanBox.getSelectedItem());
+        computerNumber = Integer.parseInt((String)computerBox.getSelectedItem());
+        if (playerNumber>=2){
+            player1Color = (String) player1Box.getSelectedItem();
+            player2Color = (String) player2Box.getSelectedItem();
+            player3Color = player4Color = alternateColor = null;
+        }
+        if (playerNumber==3){
+            player3Color = (String) player3Box.getSelectedItem();
+            for (int i=0;i<4;i++) {
+                if (!map.containsKey(colorOption2[i])){
+                    alternateColor = colorOption2[i];
+                }
+            }
+        }
+        if (playerNumber==4){
+            player3Color = (String) player3Box.getSelectedItem();
+            player4Color = (String) player4Box.getSelectedItem();
+        }
+        difficulty = (String) difficultyBox.getSelectedItem();
+        colorblind = (String) isColorblindBox.getSelectedItem();
+        scoringType = (String) scoringBox.getSelectedItem();
+    }
 
+    /**
+     * set selected parameters to null
+     */
+    private void setSelectedParameterToNull(){
+        playerNumber=humanNumber=computerNumber=0;
+        player1Color=player2Color=player3Color=player4Color=alternateColor=difficulty=colorblind=scoringType=null;
     }
 
     /**
@@ -364,7 +468,8 @@ public class createGame extends JFrame {
      * returns back  to previous screen
      */
     private void backEvent(){
-        dispose();
+        this.dispose();
+        new MainScreen();
     }
 
     /**
@@ -383,7 +488,6 @@ public class createGame extends JFrame {
      * TODO add load game screen here
      */
     private void loadEvent(){
-
     }
 
     /**
@@ -404,7 +508,7 @@ public class createGame extends JFrame {
 
 
     public static void main(String[] args) {
-        createGame game = new createGame();
+        new CreateGame();
     }
 }
 
