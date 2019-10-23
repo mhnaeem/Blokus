@@ -377,7 +377,7 @@ public class CreateGame extends JFrame {
      * does not allow players to select the same colors
      * if Player 1 selects a color that Player 2 has selected
      * then Player 2 selected color becomes null and will have to select a new color again
-     * @param playerXBox where X the player number
+     * @param box where X the player number
      */
     private void playerColorEvent(JComboBox box) {
         if (playerBox.getSelectedIndex()!=-1)
@@ -417,7 +417,9 @@ public class CreateGame extends JFrame {
         if (s.equals("")) {
             setSelectedParameters();
             this.dispose();
-            new GameGUI();
+
+            // Look at the driver class to figure out how GameGUI will be initialised
+            //new GameGUI();
         }
         else{
             JOptionPane.showMessageDialog(null,s);
