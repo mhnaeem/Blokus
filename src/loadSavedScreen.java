@@ -28,7 +28,7 @@ public class loadSavedScreen extends JFrame {
         fullPanel=new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
         setupTopPanel();
-        setupBottomPanel(15, 2);
+        setupBottomPanel();
         contentPane.add(fullPanel);
         setBounds(400, 200, 600, 500);
         setVisible(true);
@@ -52,21 +52,26 @@ public class loadSavedScreen extends JFrame {
 
 
     //Setting up Load Game buttons on bottom panel
-    private void setupBottomPanel(int rows, int columns){
+    private void setupBottomPanel(){
 
-        bottomPanel=new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        
+        
 
         //Creating Load Game Buttons and adding them to bottom panel
-        for(int r=0;r<rows;r++){
-            gbc.gridy=r;
-            for(int c=0;c<columns;c++){
-                gbc.gridx = c;
-                JButton btn=new JButton();
-                bottomPanel.add(btn,gbc);
-            }
-        }
+        ArrayList<SavedState> save= SavedState.savedstates;
+        int length=save.size();
 
+        bottomPanel=new JPanel(new GridLayout(length,1));
+
+        for(int r=0;r<length;r++){
+                String bName=save.get(r).getName();
+                String bDate=save.get(r).getDate();
+                String bTime=save.get(r).getTime();
+                String buttonText= "Name: "+bName+"\n"+"Date: "+bDate+"\n"+"Time: "+bTime;
+                JButton btn=new JButton(buttonText);
+                bottomPanel.add(btn);
+        }
+    
         //Adding scrollbar to bottom panel
         scroll=new JScrollPane(bottomPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //Adding scroll to fullPanel
@@ -77,6 +82,9 @@ public class loadSavedScreen extends JFrame {
     }
     public static void main(String[] args)
     {
+        for(int i = 0; i < 10; i++){
+            new SavedState(Integer.toString(i));
+        }
         loadSavedScreen screen = new loadSavedScreen();
     }
 }
