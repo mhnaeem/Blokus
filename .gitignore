@@ -2,3 +2,8 @@
 /out/
 /comp2005-fall19-group9.iml
 /bin/
+/.project
+/.classpath
+/.vscode
+/*.class
+/src/*.class
