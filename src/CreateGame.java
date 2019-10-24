@@ -28,9 +28,9 @@ public class CreateGame extends JFrame {
     private GridBagConstraints gbc = new GridBagConstraints();
     private static Dimension d;
     private static String s ="";
-    public static int size = 0;
-    public static int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
-    public static String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
+    public int size = 0;
+    public int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
+    public String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
     private HashMap<Integer,Color> map_of_colours;
     private boolean isColorblind;
 
@@ -551,11 +551,6 @@ public class CreateGame extends JFrame {
             default:
                 break;
         }
-    }
-
-
-    public static void main(String[] args) {
-        new CreateGame();
     }
 }
 
