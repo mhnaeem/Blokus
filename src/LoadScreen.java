@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
  * @author (Abdur Rahman Abul Hossain)
  * @version (Version 1.1)
  */
-public class loadSavedScreen extends JFrame {
+public class LoadScreen extends JFrame {
     private Container contentPane = getContentPane();
     private JPanel fullPanel, topPanel, bottomPanel;
     private JLabel loadGame;
