@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
  * 
  *
  * @author (Zachary Cheema)
- * @version (Version 1.3)
+ * @version (Version 1.4)
  */
 public class MainScreen extends JFrame{
     
@@ -49,14 +49,19 @@ public class MainScreen extends JFrame{
    }
    
    public void addDetails(){
-       Dimension labelPanelSize = new Dimension(500, 150);
+       Dimension labelPanelSize = new Dimension(300, 150);
        Dimension BtnPanelsize = new Dimension(200, 50);
        Dimension btnSize = new Dimension(100, 50);
        
        
+
+       
        JPanel mainLblPan = new JPanel();
        mainLblPan.setPreferredSize(labelPanelSize); 
        mainLblPan.setLayout(new FlowLayout());
+       mainLbl.setFont(new Font(Font.SERIF, Font.BOLD, 60));
+
+       
 
        JPanel buttonPan = new JPanel();
        buttonPan.setPreferredSize(BtnPanelsize);
@@ -68,10 +73,15 @@ public class MainScreen extends JFrame{
        exitButton.setPreferredSize(btnSize); 
        
         buttonPan.add(startButton);
+        buttonPan.add(Box.createRigidArea(new Dimension(5,0)));
         buttonPan.add(loadButton);
+        buttonPan.add(Box.createRigidArea(new Dimension(5,0)));
         buttonPan.add(exitButton);
         mainPanel.add(buttonPan);
+        
+        mainLblPan.add(Box.createRigidArea(new Dimension(0,150)));
         mainLblPan.add(mainLbl);
+        
        mainPanel.add(mainLblPan);
        mainPanel.add(buttonPan);
    }
@@ -82,7 +92,7 @@ public class MainScreen extends JFrame{
         });
         loadButton.addActionListener((ActionEvent ev) -> {
             dispose();
-            new LoadScreen();// This button will load saved files
+            new LoadScreen();// This button will load saved files 
         });
         startButton.addActionListener((ActionEvent ev) -> {
             dispose();
@@ -91,5 +101,3 @@ public class MainScreen extends JFrame{
         });
     }
 }
-
-
