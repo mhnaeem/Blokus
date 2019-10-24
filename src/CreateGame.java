@@ -507,11 +507,6 @@ public class CreateGame extends JFrame {
      */
     private void aboutEvent(){
     }
-
-
-    public static void main(String[] args) {
-        new CreateGame();
-    }
 }
 
 

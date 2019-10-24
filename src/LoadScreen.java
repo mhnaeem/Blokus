@@ -117,12 +117,5 @@ public class LoadScreen extends JFrame {
     private void loadEvent(){
         System.out.println("Clicked on load menu button.");
     }
-    public static void main(String[] args)
-    {
-        for(int i = 0; i < 10; i++){
-            new SavedState(Integer.toString(i));
-        }
-        loadSavedScreen screen = new loadSavedScreen();
-    }
 }
 

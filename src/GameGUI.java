@@ -27,10 +27,13 @@ public class GameGUI extends JFrame {
     // For example: { 1 : Color.blue, 2 : Color.green}
     private HashMap<Integer, Color> mapOfColours;
 
-    public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours){
+    private boolean colour_blind;
+
+    public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind){
 
         this.numberOfPlayers = number_of_players;
         this.mapOfColours = map_of_colours;
+        this.colour_blind = colour_blind;
 
         createMainPanels();
 

@@ -31,7 +31,7 @@ public class MainScreen extends JFrame{
    public void setFrame(){
        setSize(500,300);
        setPreferredSize(new Dimension(500,300));
-       setTitle("Welcome to BLOCKUS!");
+       setTitle("Welcome to BLOKUS!");
        mainPanel = new JPanel();
        contentPane.add(mainPanel);
        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -82,7 +82,7 @@ public class MainScreen extends JFrame{
         });
         loadButton.addActionListener((ActionEvent ev) -> {
             dispose();
-            new loadSavedScreen();// This button will load saved files 
+            new LoadScreen();// This button will load saved files
         });
         startButton.addActionListener((ActionEvent ev) -> {
             dispose();
@@ -90,10 +90,6 @@ public class MainScreen extends JFrame{
             //screen
         });
     }
-    
-   public static void main(String[] args) {
-        new MainScreen();
-   }
 }
 
 
