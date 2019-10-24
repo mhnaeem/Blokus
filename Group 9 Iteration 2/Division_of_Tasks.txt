@@ -21,6 +21,7 @@ Zoe Collins:
 
 Muhammad Hammad:
 	List of Functions for the Application								3
+	Structure the enitre appliaction and design the programming solutions                           3 
 	Plan for Next Iteration										2
 	Create Main Game Screen										3
 
