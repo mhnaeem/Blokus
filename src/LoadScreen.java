@@ -17,12 +17,14 @@ public class LoadScreen extends JFrame {
     private JPanel fullPanel, topPanel, bottomPanel;
     private JLabel loadGame;
     private JScrollPane scroll;
-    // private ArrayList<ArrayList<JButton>> btns;
+    private JMenuBar menu;
+    private JMenu file,about;
+    private JMenuItem reset,load,exit;
+
 
 
 
     public LoadScreen(){
-        super("LOAD GAME!");
 
         //Setting layouts of all the panel
         fullPanel=new JPanel(new BorderLayout());
@@ -30,11 +32,37 @@ public class LoadScreen extends JFrame {
         setupTopPanel();
         setupBottomPanel();
         contentPane.add(fullPanel);
+        createMenu();
         setBounds(400, 200, 600, 500);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
     }
 
+
+    /**
+     * creates Menu Bor with its components
+     * adds Menu to JFrame
+     */
+    private void createMenu()
+    {
+        menu = new JMenuBar();
+        file = new JMenu("File");
+        about = new JMenu("About");
+        load = new JMenuItem("Load");
+        exit = new JMenuItem("Exit");
+        menu.add(file);
+        menu.add(about);
+        file.add(load);
+        file.add(exit);
+        load.addActionListener(x->loadEvent());
+        exit.addActionListener(x->exitEvent());
+        
+        about.addActionListener(x->aboutEvent());
+        setJMenuBar(menu);
+    }
+
+    
     //Setting up Load Game label on top panel
     private void setupTopPanel(){
         topPanel=new JPanel(new FlowLayout(1));
@@ -54,9 +82,6 @@ public class LoadScreen extends JFrame {
     //Setting up Load Game buttons on bottom panel
     private void setupBottomPanel(){
 
-        
-        
-
         //Creating Load Game Buttons and adding them to bottom panel
         ArrayList<SavedState> save= SavedState.savedstates;
         int length=save.size();
@@ -67,7 +92,7 @@ public class LoadScreen extends JFrame {
                 String bName=save.get(r).getName();
                 String bDate=save.get(r).getDate();
                 String bTime=save.get(r).getTime();
-                String buttonText= "Name: "+bName+"\n"+"Date: "+bDate+"\n"+"Time: "+bTime;
+                String buttonText= "<html>"+"Name: "+bName+"<br>"+"Date: "+bDate+"<br>"+"Time: "+bTime+"</html>";
                 JButton btn=new JButton(buttonText);
                 bottomPanel.add(btn);
         }
@@ -76,9 +101,21 @@ public class LoadScreen extends JFrame {
         scroll=new JScrollPane(bottomPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //Adding scroll to fullPanel
         fullPanel.add(scroll,BorderLayout.CENTER);
+    }
 
+    /**
+     * when exit button in file menu is pressed
+     * exits
+     */
+    private void exitEvent(){
+        System.exit(0);
+    }
 
-
+    private void aboutEvent(){
+        System.out.println("Clicked on About menu button.");
+    }
+    private void loadEvent(){
+        System.out.println("Clicked on load menu button.");
     }
     public static void main(String[] args)
     {
