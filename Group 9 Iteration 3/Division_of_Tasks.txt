@@ -1,0 +1,48 @@
+Zachary Cheema:										
+	Create a "Reset Current Game" sequence diagram
+	Create a "Game Over" sequence diagram 	
+	Revise the "Save Current Game" sequence diagram
+	Revise the "Load Saved Game" sequence diagram
+	Implement the LegalMove functionality
+	Extend the GameEngine class
+
+Abdur Rahman:
+	Create the "About" menu
+	Create the "Game Over" screen
+	Implement the Flip and Rotate piece functionality
+	Extend the player and piece classes	
+	Refactor code throughout the application	
+
+Muhammad Uwais:
+	Revise the "Save Current Game" use case
+	Revise the "Load Saved Game" use case
+	Create the "Reset Current Game" fully dressed use case
+	Create the "Game Over" fully dressed use case
+	Implement the LegalMove functionality
+	Rudimentary functionality to allow the AI player to place a piece
+	Extend the GameEngine class
+
+Zoe Collins:
+	Create the Logical Architecture Diagram
+	Update UI Sketches
+	Update the GUI to feel more interactive
+	Create "Help" menu 
+	Update the class diagram
+	Extend the player and piece classes
+	Determine the winner of the game
+	Implement the Flip and Rotate piece functionality
+
+Muhammad Hammad:
+	Refactor code throughout the application
+	Extend the player and piece classes
+	Create the plan for iteration 4
+	Implement two players to play a third common player functionality
+	Implement place a piece functionality completely
+	Rudimentary functionality to allow the AI player to place a piece
+	Overlook all changes, suggest improvements and review commits
+	Extend the GameEngine class
+
+
+
+
+
