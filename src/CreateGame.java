@@ -31,6 +31,8 @@ public class CreateGame extends JFrame {
     public static int size = 0;
     public static int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
     public static String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
+    private HashMap<Integer,Color> map_of_colours;
+    private boolean isColorblind;
 
 
     public CreateGame() {
@@ -214,7 +216,7 @@ public class CreateGame extends JFrame {
         for (int row=5;row<7;row++){
             gbc.gridx = 0;
             gbc.anchor = GridBagConstraints.WEST;
-            gbc.insets = new Insets(0,63,0,0);
+            gbc.insets = new Insets(0,29,0,0);
             right.add(labelList.get(row),gbc);
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.CENTER;
@@ -415,17 +417,15 @@ public class CreateGame extends JFrame {
             playerBoxList.forEach(box -> {if ((box.getSelectedIndex()==-1)&&(playerBoxList.indexOf(box)<size)){s= s+ x + errormsgPlayerColor.get(playerBoxList.indexOf(box));}});
         }
         if (s.equals("")) {
+            map_of_colours = new HashMap<>();
             setSelectedParameters();
             this.dispose();
-
-            // Look at the driver class to figure out how GameGUI will be initialised
-            //new GameGUI();
+            new GameGUI(playerNumber,map_of_colours,isColorblind);
         }
         else{
             JOptionPane.showMessageDialog(null,s);
             setSelectedParameterToNull();
         }
-        System.out.println("This is a test for static variables:\n"+"Player Number:"+playerNumber+"\nHuman Number:"+humanNumber+"\nComputer Number:"+computerNumber+"\nSelected Difficulty:"+difficulty+"\nColorblind:"+colorblind+"\nScoring Type:"+scoringType+"\nAlternate Color:"+alternateColor+"\nPlayer 1 Color:"+player1Color+"\nPlayer 2 Color:"+player2Color+"\nPlayer 3 Color:"+player3Color+"\nPlayer 4 Color:"+player4Color);
     }
 
     /**
@@ -437,23 +437,37 @@ public class CreateGame extends JFrame {
         computerNumber = Integer.parseInt((String)computerBox.getSelectedItem());
         if (playerNumber>=2){
             player1Color = (String) player1Box.getSelectedItem();
+            addToMap(1,player1Color);
             player2Color = (String) player2Box.getSelectedItem();
+            addToMap(2,player2Color);
             player3Color = player4Color = alternateColor = null;
         }
         if (playerNumber==3){
             player3Color = (String) player3Box.getSelectedItem();
+            addToMap(3,player3Color);
             for (int i=0;i<4;i++) {
                 if (!map.containsKey(colorOption2[i])){
                     alternateColor = colorOption2[i];
+                    addToMap(4,alternateColor);
+
                 }
             }
         }
         if (playerNumber==4){
             player3Color = (String) player3Box.getSelectedItem();
+            addToMap(3,player3Color);
             player4Color = (String) player4Box.getSelectedItem();
+            addToMap(4,player4Color);
+
         }
         difficulty = (String) difficultyBox.getSelectedItem();
         colorblind = (String) isColorblindBox.getSelectedItem();
+        if (colorblind.equals("Yes")){
+            isColorblind = true;
+        }
+        else if (colorblind.equals("No")){
+            isColorblind = false;
+        }
         scoringType = (String) scoringBox.getSelectedItem();
     }
 
@@ -487,9 +501,9 @@ public class CreateGame extends JFrame {
     /**
      * when load button in file menu is pressed
      * opens load game screen
-     * TODO add load game screen here
      */
     private void loadEvent(){
+        new LoadScreen();
     }
 
     /**
@@ -506,6 +520,42 @@ public class CreateGame extends JFrame {
      * TODO about event
      */
     private void aboutEvent(){
+    }
+
+    /**
+     * takes player number and selected string
+     * adds them to map_of_colors
+     */
+    private void addToMap(int i,String s){
+        switch (s){
+            case("Blue & Red"):
+                map_of_colours.put(i,Color.BLUE);
+                map_of_colours.put(i+2,Color.RED);
+                break;
+            case("Yellow & Green"):
+                map_of_colours.put(i,Color.YELLOW);
+                map_of_colours.put(i+2,Color.GREEN);
+                break;
+            case("Blue"):
+                map_of_colours.put(i,Color.BLUE);
+                break;
+            case("Yellow"):
+                map_of_colours.put(i,Color.YELLOW);
+                break;
+            case("Red"):
+                map_of_colours.put(i,Color.RED);
+                break;
+            case("Green"):
+                map_of_colours.put(i,Color.GREEN);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        new CreateGame();
     }
 }
 
