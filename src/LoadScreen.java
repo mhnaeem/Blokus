@@ -21,7 +21,7 @@ public class LoadScreen extends JFrame {
 
 
 
-    public loadSavedScreen(){
+    public LoadScreen(){
         super("LOAD GAME!");
 
         //Setting layouts of all the panel
