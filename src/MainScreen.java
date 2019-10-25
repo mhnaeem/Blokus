@@ -29,8 +29,9 @@ public class MainScreen extends JFrame{
    }
    
    public void setFrame(){
-       setSize(500,300);
+       
        setPreferredSize(new Dimension(500,300));
+       setBounds(450, 200, 500, 300);
        setTitle("Welcome to BLOKUS!");
        mainPanel = new JPanel();
        contentPane.add(mainPanel);
