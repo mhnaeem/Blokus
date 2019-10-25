@@ -29,7 +29,7 @@ public class LoadScreen extends JFrame {
     private JScrollPane scroll;
     private JMenuBar menu;
     private JMenu file,about;
-    private JMenuItem reset,load,exit;
+    private JMenuItem deleteLoad,load,exit;
     private JButton exitButton;
 
 
@@ -62,15 +62,18 @@ public class LoadScreen extends JFrame {
         file = new JMenu("File");
         about = new JMenu("About");
         load = new JMenuItem("Load");
+        deleteLoad=new JMenuItem("Delete Load State");
         exit = new JMenuItem("Exit");
-        menu.add(file);
-        menu.add(about);
+
         file.add(load);
+        file.add(deleteLoad);
         file.add(exit);
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
-        
+        deleteLoad.addActionListener(x->deleteLoadEvent());
         about.addActionListener(x->aboutEvent());
+        menu.add(file);
+        menu.add(about);
         setJMenuBar(menu);
     }
 
@@ -116,12 +119,16 @@ public class LoadScreen extends JFrame {
     }
 
     private void setupExitPanel(){
-        exitPanel=new JPanel();
-        exitPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        exitPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
         exitButton=new JButton("Exit");
-        exitButton.addActionListener(x->exitEvent());
+
         exitPanel.add(exitButton);
-        fullPanel.add(exitPanel, BorderLayout.SOUTH);
+        fullPanel.add(exitPanel,BorderLayout.SOUTH);
+
+        exitButton.addActionListener(x->exitEvent());
+        
+        
     }
 
     /**
@@ -138,4 +145,10 @@ public class LoadScreen extends JFrame {
     private void loadEvent(){
         System.out.println("Clicked on load menu button.");
     }
+    private void deleteLoadEvent(){
+        System.out.println("Clicked on delete load menu button.");
+    }
+
 }
+
+
