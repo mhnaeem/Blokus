@@ -3,6 +3,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Saved State class
+ *
+ *
+ * @author (Muhammad Hammad)
+ * @version (Version 1.0)
+ */
+
 public class SavedState {
 
     public static ArrayList<SavedState> savedstates = new ArrayList<SavedState>( Arrays.asList() );
