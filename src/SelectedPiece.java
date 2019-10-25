@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * Selected Piece Screen for the Blokus Game
@@ -16,7 +17,7 @@ public class SelectedPiece{
     private JFrame frm;
 
 
-    SelectedPiece(GameGUI gui){
+    SelectedPiece(GameGUI gui, Color color){
 
         main = new JPanel();
         frm = new JFrame("Selected Piece Window");
@@ -27,7 +28,8 @@ public class SelectedPiece{
 
         this.piece = new JPanel();
         this.piece.setBorder(new EmptyBorder(5,5,5,5));
-        this.piece.add(gui.createGrid(5,5,20,20));
+        this.piece.add(gui.createGrid(5,5,50,50));
+
         main.add(this.piece);
 
         this.pass = new JButton("Pass");
@@ -46,9 +48,18 @@ public class SelectedPiece{
         main.add(buttons);
 
         frm.add(main);
+        randomButton(color);
         frm.setVisible(true);
     }
     public JPanel returnPanel(){
         return main;
+    }
+
+    private void randomButton(Color color){
+        ((JPanel) this.piece.getComponents()[0]).getComponents()[6].setBackground(color);
+        ((JPanel) this.piece.getComponents()[0]).getComponents()[11].setBackground(color);
+        ((JPanel) this.piece.getComponents()[0]).getComponents()[12].setBackground(color);
+        ((JPanel) this.piece.getComponents()[0]).getComponents()[17].setBackground(color);
+        ((JPanel) this.piece.getComponents()[0]).getComponents()[18].setBackground(color);
     }
 }

@@ -206,7 +206,7 @@ public class GameGUI extends JFrame {
             System.out.println(" was pressed.");
             if(((JButton) e.getSource()).getParent().getName().equals("Player 1") || ((JButton) e.getSource()).getParent().getName().equals("Player 2")
             || ((JButton) e.getSource()).getParent().getName().equals("Player 3") || ((JButton) e.getSource()).getParent().getName().equals("Player 4")) {
-                SelectedPiece c = new SelectedPiece(GameGUI.this);
+                new SelectedPiece(GameGUI.this, ((JButton) e.getSource()).getBackground());
             }
         }
     }
