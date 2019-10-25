@@ -39,13 +39,16 @@ public class GameGUI extends JFrame {
 
         //Create the main grid
         mainGridPanel.add(createGrid(20,20,35,35));
+        //Used to make the grid centered in the window
+        mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
+
+        setTitle("Blokus");
 
         //Create the player pieces on the left and right, depending on the number of players
         createPlayingPieces();
 
         //Colour the pieces for the players
         colourPieces();
-
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
         setVisible(true);
@@ -116,8 +119,15 @@ public class GameGUI extends JFrame {
 
         for (int i = 0; i < 4; i++){
             JPanel tempPnl = createGrid(16, 17, 20, 20);
-            tempPnl.setBorder(new EmptyBorder(30, 30, 30, 30));
+            tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));
             listOfPiecesPanels.add(tempPnl);
+        }
+
+        JLabel[] playerLabels = new JLabel[4];
+        for (int i = 0; i < 4; i++){
+            JLabel tempLabel = new JLabel("Player " + Integer.toString(i+1));
+            tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
+            playerLabels[i] = tempLabel;
         }
 
         JPanel rightPanel = new JPanel();
@@ -126,14 +136,19 @@ public class GameGUI extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
+        leftPanel.add(playerLabels[0]);
         leftPanel.add(listOfPiecesPanels.get(0));
+        rightPanel.add(playerLabels[1]);
         rightPanel.add(listOfPiecesPanels.get(1));
 
         if (numberOfPlayers == 3){
+            //TODO: Fix later, alternating player
             leftPanel.add(listOfPiecesPanels.get(2));
         }
         if (numberOfPlayers == 4){
+            leftPanel.add(playerLabels[2]);
             leftPanel.add(listOfPiecesPanels.get(2));
+            rightPanel.add(playerLabels[3]);
             rightPanel.add(listOfPiecesPanels.get(3));
         }
 
