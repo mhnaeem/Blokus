@@ -4,8 +4,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+
+/**
+ * Main GameGUI screen
+ *
+ * @author (Muhammad Hammad)
+ * @version (Version 1.0)
+ */
 
 public class GameGUI extends JFrame {
 
@@ -73,7 +79,7 @@ public class GameGUI extends JFrame {
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
     }
 
-    private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight){
+    public JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight){
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridBagLayout());
 
@@ -120,6 +126,8 @@ public class GameGUI extends JFrame {
         for (int i = 0; i < 4; i++){
             JPanel tempPnl = createGrid(16, 17, 20, 20);
             tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));
+            //This is naming every panel of pieces for its player
+            tempPnl.setName("Player " + Integer.toString(i+1));
             listOfPiecesPanels.add(tempPnl);
         }
 
@@ -191,10 +199,15 @@ public class GameGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println(((JButton) e.getSource()).getParent().getName());
             String st = ((JButton) e.getSource()).getName();
             System.out.print("The button on location ");
             System.out.print(st);
             System.out.println(" was pressed.");
+            if(((JButton) e.getSource()).getParent().getName().equals("Player 1") || ((JButton) e.getSource()).getParent().getName().equals("Player 2")
+            || ((JButton) e.getSource()).getParent().getName().equals("Player 3") || ((JButton) e.getSource()).getParent().getName().equals("Player 4")) {
+                SelectedPiece c = new SelectedPiece(GameGUI.this);
+            }
         }
     }
 }
