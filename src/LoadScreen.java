@@ -1,8 +1,18 @@
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 /**
  * Load Saved Game that includes the following:
@@ -14,12 +24,13 @@ import javax.swing.border.EmptyBorder;
  */
 public class LoadScreen extends JFrame {
     private Container contentPane = getContentPane();
-    private JPanel fullPanel, topPanel, bottomPanel;
+    private JPanel fullPanel, topPanel, bottomPanel, exitPanel;
     private JLabel loadGame;
     private JScrollPane scroll;
     private JMenuBar menu;
     private JMenu file,about;
     private JMenuItem reset,load,exit;
+    private JButton exitButton;
 
 
 
@@ -31,6 +42,7 @@ public class LoadScreen extends JFrame {
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
         setupTopPanel();
         setupBottomPanel();
+        setupExitPanel();
         contentPane.add(fullPanel);
         createMenu();
         setBounds(400, 200, 600, 500);
@@ -66,7 +78,7 @@ public class LoadScreen extends JFrame {
     //Setting up Load Game label on top panel
     private void setupTopPanel(){
         topPanel=new JPanel(new FlowLayout(1));
-        loadGame=new JLabel("Load Game!");
+        loadGame=new JLabel("Load Screen");
         topPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
 
         // Putting Load Game Label on Top Panel
@@ -103,6 +115,15 @@ public class LoadScreen extends JFrame {
         fullPanel.add(scroll,BorderLayout.CENTER);
     }
 
+    private void setupExitPanel(){
+        exitPanel=new JPanel();
+        exitPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        exitButton=new JButton("Exit");
+        exitButton.addActionListener(x->exitEvent());
+        exitPanel.add(exitButton);
+        fullPanel.add(exitPanel, BorderLayout.SOUTH);
+    }
+
     /**
      * when exit button in file menu is pressed
      * exits
@@ -118,4 +139,3 @@ public class LoadScreen extends JFrame {
         System.out.println("Clicked on load menu button.");
     }
 }
-
