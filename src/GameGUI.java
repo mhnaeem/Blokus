@@ -83,7 +83,7 @@ public class GameGUI extends JFrame {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridBagLayout());
 
-        ArrayList<ArrayList<JButton>> buttons = createButtonsList(gridRows, gridColumns);
+        JButton[][] buttons = createButtonsList(gridRows, gridColumns);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -91,7 +91,7 @@ public class GameGUI extends JFrame {
             gbc.gridy = r;
             for (int c = 0; c < gridColumns; c++){
                 gbc.gridx = c;
-                JButton btn =  buttons.get(r).get(c);
+                JButton btn =  buttons[r][c];
                 btn.setForeground(Color.white);
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
@@ -104,16 +104,15 @@ public class GameGUI extends JFrame {
         return tempPanel;
     }
 
-    private ArrayList<ArrayList<JButton>> createButtonsList(int gridRows, int gridColumns){
-        ArrayList<ArrayList<JButton>> buttons = new ArrayList<>();
+    private JButton[][] createButtonsList(int gridRows, int gridColumns){
+        JButton[][] buttons = new JButton[gridRows][gridColumns];
 
         for (int r = 0; r < gridRows; r++) {
-            buttons.add(new ArrayList<>());
             for (int c = 0; c < gridColumns; c++) {
                 JButton btn = new JButton();
                 String nameStr = r + "," + c;
                 btn.setName(nameStr);
-                buttons.get(r).add(btn);
+                buttons[r][c] = btn;
             }
         }
         return buttons;
