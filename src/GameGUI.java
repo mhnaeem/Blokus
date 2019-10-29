@@ -3,10 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Main GameGUI screen
@@ -41,6 +38,8 @@ public class GameGUI extends JFrame {
     private static JButton[][] mainGridButtons;
     private static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
     private static JButton[][] selectedPieceButtons;
+
+    private static String selectedPoint;
 
     public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind, Player[] player_list){
 
@@ -104,6 +103,12 @@ public class GameGUI extends JFrame {
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
                 btn.setFocusable(false);
+                if(type.equals("main")){
+                    btn.addActionListener(new gridListener());
+                }
+                if(type.equals("player")) {
+                    btn.addActionListener(new playerListener());
+                }
                 btn.addActionListener(new gridListener());
                 tempPanel.setBorder(new EmptyBorder(0,0,0,0));
                 tempPanel.add(btn,gbc);
@@ -112,6 +117,7 @@ public class GameGUI extends JFrame {
 
         if(type.equals("main")){
             mainGridButtons = buttons;
+            tempPanel.setName("main");
         }
         if(type.equals("player")){
             playerButtons.add(buttons);
@@ -189,7 +195,6 @@ public class GameGUI extends JFrame {
             Component[] c = listOfPiecesPanels.get(j-1).getComponents();
             for (Component component : c) {
                 String name = component.getName();
-
                 //This is extremely inefficient however we will change it later
                 if (colourSpots.contains(name)) {
                     component.setBackground(color);
@@ -206,13 +211,35 @@ public class GameGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String btnName = ((JButton) e.getSource()).getName();
-            String playerName = ((JButton) e.getSource()).getParent().getName();
-            Color color = ((JButton) e.getSource()).getBackground();
-            int playerIndex = 0;
+            String mainName = ((JButton) e.getSource()).getParent().getName();
 
+            selectedPoint = btnName;
+
+            System.out.println(mainName);
             System.out.print("The button on location ");
             System.out.print(btnName);
             System.out.println(" was pressed.");
+        }
+    }
+
+    //Uwais
+    private void placingPiece(Color color,Piece piece,String bName){
+        String[] button = bName.split(",");
+        int brow = Integer.parseInt(button[0]);
+        int bcol = Integer.parseInt(button[1]);
+        piece.getPieceActions().forEach(IntegerArray->{
+            mainGridButtons[brow+IntegerArray[0]][bcol+IntegerArray[1]].setBackground(color);
+            mainGridButtons[brow+IntegerArray[0]][bcol+IntegerArray[1]].setEnabled(false);
+        });
+    }
+
+    private class playerListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String btnName = ((JButton) e.getSource()).getName();
+            String playerName = ((JButton) e.getSource()).getParent().getName();
+            Color color = ((JButton) e.getSource()).getBackground();
+            int playerIndex = 0;
 
             switch (playerName) {
                 case "Player 1":
@@ -228,10 +255,15 @@ public class GameGUI extends JFrame {
                     playerIndex = 3;
                     break;
             }
+
             if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
-                Piece piece = Piece.getPiece(btnName, playerName);
-                new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
-                listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
+                if (selectedPoint!=null) {
+                    Piece piece = Piece.getPiece(btnName, playerName);
+                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
+                    listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
+                    placingPiece(color, piece, selectedPoint);
+                    selectedPoint = null;
+                }
             }
             colourPieces();
         }
