@@ -24,12 +24,14 @@ public class Piece {
           [Piece 0, Piece 1, ...., Piece 20] ]                <- Pieces for player 4
      */
     private static ArrayList<ArrayList<Piece>> pieces = generatePieces();
+    private int playerIndex;
 
 
-    public Piece(String piece_name, ArrayList<int[]> piece_actions, String[] coordinates){
+    public Piece(String piece_name, ArrayList<int[]> piece_actions, String[] coordinates, int player_index){
         this.name = piece_name;
         this.pieceActions = piece_actions;
         this.displayCoordinates = coordinates;
+        this.playerIndex = player_index;
     }
 
     public ArrayList<int[]> getPieceActions(){
@@ -248,7 +250,7 @@ public class Piece {
                     pointsOnMainScreen[0] = "14,10";
                     pointsOnMainScreen[1] = "14,11";
                 }
-                Piece newPiece = new Piece("Piece "+i,actionsList, pointsOnMainScreen);
+                Piece newPiece = new Piece("Piece "+i,actionsList, pointsOnMainScreen, j);
                 playerPieces.add(newPiece);
             }
             pieces.add(playerPieces);
@@ -283,4 +285,24 @@ public class Piece {
         //TODO: throw exception later for piece not found.
     }
 
+    private int getPlayerIndex(){
+        return this.playerIndex;
+    }
+
+    public static String getPlayer(Piece piece){
+        if(piece.getPlayerIndex() == 0){
+            return "Player 1";
+        }
+        else if(piece.getPlayerIndex() == 1){
+            return "Player 2";
+        }
+        else if(piece.getPlayerIndex() == 2){
+            return "Player 3";
+        }
+        else if(piece.getPlayerIndex() == 3){
+            return "Player 4";
+        }
+        return null;
+        //TODO: throw exception later for piece not found.
+    }
 }
