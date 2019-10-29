@@ -14,7 +14,7 @@ public class Driver {
         map.put(3,Color.YELLOW);
         map.put(4,Color.GREEN);
 
-        new GameGUI(4,map,false, Player.getPlayers());
+        new GameGUI(4,map,true, Player.getPlayers());
 
         //new MainScreen();
     }

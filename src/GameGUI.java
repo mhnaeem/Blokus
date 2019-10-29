@@ -198,23 +198,29 @@ public class GameGUI extends JFrame {
                 if (colourSpots.contains(name)) {
                     component.setBackground(color);
                     if (this.colour_blind){
-                        if(j == 1){
-                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
-                            ((JButton) component).setIcon(icon);}
-                        if(j == 2){
-                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
-                            ((JButton) component).setIcon(icon);}
-                        if(j == 3){
-                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
-                            ((JButton) component).setIcon(icon);}
-                        if(j == 4){
-                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
-                            ((JButton) component).setIcon(icon);}
-
+                        ImageIcon icon = null;
+                        switch (j) {
+                            case 1:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                                break;
+                            case 2:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                                break;
+                            case 3:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                                break;
+                            case 4:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                                break;
+                        }
+                        ((JButton) component).setIcon(icon);
+                        ((JButton) component).setDisabledIcon(icon);
                     }
                 }
              else {
                     component.setBackground(Color.white);
+                    ((JButton) component).setDisabledIcon(null);
+                    ((JButton) component).setIcon(null);
                     component.setEnabled(false);
                 }
             }
@@ -238,13 +244,33 @@ public class GameGUI extends JFrame {
     }
 
     //Uwais
-    private void placingPiece(Color color,Piece piece,String bName){
-        String[] button = bName.split(",");
+    private void placingPiece(Color color, Piece piece, String button_name, String player_name){
+        String[] button = button_name.split(",");
         int brow = Integer.parseInt(button[0]);
         int bcol = Integer.parseInt(button[1]);
         piece.getPieceActions().forEach(IntegerArray->{
-            mainGridButtons[brow+IntegerArray[0]][bcol+IntegerArray[1]].setBackground(color);
-            mainGridButtons[brow+IntegerArray[0]][bcol+IntegerArray[1]].setEnabled(false);
+            JButton btn = mainGridButtons[brow+IntegerArray[1]][bcol+IntegerArray[0]];
+            btn.setBackground(color);
+            btn.setEnabled(false);
+            if (this.colour_blind){
+                ImageIcon icon = null;
+                switch (player_name){
+                    case "Player 1":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                       break;
+                    case "Player 2":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                        break;
+                    case "Player 3":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                        break;
+                    case "Player 4":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                        break;
+                }
+                btn.setDisabledIcon(icon);
+                btn.setIcon(icon);
+            }
         });
     }
 
@@ -276,7 +302,7 @@ public class GameGUI extends JFrame {
                     Piece piece = Piece.getPiece(btnName, playerName);
                     new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
                     listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
-                    placingPiece(color, piece, selectedPoint);
+                    placingPiece(color, piece, selectedPoint, playerName);
                     selectedPoint = null;
                 }
             }
