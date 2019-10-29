@@ -420,7 +420,7 @@ public class CreateGame extends JFrame {
             map_of_colours = new HashMap<>();
             setSelectedParameters();
             this.dispose();
-            new GameGUI(playerNumber,map_of_colours,isColorblind);
+            //new GameGUI(playerNumber,map_of_colours,isColorblind);
         }
         else{
             JOptionPane.showMessageDialog(null,s);

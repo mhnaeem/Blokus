@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Main GameGUI screen
@@ -19,6 +20,8 @@ public class GameGUI extends JFrame {
     private Container contentPane = getContentPane();
     private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
     private int numberOfPlayers;
+
+    private Player[] listOfPlayers;
 
     /* The panels are set based on indexes, in the following order
        2 Players = [Player 1, Player 2]
@@ -35,15 +38,16 @@ public class GameGUI extends JFrame {
     private HashMap<Integer, Color> mapOfColours;
     private boolean colour_blind;
 
-    public static JButton[][] mainGridButtons;
-    public static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
-    public static JButton[][] selectedPieceButtons;
+    private static JButton[][] mainGridButtons;
+    private static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
+    private static JButton[][] selectedPieceButtons;
 
-    public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind){
+    public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind, Player[] player_list){
 
         this.numberOfPlayers = number_of_players;
         this.mapOfColours = map_of_colours;
         this.colour_blind = colour_blind;
+        this.listOfPlayers = player_list;
 
         createMainPanels();
 
@@ -179,22 +183,19 @@ public class GameGUI extends JFrame {
     }
 
     private void colourPieces(){
-
-        ArrayList<String> colourSpots = new ArrayList<>(Arrays.asList("0,0","0,1","0,2","0,3","0,5","0,6","0,7","0,8","0,11","0,12","0,13","0,14","1,8","1,13","3,0","3,3","3,4","3,6","3,10","3,11","3,15","4,0","4,3","4,4","4,6","4,11","4,14","4,15","4,16","5,0","5,1","5,3","5,6","5,7","5,8","5,11","5,12","5,15","7,0","7,3","7,4","7,6","7,10","7,11","7,12","7,14","7,15","8,0","8,1","8,3","8,6","8,7","8,11","8,15","8,16","9,0","9,3","9,4","9,7","9,8","9,11","9,15","11,0","11,1","11,2","11,5","11,6","11,9","11,12","11,13","11,15","12,2","12,3","12,6","12,7","12,9","12,10","12,12","12,13","14,0","14,1","14,2","14,3","14,4","14,6","14,7","14,8","14,10","14,11"));
-
-        for (int j = 1; j <= this.numberOfPlayers; j++) {
+        for (int j = 1; j <= listOfPlayers.length; j++) {
+            HashSet<String> colourSpots = this.listOfPlayers[j-1].getDisplayPiecesCoordinates();
             Color color = mapOfColours.get(j);
             Component[] c = listOfPiecesPanels.get(j-1).getComponents();
-            for (int i = 0; i < c.length; i++) {
-                String name = c[i].getName();
+            for (Component component : c) {
+                String name = component.getName();
 
                 //This is extremely inefficient however we will change it later
-                if(colourSpots.contains(name)) {
-                    c[i].setBackground(color);
-                    //TODO: Can Set Name and other things here later
-                }
-                else {
-                    c[i].setEnabled(false);
+                if (colourSpots.contains(name)) {
+                    component.setBackground(color);
+                } else {
+                    component.setBackground(Color.white);
+                    component.setEnabled(false);
                 }
             }
         }
@@ -204,18 +205,35 @@ public class GameGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(((JButton) e.getSource()).getParent().getName());
-            String st = ((JButton) e.getSource()).getName();
+            String btnName = ((JButton) e.getSource()).getName();
+            String playerName = ((JButton) e.getSource()).getParent().getName();
+            Color color = ((JButton) e.getSource()).getBackground();
+            int playerIndex = 0;
+
             System.out.print("The button on location ");
-            System.out.print(st);
+            System.out.print(btnName);
             System.out.println(" was pressed.");
-            if(((JButton) e.getSource()).getParent().getName().equals("Player 1") || ((JButton) e.getSource()).getParent().getName().equals("Player 2")
-            || ((JButton) e.getSource()).getParent().getName().equals("Player 3") || ((JButton) e.getSource()).getParent().getName().equals("Player 4")) {
-                //Clicking on a piece will open 21 SelectedPiece windows for all the pieces.
-                for (int i = 0; i < 21; i++) {
-                    new SelectedPiece(GameGUI.this, ((JButton) e.getSource()).getBackground(), Piece.getPieces().get(0).get(i), selectedPieceButtons);
-                }
+
+            switch (playerName) {
+                case "Player 1":
+                    playerIndex = 0;
+                    break;
+                case "Player 2":
+                    playerIndex = 1;
+                    break;
+                case "Player 3":
+                    playerIndex = 2;
+                    break;
+                case "Player 4":
+                    playerIndex = 3;
+                    break;
             }
+            if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
+                Piece piece = Piece.getPiece(btnName, playerName);
+                new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
+                listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
+            }
+            colourPieces();
         }
     }
 }
