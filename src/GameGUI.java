@@ -300,7 +300,7 @@ public class GameGUI extends JFrame {
             if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
                 if (selectedPoint != null) {
                     Piece piece = Piece.getPiece(btnName, playerName);
-                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
+                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons, playerName, colour_blind);
                     listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
                     placingPiece(color, piece, selectedPoint, playerName);
                     selectedPoint = null;

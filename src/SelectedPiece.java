@@ -17,11 +17,15 @@ public class SelectedPiece{
     private JFrame frm;
     private Piece selectedPiece;
     private JButton[][] selectedButtonGrid;
+    private String playerName;
+    private boolean colourBlind;
 
-    SelectedPiece(GameGUI gui, Color color, Piece piece, JButton[][] buttonGrid){
+    SelectedPiece(GameGUI gui, Color color, Piece piece, JButton[][] buttonGrid, String player_name, boolean colour_blind){
 
         this.selectedPiece = piece;
         this.selectedButtonGrid = buttonGrid;
+        this.playerName = player_name;
+        this.colourBlind = colour_blind;
 
         main = new JPanel();
         frm = new JFrame("Selected Piece Window");
@@ -70,6 +74,25 @@ public class SelectedPiece{
 
         piece.getPieceActions().forEach(action -> {
             selectedButtonGrid[x+action[0]][y+action[1]].setBackground(color);
+            if (this.colourBlind){
+                ImageIcon icon = null;
+                switch (this.playerName){
+                    case "Player 1":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                        break;
+                    case "Player 2":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                        break;
+                    case "Player 3":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                        break;
+                    case "Player 4":
+                        icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                        break;
+                }
+                selectedButtonGrid[x+action[0]][y+action[1]].setDisabledIcon(icon);
+                selectedButtonGrid[x+action[0]][y+action[1]].setIcon(icon);
+            }
         });
 
         //Resetting the piece panel
