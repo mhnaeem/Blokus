@@ -109,7 +109,6 @@ public class GameGUI extends JFrame {
                 if(type.equals("player")) {
                     btn.addActionListener(new playerListener());
                 }
-                btn.addActionListener(new gridListener());
                 tempPanel.setBorder(new EmptyBorder(0,0,0,0));
                 tempPanel.add(btn,gbc);
             }
@@ -273,7 +272,7 @@ public class GameGUI extends JFrame {
             }
 
             if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
-                if (selectedPoint!=null) {
+                if (selectedPoint != null) {
                     Piece piece = Piece.getPiece(btnName, playerName);
                     new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons);
                     listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
