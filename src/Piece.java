@@ -146,7 +146,7 @@ public class Piece {
                     actionsList.add(new int[]{0,1});
                     actionsList.add(new int[]{0,-1});
                     actionsList.add(new int[]{1,1});
-                    actionsList.add(new int[]{-1,1});
+                    actionsList.add(new int[]{1,-1});
                     pointsOnMainScreen[0] = "7,3";
                     pointsOnMainScreen[1] = "7,4";
                     pointsOnMainScreen[2] = "8,3";
