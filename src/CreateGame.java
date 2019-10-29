@@ -420,7 +420,7 @@ public class CreateGame extends JFrame {
             map_of_colours = new HashMap<>();
             setSelectedParameters();
             this.dispose();
-            //new GameGUI(playerNumber,map_of_colours,isColorblind);
+            new GameGUI(playerNumber,map_of_colours,isColorblind,Player.getPlayers());
         }
         else{
             JOptionPane.showMessageDialog(null,s);
@@ -530,23 +530,31 @@ public class CreateGame extends JFrame {
         switch (s){
             case("Blue & Red"):
                 map_of_colours.put(i,Color.BLUE);
+                new Player("Player "+Integer.toString(i), Color.BLUE, Piece.getPieces().get(i-1));
                 map_of_colours.put(i+2,Color.RED);
+                new Player("Player "+Integer.toString(i+2), Color.RED, Piece.getPieces().get(i+1));
                 break;
             case("Yellow & Green"):
                 map_of_colours.put(i,Color.YELLOW);
+                new Player("Player "+Integer.toString(i), Color.YELLOW, Piece.getPieces().get(i-1));
                 map_of_colours.put(i+2,Color.GREEN);
+                new Player("Player "+Integer.toString(i+2), Color.GREEN, Piece.getPieces().get(i+1));
                 break;
             case("Blue"):
                 map_of_colours.put(i,Color.BLUE);
+                new Player("Player "+Integer.toString(i), Color.BLUE, Piece.getPieces().get(i-1));
                 break;
             case("Yellow"):
                 map_of_colours.put(i,Color.YELLOW);
+                new Player("Player "+Integer.toString(i), Color.YELLOW, Piece.getPieces().get(i-1));
                 break;
             case("Red"):
                 map_of_colours.put(i,Color.RED);
+                new Player("Player "+Integer.toString(i), Color.RED, Piece.getPieces().get(i-1));
                 break;
             case("Green"):
                 map_of_colours.put(i,Color.GREEN);
+                new Player("Player "+Integer.toString(i), Color.GREEN, Piece.getPieces().get(i-1));
                 break;
             default:
                 break;
