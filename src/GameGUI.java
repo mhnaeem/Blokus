@@ -33,8 +33,11 @@ public class GameGUI extends JFrame {
     // Meant to hold the player number and the colours
     // For example: { 1 : Color.blue, 2 : Color.green}
     private HashMap<Integer, Color> mapOfColours;
-
     private boolean colour_blind;
+
+    public static JButton[][] mainGridButtons;
+    public static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
+    public static JButton[][] selectedPieceButtons;
 
     public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind){
 
@@ -45,7 +48,7 @@ public class GameGUI extends JFrame {
         createMainPanels();
 
         //Create the main grid
-        mainGridPanel.add(createGrid(20,20,35,35));
+        mainGridPanel.add(createGrid(20,20,35,35, "main"));
         //Used to make the grid centered in the window
         mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
 
@@ -80,7 +83,7 @@ public class GameGUI extends JFrame {
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
     }
 
-    public JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight){
+    public JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight, String type){
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridBagLayout());
 
@@ -102,6 +105,17 @@ public class GameGUI extends JFrame {
                 tempPanel.add(btn,gbc);
             }
         }
+
+        if(type.equals("main")){
+            mainGridButtons = buttons;
+        }
+        if(type.equals("player")){
+            playerButtons.add(buttons);
+        }
+        if(type.equals("selected")){
+            selectedPieceButtons = buttons;
+        }
+
         return tempPanel;
     }
 
@@ -124,7 +138,7 @@ public class GameGUI extends JFrame {
         listOfPiecesPanels = new ArrayList<>();
 
         for (int i = 0; i < 4; i++){
-            JPanel tempPnl = createGrid(16, 17, 20, 20);
+            JPanel tempPnl = createGrid(16, 17, 20, 20, "player");
             tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));
             //This is naming every panel of pieces for its player
             tempPnl.setName("Player " + Integer.toString(i+1));
@@ -197,7 +211,10 @@ public class GameGUI extends JFrame {
             System.out.println(" was pressed.");
             if(((JButton) e.getSource()).getParent().getName().equals("Player 1") || ((JButton) e.getSource()).getParent().getName().equals("Player 2")
             || ((JButton) e.getSource()).getParent().getName().equals("Player 3") || ((JButton) e.getSource()).getParent().getName().equals("Player 4")) {
-                new SelectedPiece(GameGUI.this, ((JButton) e.getSource()).getBackground());
+                //Clicking on a piece will open 21 SelectedPiece windows for all the pieces.
+                for (int i = 0; i < 21; i++) {
+                    new SelectedPiece(GameGUI.this, ((JButton) e.getSource()).getBackground(), Piece.getPieces().get(0).get(i), selectedPieceButtons);
+                }
             }
         }
     }
