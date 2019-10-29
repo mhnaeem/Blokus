@@ -193,7 +193,23 @@ public class GameGUI extends JFrame {
                 //This is extremely inefficient however we will change it later
                 if (colourSpots.contains(name)) {
                     component.setBackground(color);
-                } else {
+                    if (this.colour_blind){
+                        if(j == 1){
+                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                            ((JButton) component).setIcon(icon);}
+                        if(j == 2){
+                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                            ((JButton) component).setIcon(icon);}
+                        if(j == 3){
+                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                            ((JButton) component).setIcon(icon);}
+                        if(j == 4){
+                            ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                            ((JButton) component).setIcon(icon);}
+
+                    }
+                }
+             else {
                     component.setBackground(Color.white);
                     component.setEnabled(false);
                 }
