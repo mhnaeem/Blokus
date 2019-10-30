@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class SelectedPiece{
 
-    private JButton pass, rotate, flip;
+    private JButton pass, rotate, flip, back;
     private JPanel piece, buttons, main;
     private JFrame frm;
     private Piece selectedPiece;
@@ -20,7 +20,7 @@ public class SelectedPiece{
     private String playerName;
     private boolean colourBlind;
 
-    SelectedPiece(GameGUI gui, Color color, Piece piece, JButton[][] buttonGrid, String player_name, boolean colour_blind){
+    SelectedPiece(GameGUI gui, Color color, Piece piece, JButton[][] buttonGrid, String player_name, boolean colour_blind, Component c){
 
         this.selectedPiece = piece;
         this.selectedButtonGrid = buttonGrid;
@@ -47,18 +47,26 @@ public class SelectedPiece{
         this.rotate.addActionListener(ev -> System.out.println("Rotate button was pressed"));
         this.flip = new JButton("Flip");
         this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
+        this.back = new JButton("Back");
+        this.back.addActionListener(ev -> frm.dispose());
 
         buttons = new JPanel();
 
         buttons.add(this.pass);
         buttons.add(this.rotate);
         buttons.add(this.flip);
+        buttons.add(this.back);
 
         main.add(buttons);
         frm.add(main);
 
         displayPiece(color, this.selectedPiece);
 
+        frm.setAlwaysOnTop(true);
+        frm.setUndecorated(true);
+        frm.setSize(c.getSize());
+        frm.setLocationRelativeTo(c);
+        frm.setResizable(false);
         frm.setVisible(true);
     }
 

@@ -41,6 +41,8 @@ public class GameGUI extends JFrame {
 
     private static String selectedPoint;
 
+    private HashMap<Color,Component> componentMap = new HashMap<>();
+
     public GameGUI(int number_of_players, HashMap<Integer, Color> map_of_colours, boolean colour_blind, Player[] player_list){
 
         this.numberOfPlayers = number_of_players;
@@ -64,6 +66,7 @@ public class GameGUI extends JFrame {
         colourPieces();
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
+        setResizable(false);
         setVisible(true);
     }
 
@@ -152,6 +155,7 @@ public class GameGUI extends JFrame {
             //This is naming every panel of pieces for its player
             tempPnl.setName("Player " + Integer.toString(i+1));
             listOfPiecesPanels.add(tempPnl);
+            componentMap.put(mapOfColours.get(i+1),(Component) tempPnl);
         }
 
         JLabel[] playerLabels = new JLabel[4];
@@ -300,7 +304,7 @@ public class GameGUI extends JFrame {
             if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
                 if (selectedPoint != null) {
                     Piece piece = Piece.getPiece(btnName, playerName);
-                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons, playerName, colour_blind);
+                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons, playerName, colour_blind, componentMap.get(color));
                     listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
                     placingPiece(color, piece, selectedPoint, playerName);
                     selectedPoint = null;
