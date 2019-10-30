@@ -305,9 +305,15 @@ public class GameGUI extends JFrame {
                 if (selectedPoint != null) {
                     Piece piece = Piece.getPiece(btnName, playerName);
                     new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons, playerName, colour_blind, componentMap.get(color));
-                    listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
-                    placingPiece(color, piece, selectedPoint, playerName);
-                    selectedPoint = null;
+                    if(GameEngine.isLegal(piece, mainGridButtons, selectedPoint)){
+                        listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
+                        placingPiece(color, piece, selectedPoint, playerName);
+                        selectedPoint = null;
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(GameGUI.this, "Move not legal");
+                        System.out.println("Move not legal");
+                    }
                 }
             }
             colourPieces();
