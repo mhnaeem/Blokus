@@ -9,12 +9,12 @@ public class Driver {
         new Player("Player 4",Color.GREEN,Piece.getPieces().get(3));
 
         HashMap<Integer, Color> map = new HashMap<>();
-        map.put(1,Color.RED);
-        map.put(2,Color.BLUE);
-        map.put(3,Color.YELLOW);
-        map.put(4,Color.GREEN);
-
-        new GameGUI(4,map,true, Player.getPlayers());
+        map.put(1,Color.BLUE);
+        map.put(2,Color.RED);
+        map.put(3,Color.GREEN);
+        map.put(4,Color.YELLOW);
+        new GameGUI(4, map, true, Player.getPlayers());
+        new MainScreen();
 
         //new MainScreen();
     }

@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class CreateGame extends JFrame {
     private JLabel playerLabel, humanLabel, computerLabel, difficultyLabel, isColorblindLabel, scoringLabel, isRandomLabel, player1Label, player2Label, player3Label, player4Label;
+    private JTextArea howToText;
     private JComboBox<String> playerBox, humanBox, computerBox, difficultyBox, isColorblindBox, scoringBox, isRandomBox, player1Box, player2Box, player3Box, player4Box;
     private ArrayList<JLabel> labelList;
     private ArrayList<JComboBox> boxList, playerBoxList, playerNumberEventBoxList;
@@ -17,13 +18,15 @@ public class CreateGame extends JFrame {
     private String[] colorOption1 = new String[]{"Blue & Red","Yellow & Green"};
     private String[] colorOption2 = new String[]{"Blue","Yellow","Red","Green"};
     private String[] nullString = new String[]{null};
+    private static String howToString;
     private HashMap<String,JComboBox> map;
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
     private JMenuBar menu;
-    private JMenu file,about;
-    private JMenuItem reset,load,exit;
+    private JMenu file, about, help;
+    private JMenuItem reset,load,exit, howTo;
     private JButton start,back;
+    private JFrame howToFrame;
     private Border innerBorder,outerBorder;
     private GridBagConstraints gbc = new GridBagConstraints();
     private static Dimension d;
@@ -51,20 +54,35 @@ public class CreateGame extends JFrame {
      */
     private void createMenu()
     {
+        // create new function for the help menu 
+        howToFrame = new JFrame("Instructions");
+        howToFrame.setLayout(new BoxLayout(howToFrame, BoxLayout.Y_AXIS));
+        howToFrame.setSize(600,600);
+        howToFrame.setResizable(true);
+        howToText = new JTextArea(5, 10);
+        howToText.setEditable(false);
+        howToString = "To start a game, fill all drop-down boxes with game specifics, then press start!";
+        howToText.append(howToString);
+        howToFrame.getContentPane().add(howToText);
         menu = new JMenuBar();
         file = new JMenu("File");
         about = new JMenu("About");
+        help = new JMenu("Help");
         reset = new JMenuItem("Reset");
         load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
+        howTo = new JMenuItem("How To");
         menu.add(file);
         menu.add(about);
+        menu.add(help);
         file.add(reset);
         file.add(load);
         file.add(exit);
+        help.add(howTo);
         reset.addActionListener(x->resetEvent());
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
+        howTo.addActionListener(x -> howToFrame.setVisible(true));
         setJMenuBar(menu);
     }
 
