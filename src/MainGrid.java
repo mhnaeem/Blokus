@@ -106,7 +106,8 @@ public class MainGrid {
                 }
             });
             PiecesMonitor.removePiece(turn,selectedPiece);
-            SelectedPiece.pieceHasBeenPlacedEvent(turn);
+            SelectedPiece.pieceHasBeenPlacedEvent(turn); //this closes selectedPieceWindow
+            PlayerGrid.removePieceEvent(turn,selectedPiece); //this should remove piece from PlayerGrid
 
         }
     }

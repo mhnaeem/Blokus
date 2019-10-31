@@ -16,7 +16,7 @@ public class SelectedPiece{
 
     private JButton pass, rotate, flip, back;
     private JPanel piece, buttons, main;
-    private static JFrame frm = new JFrame("Selected Piece Window");;
+    private static JFrame frm;
     private String btn;
     private int index;
     private JButton[][] selectedButtonGrid;
@@ -26,6 +26,7 @@ public class SelectedPiece{
     SelectedPiece(int index,String btnName, Component c){
         this.index = index;
         btn = btnName;
+        frm= new JFrame("Selected Piece Window");
 
         main = new JPanel();
         frm.setSize(400,360);

@@ -105,6 +105,24 @@ public class PlayerGrid {
             String btnName = ((JButton) e.getSource()).getName();
             PiecesMonitor.setSelectedPiece(index,Piece.getPieceMap().get(btnName));
             new SelectedPiece(index,btnName,gridPanel);
+
+            JButton[][] x = Piece.getPlayerGridMap().get(index);
+            PiecesMonitor.getAvailablePieces(index);
+
         }
-        }
+    }
+
+    public static void removePieceEvent(int turn,int selectedPiece){
+        JButton[][] playerGrid = Piece.getPlayerGridMap().get(turn);
+        Piece.getPieceNumberToStringMap().get(selectedPiece).forEach(s->{
+            String[] str = s.split(",");
+            int x = Integer.parseInt(str[0]);
+            int y = Integer.parseInt(str[1]);
+
+            JButton btn = playerGrid[x][y];
+            btn.setBackground(Color.white);
+            btn.setIcon(null);
+            btn.setEnabled(false);
+        });
+    }
 }
