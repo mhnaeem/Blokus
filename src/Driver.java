@@ -16,6 +16,5 @@ public class Driver {
         new GameGUI(4, map, true, Player.getPlayers());
         new MainScreen();
 
-        //new MainScreen();
     }
 }

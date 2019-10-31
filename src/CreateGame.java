@@ -18,12 +18,11 @@ public class CreateGame extends JFrame {
     private String[] colorOption1 = new String[]{"Blue & Red","Yellow & Green"};
     private String[] colorOption2 = new String[]{"Blue","Yellow","Red","Green"};
     private String[] nullString = new String[]{null};
-    private static String howToString;
     private HashMap<String,JComboBox> map;
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
     private JMenuBar menu;
-    private JMenu file, about, help;
+    private JMenu file, about, help, howToMenu;
     private JMenuItem reset,load,exit, howTo;
     private JButton start,back;
     private JFrame howToFrame;
@@ -50,21 +49,11 @@ public class CreateGame extends JFrame {
     }
 
     /**
-     * creates Menu Bor with its components
+     * creates Menu Bar with its components
      * adds Menu to JFrame
      */
     private void createMenu()
     {
-        // create new function for the help menu 
-        howToFrame = new JFrame("Instructions");
-        howToFrame.setLayout(new BoxLayout(howToFrame, BoxLayout.Y_AXIS));
-        howToFrame.setSize(600,600);
-        howToFrame.setResizable(true);
-        howToText = new JTextArea(5, 10);
-        howToText.setEditable(false);
-        howToString = "To start a game, fill all drop-down boxes with game specifics, then press start!";
-        howToText.append(howToString);
-        howToFrame.getContentPane().add(howToText);
         menu = new JMenuBar();
         file = new JMenu("File");
         about = new JMenu("About");
@@ -83,7 +72,7 @@ public class CreateGame extends JFrame {
         reset.addActionListener(x->resetEvent());
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
-        howTo.addActionListener(x -> howToFrame.setVisible(true));
+        howTo.addActionListener(x -> helpEvent());
         setJMenuBar(menu);
     }
 
@@ -103,6 +92,23 @@ public class CreateGame extends JFrame {
         player3Label = new JLabel("Player 3");
         player4Label = new JLabel("Player 4");
     }
+
+    // private void createHowToMenu()
+    // {
+    //     // help.addSeparator();
+    //     // howToTest = new JMenuItem("To start a game, fill all drop-down boxes with game specifics, then press start!");
+        
+    //     // howToMenu.add(howToTest);
+    //     JLabel title = new JLabel();
+    //     title.setText("Apples and Oranges");
+    //     add(title);
+        
+    // }
+    // private void createHowTo()
+    // {
+        
+       
+    // }
 
     /**
      * creates ComboBoxes
@@ -523,6 +529,13 @@ public class CreateGame extends JFrame {
      */
     private void loadEvent(){
         new LoadScreen();
+    }
+
+    /**
+     * Help
+     */
+    private void helpEvent() {
+        new HelpDetails();
     }
 
     /**
