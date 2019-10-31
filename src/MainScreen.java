@@ -25,6 +25,7 @@ public class MainScreen extends JFrame{
        createButtons();
        addDetails();
        buttonAction();
+       this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
        setVisible(true);
    }
    

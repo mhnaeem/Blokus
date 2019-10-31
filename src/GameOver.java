@@ -1,13 +1,7 @@
 
 import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 
@@ -43,6 +37,7 @@ public class GameOver extends JFrame{
         contentPane.add(fullPanel);
         createMenu();
         setBounds(400, 200, 600, 500);
+        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);

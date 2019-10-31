@@ -1,9 +1,6 @@
 
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
@@ -40,6 +37,7 @@ public class About extends JFrame {
         setBounds(400, 200, 600, 500);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setResizable(false);
     }
 
