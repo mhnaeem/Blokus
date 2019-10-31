@@ -16,6 +16,7 @@ public class Driver {
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
         new Piece();
         new PiecesMonitor();
+        new GameEngine();
         new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
     }
 }

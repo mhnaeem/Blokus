@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class MainGrid {
     private JPanel mainGridPanel;
-    private JButton[][] mainGridButtons;
+    private static JButton[][] mainGridButtons;
 
     public MainGrid() {
     }
@@ -52,6 +52,10 @@ public class MainGrid {
         return buttons;
     }
 
+    public static JButton[][] getMainGridButtons(){
+        return mainGridButtons;
+    }
+
     private class gridListener implements ActionListener {
 
         @Override
@@ -66,8 +70,10 @@ public class MainGrid {
 
             if (PiecesMonitor.getSelectedPiece() != -1) {//player turn would go here
                 int selectedPiece = PiecesMonitor.getSelectedPiece();
-                int turn = 1;//player 1 will always remove for testing // turn represents player index
-                placingPiece(turn, selectedPiece, selectedPoint);
+                if(GameEngine.isLegal(MainGrid.getMainGridButtons(),selectedPoint)) {
+                    int turn = 1;//player 1 will always remove for testing // turn represents player index
+                    placingPiece(turn, selectedPiece, selectedPoint);
+                }
             }
         }
 

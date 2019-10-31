@@ -13,13 +13,14 @@ public class GameEngine {
 
     }
 
-    public static boolean isLegal(Piece piece, JButton[][] grid, String selectedPoint){
+    public static boolean isLegal(JButton[][] grid, String selectedPoint){
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
 
-        for (int[] action : piece.getPieceActions()) {
-            if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, piece, grid)){
+
+        for (int[] action : Piece.getActionsListMap().get(PiecesMonitor.getSelectedPiece(1))) {
+            if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
                 return false;
             }
         }
@@ -43,12 +44,12 @@ public class GameEngine {
         return true;
     }
 
-    public static boolean isOccupied(String point, Piece piece, JButton[][] grid){
+    public static boolean isOccupied(String point, JButton[][] grid){
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
 
-        for (int[] action : piece.getPieceActions()) {
+        for (int[] action : Piece.getActionsListMap().get(PiecesMonitor.getSelectedPiece(1))) {
             int newC = c+action[0];
             int newR = r+action[1];
             if (isWithinGrid(point, action, grid)){
