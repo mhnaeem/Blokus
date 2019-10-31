@@ -10,27 +10,27 @@ import java.awt.*;
  * @version (Version 1.0)
  */
 
-public class SelectedPiece{
+public class SelectedPiece extends JFrame{
 
     private JButton pass, rotate, flip, back;
     private JPanel piece, buttons, main;
-    private JFrame frm;
     private Piece selectedPiece;
     private JButton[][] selectedButtonGrid;
     private String playerName;
-    private boolean colourBlind;
+    private GameGUI gameGUI;
 
-    SelectedPiece(GameGUI gui, Color color, Piece piece, JButton[][] buttonGrid, String player_name, boolean colour_blind, Component c){
+    SelectedPiece(GameGUI gui, Color color, Piece piece, String player_name, Component c){
+
+        super("Selected Piece Window");
+        setSize(400,360);
+        setResizable(false);
 
         this.selectedPiece = piece;
-        this.selectedButtonGrid = buttonGrid;
         this.playerName = player_name;
-        this.colourBlind = colour_blind;
+        this.gameGUI = gui;
+        this.selectedButtonGrid = GameGUI.getSelectedPieceButtons();
 
         main = new JPanel();
-        frm = new JFrame("Selected Piece Window");
-        frm.setSize(400,360);
-        frm.setResizable(false);
 
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
@@ -48,7 +48,7 @@ public class SelectedPiece{
         this.flip = new JButton("Flip");
         this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
         this.back = new JButton("Back");
-        this.back.addActionListener(ev -> frm.dispose());
+        this.back.addActionListener(ev -> SelectedPiece.this.dispose());
 
         buttons = new JPanel();
 
@@ -58,20 +58,16 @@ public class SelectedPiece{
         buttons.add(this.back);
 
         main.add(buttons);
-        frm.add(main);
+        add(main);
 
         displayPiece(color, this.selectedPiece);
 
-        frm.setAlwaysOnTop(true);
-        frm.setUndecorated(true);
-        frm.setSize(c.getSize());
-        frm.setLocationRelativeTo(c);
-        frm.setResizable(false);
-        frm.setVisible(true);
-    }
-
-    public JPanel returnPanel(){
-        return main;
+        setAlwaysOnTop(true);
+        setUndecorated(true);
+        setSize(c.getSize());
+        setLocationRelativeTo(c);
+        setResizable(false);
+        setVisible(true);
     }
 
     private void displayPiece(Color color, Piece piece){
@@ -82,7 +78,7 @@ public class SelectedPiece{
 
         piece.getPieceActions().forEach(action -> {
             selectedButtonGrid[x+action[0]][y+action[1]].setBackground(color);
-            if (this.colourBlind){
+            if (this.gameGUI.isColourBlind()){
                 ImageIcon icon = null;
                 switch (this.playerName){
                     case "Player 1":

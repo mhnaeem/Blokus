@@ -304,7 +304,7 @@ public class GameGUI extends JFrame {
             if (playerName.equals("Player 1") || playerName.equals("Player 2") || playerName.equals("Player 3") || playerName.equals("Player 4")){
                 if (selectedPoint != null) {
                     Piece piece = Piece.getPiece(btnName, playerName);
-                    new SelectedPiece(GameGUI.this, color, piece, selectedPieceButtons, playerName, colour_blind, componentMap.get(color));
+                    new SelectedPiece(GameGUI.this, color, piece, playerName, componentMap.get(color));
                     if(GameEngine.isLegal(piece, mainGridButtons, selectedPoint)){
                         listOfPlayers[playerIndex].removeDisplayPieceCoordinates(piece.getDisplayCoordinates());
                         placingPiece(color, piece, selectedPoint, playerName);
@@ -318,5 +318,13 @@ public class GameGUI extends JFrame {
             }
             colourPieces();
         }
+    }
+
+    public boolean isColourBlind(){
+        return this.colour_blind;
+    }
+
+    public static JButton[][] getSelectedPieceButtons(){
+        return selectedPieceButtons;
     }
 }
