@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class CreateGame extends JFrame {
     private JLabel playerLabel, humanLabel, computerLabel, difficultyLabel, isColorblindLabel, scoringLabel, isRandomLabel, player1Label, player2Label, player3Label, player4Label;
-    private JTextArea howToText;
     private JComboBox<String> playerBox, humanBox, computerBox, difficultyBox, isColorblindBox, scoringBox, isRandomBox, player1Box, player2Box, player3Box, player4Box;
     private ArrayList<JLabel> labelList;
     private ArrayList<JComboBox> boxList, playerBoxList, playerNumberEventBoxList;
@@ -22,17 +21,16 @@ public class CreateGame extends JFrame {
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
     private JMenuBar menu;
-    private JMenu file, about, help, howToMenu;
-    private JMenuItem reset,load,exit, howTo;
+    private JMenu file,about;
+    private JMenuItem reset,load,exit;
     private JButton start,back;
-    private JFrame howToFrame;
     private Border innerBorder,outerBorder;
     private GridBagConstraints gbc = new GridBagConstraints();
     private static Dimension d;
     private static String s ="";
-    public int size = 0;
-    public int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
-    public String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
+    private int size = 0;
+    private int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
+    private String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
     private HashMap<Integer,Color> map_of_colours;
     private boolean isColorblind;
 
@@ -41,7 +39,6 @@ public class CreateGame extends JFrame {
         super("Blokus Game");
         createMenu();
         createComponents();
-        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850, 425);
@@ -49,7 +46,7 @@ public class CreateGame extends JFrame {
     }
 
     /**
-     * creates Menu Bar with its components
+     * creates Menu Bor with its components
      * adds Menu to JFrame
      */
     private void createMenu()
@@ -57,22 +54,17 @@ public class CreateGame extends JFrame {
         menu = new JMenuBar();
         file = new JMenu("File");
         about = new JMenu("About");
-        help = new JMenu("Help");
         reset = new JMenuItem("Reset");
         load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
-        howTo = new JMenuItem("How To");
         menu.add(file);
         menu.add(about);
-        menu.add(help);
         file.add(reset);
         file.add(load);
         file.add(exit);
-        help.add(howTo);
         reset.addActionListener(x->resetEvent());
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
-        howTo.addActionListener(x -> helpEvent());
         setJMenuBar(menu);
     }
 
@@ -92,23 +84,6 @@ public class CreateGame extends JFrame {
         player3Label = new JLabel("Player 3");
         player4Label = new JLabel("Player 4");
     }
-
-    // private void createHowToMenu()
-    // {
-    //     // help.addSeparator();
-    //     // howToTest = new JMenuItem("To start a game, fill all drop-down boxes with game specifics, then press start!");
-        
-    //     // howToMenu.add(howToTest);
-    //     JLabel title = new JLabel();
-    //     title.setText("Apples and Oranges");
-    //     add(title);
-        
-    // }
-    // private void createHowTo()
-    // {
-        
-       
-    // }
 
     /**
      * creates ComboBoxes
@@ -445,7 +420,7 @@ public class CreateGame extends JFrame {
             map_of_colours = new HashMap<>();
             setSelectedParameters();
             this.dispose();
-            new GameGUI(playerNumber,map_of_colours,isColorblind,Player.getPlayers());
+            new Driver(map_of_colours,playerNumber,computerNumber,humanNumber,difficulty,scoringType,isColorblind);
         }
         else{
             JOptionPane.showMessageDialog(null,s);
@@ -532,13 +507,6 @@ public class CreateGame extends JFrame {
     }
 
     /**
-     * Help
-     */
-    private void helpEvent() {
-        new HelpDetails();
-    }
-
-    /**
      * when exit button in file menu is pressed
      * exits
      */
@@ -562,31 +530,23 @@ public class CreateGame extends JFrame {
         switch (s){
             case("Blue & Red"):
                 map_of_colours.put(i,Color.BLUE);
-                new Player("Player "+Integer.toString(i), Color.BLUE, Piece.getPieces().get(i-1));
                 map_of_colours.put(i+2,Color.RED);
-                new Player("Player "+Integer.toString(i+2), Color.RED, Piece.getPieces().get(i+1));
                 break;
             case("Yellow & Green"):
                 map_of_colours.put(i,Color.YELLOW);
-                new Player("Player "+Integer.toString(i), Color.YELLOW, Piece.getPieces().get(i-1));
                 map_of_colours.put(i+2,Color.GREEN);
-                new Player("Player "+Integer.toString(i+2), Color.GREEN, Piece.getPieces().get(i+1));
                 break;
             case("Blue"):
                 map_of_colours.put(i,Color.BLUE);
-                new Player("Player "+Integer.toString(i), Color.BLUE, Piece.getPieces().get(i-1));
                 break;
             case("Yellow"):
                 map_of_colours.put(i,Color.YELLOW);
-                new Player("Player "+Integer.toString(i), Color.YELLOW, Piece.getPieces().get(i-1));
                 break;
             case("Red"):
                 map_of_colours.put(i,Color.RED);
-                new Player("Player "+Integer.toString(i), Color.RED, Piece.getPieces().get(i-1));
                 break;
             case("Green"):
                 map_of_colours.put(i,Color.GREEN);
-                new Player("Player "+Integer.toString(i), Color.GREEN, Piece.getPieces().get(i-1));
                 break;
             default:
                 break;
