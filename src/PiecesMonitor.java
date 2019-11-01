@@ -15,7 +15,7 @@ public class PiecesMonitor {
 
     //Player number and piece number
     public static void removePiece(int index,int pieceNumber){
-        availablePiecesMap.get(index).remove(pieceNumber);
+        availablePiecesMap.get(index).removeIf(value -> value == pieceNumber);
         selectedPiecesMap.put(index,null);
     }
 
