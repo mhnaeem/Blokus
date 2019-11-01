@@ -4,18 +4,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class PlayerGrid {
 
     private JPanel gridPanel;
-    private Color color;
-    private int index;
+    private int playerIndex;
+    private static HashMap<Integer, JButton[][]> playerGridButtonMap = new HashMap<>();
+    private static HashMap<Integer, JPanel> playerGridPanelMap = new HashMap<>();
 
     public PlayerGrid(int index) {
-        super();
-        this.index = index;
-        this.color = Options.getColor(index);
+        this.playerIndex = index;
+        createGrid(16, 17, 20, 20);
+        playerGridPanelMap.put(this.playerIndex, this.gridPanel);
     }
 
     private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight) {
@@ -33,7 +35,7 @@ public class PlayerGrid {
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 btn.setFocusable(false);
-                btn.addActionListener(new playerListener());
+                btn.addActionListener(new PlayerGridListener());
                 tempPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
                 tempPanel.add(btn, gbc);
             }
@@ -53,13 +55,40 @@ public class PlayerGrid {
                 buttons[r][c] = btn;
             }
         }
-        Piece.getPlayerGridMap().put(index,buttons);
+        playerGridButtonMap.put(playerIndex,buttons);
         return buttons;
     }
 
+    public static JButton[][] getPlayerGridButtons(int player_index){
+        if(playerGridButtonMap.containsKey(player_index)){
+            return playerGridButtonMap.get(player_index);
+        }
+        JOptionPane.showMessageDialog(null, "JButton array not found, error in PlayerGridMapButtons");
+        return null;
+    }
 
-    public JPanel getPlayerGridPanel() {
-        return createGrid(16, 17, 20, 20);
+
+    public static JPanel getPlayerGridPanel(int player_index) {
+        if (playerGridPanelMap.containsKey(player_index)){
+            return playerGridPanelMap.get(player_index);
+        }
+        JOptionPane.showMessageDialog(null, "Error in getPlayerGridPanel, index not found");
+        return null;
+    }
+
+    //Only to be called from the game engine class
+    public static void disableOtherPlayerGrids(int player_index){
+        playerGridButtonMap.forEach((k,v) -> {
+            for (JButton[] jButtons : v) {
+                for (JButton jButton : jButtons) {
+                    if (k != player_index) {
+                        jButton.setEnabled(false);
+                    } else {
+                        jButton.setEnabled(true);
+                    }
+                }
+            }
+        });
     }
 
     private void colorPieces() {
@@ -67,12 +96,11 @@ public class PlayerGrid {
         Component[] c = gridPanel.getComponents();
         for (Component component : c) {
             String name = component.getName();
-            //This is extremely inefficient however we will change it later
             if (colourSpots.contains(name)) {
-                component.setBackground(color);
+                component.setBackground(Options.getColor(playerIndex));
                 if (Options.getIsColorblind()) {
                     ImageIcon icon = null;
-                    switch (index) {
+                    switch (playerIndex) {
                         case 1:
                             icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
                             break;
@@ -99,22 +127,21 @@ public class PlayerGrid {
     }
 
 
-    private class playerListener implements ActionListener {
+    private class PlayerGridListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String btnName = ((JButton) e.getSource()).getName();
-            PiecesMonitor.setSelectedPiece(index,Piece.getPieceMap().get(btnName));
-            new SelectedPiece(index,btnName,gridPanel);
 
-            JButton[][] x = Piece.getPlayerGridMap().get(index);
-            PiecesMonitor.getAvailablePieces(index);
-
+            //TODO: Player turn is being set after the player has already clicked on the grid, change this.
+            //If player has clicked on it, then it is the player's turn
+            GameEngine.setSelectedPiece(Piece.getPieceMap().get(btnName));
+            new SelectedPiece(playerIndex, btnName, gridPanel);
         }
     }
 
-    public static void removePieceEvent(int turn,int selectedPiece){
-        JButton[][] playerGrid = Piece.getPlayerGridMap().get(turn);
-        Piece.getPieceNumberToStringMap().get(selectedPiece).forEach(s->{
+    public static void removePieceEvent(int selectedPiece){
+        JButton[][] playerGrid = PlayerGrid.getPlayerGridButtons(GameEngine.getCurrentTurn());
+        Piece.getPieceDisplayCoordinates(selectedPiece).forEach(s->{
             String[] str = s.split(",");
             int x = Integer.parseInt(str[0]);
             int y = Integer.parseInt(str[1]);
@@ -122,6 +149,7 @@ public class PlayerGrid {
             JButton btn = playerGrid[x][y];
             btn.setBackground(Color.white);
             btn.setIcon(null);
+            btn.setDisabledIcon(null);
             btn.setEnabled(false);
         });
     }

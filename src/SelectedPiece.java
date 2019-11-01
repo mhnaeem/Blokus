@@ -1,8 +1,6 @@
-import javax.imageio.ImageWriter;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Selected Piece Screen for the Blokus Game
@@ -17,16 +15,18 @@ public class SelectedPiece{
     private JButton pass, rotate, flip, back;
     private JPanel piece, buttons, main;
     private static JFrame frm;
-    private String btn;
-    private int index;
+    private String selectedButtonName;
+    private int playerIndex;
     private JButton[][] selectedButtonGrid;
     private String playerName;
     private boolean colourBlind;
 
-    SelectedPiece(int index,String btnName, Component c){
-        this.index = index;
-        btn = btnName;
-        frm= new JFrame("Selected Piece Window");
+    SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
+
+        this.playerIndex = player_index;
+        this.selectedButtonName = selected_button_name;
+
+        frm = new JFrame("Selected Piece Window");
 
         main = new JPanel();
         frm.setSize(400,360);
@@ -34,11 +34,9 @@ public class SelectedPiece{
 
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
-
         this.piece = new JPanel();
         this.piece.setBorder(new EmptyBorder(5,5,5,5));
         this.piece.add(createGrid(5,5,50,50));
-
 
         main.add(this.piece);
 
@@ -49,7 +47,13 @@ public class SelectedPiece{
         this.flip = new JButton("Flip");
         this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
         this.back = new JButton("Back");
-        this.back.addActionListener(ev -> {PiecesMonitor.setSelectedPiece(index,-1);frm.dispose();});
+        this.back.addActionListener(ev -> {
+            //Set selected piece to nothing
+            //TODO: set selected piece to null here
+            //PiecesMonitor.setSelectedPiece(playerIndex,-1);
+            GameEngine.setSelectedPiece(-1);
+            frm.dispose();
+        });
 
         buttons = new JPanel();
 
@@ -60,13 +64,13 @@ public class SelectedPiece{
 
         main.add(buttons);
         frm.add(main);
-        System.out.println(btn);
-        displayPiece(Options.getColor(index),btn);
+
+        displayPiece();
 
         frm.setAlwaysOnTop(true);
         frm.setUndecorated(true);
-        frm.setSize(c.getSize());
-        frm.setLocationRelativeTo(c);
+        frm.setSize(player_grid_panel.getSize());
+        frm.setLocationRelativeTo(player_grid_panel);
         frm.setResizable(false);
         frm.setVisible(true);
     }
@@ -108,17 +112,18 @@ public class SelectedPiece{
     }
 
 
-    private void displayPiece(Color color, String btn){
+    private void displayPiece(){
         //These x and y represent the zero coordinates, all actions will be taken from these points
         int x = 2;
         int y = 2;
-        if (Piece.getPieceMap().containsKey(btn)) {
-            int key = Piece.getPieceMap().get(btn);
-            (Piece.getActionsListMap().get(key)).forEach(action -> {
+        Color color = Options.getColor(this.playerIndex);
+        if (Piece.getPieceMap().containsKey(this.selectedButtonName)) {
+            int key = Piece.getPieceMap().get(this.selectedButtonName);
+            (Piece.getActionsList(key)).forEach(action -> {
                 selectedButtonGrid[x + action[0]][y + action[1]].setBackground(color);
                 if (Options.getIsColorblind()) {
                     ImageIcon icon = null;
-                    switch (index) {
+                    switch (this.playerIndex) {
                         case 1:
                             icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
                             break;
@@ -159,7 +164,7 @@ public class SelectedPiece{
         this.piece.updateUI();
         this.main.updateUI();
     }
-    public static void pieceHasBeenPlacedEvent(int index){
+    public static void pieceHasBeenPlacedEvent(){
         frm.dispose();
     }
 }

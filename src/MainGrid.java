@@ -5,15 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainGrid {
-    private JPanel mainGridPanel;
+    private static JPanel mainGridPanel;
     private static JButton[][] mainGridButtons;
 
     public MainGrid() {
+        mainGridPanel = createGrid(20, 20, 35, 35);
     }
 
-    public JPanel getMainGridPanel() {
-        mainGridPanel = createGrid(20, 20, 35, 35);
+    public static JPanel getMainGridPanel() {
         return mainGridPanel;
+    }
+
+    public static JButton[][] getMainGridButtons(){
+        return mainGridButtons;
     }
 
     private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight) {
@@ -30,7 +34,7 @@ public class MainGrid {
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 btn.setFocusable(false);
-                btn.addActionListener(new gridListener());
+                btn.addActionListener(new MainGridListener());
                 tempPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
                 tempPanel.add(btn, gbc);
             }
@@ -52,31 +56,25 @@ public class MainGrid {
         return buttons;
     }
 
-    public static JButton[][] getMainGridButtons(){
-        return mainGridButtons;
-    }
-
-    private class gridListener implements ActionListener {
+    private class MainGridListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String btnName = ((JButton) e.getSource()).getName();
+            String selectedPoint = ((JButton) e.getSource()).getName();
+            int selectedPiece = GameEngine.getSelectedPiece();
 
-            String selectedPoint = btnName;
-
-            System.out.print("The button on location ");
-            System.out.print(btnName);
-            System.out.println(" was pressed on main Grid.");
-
-            if (PiecesMonitor.getSelectedPiece() != -1) {//player turn would go here
-                int selectedPiece = PiecesMonitor.getSelectedPiece();
-                if(GameEngine.isLegal(MainGrid.getMainGridButtons(),selectedPoint)) {
-                    int turn = 1;//player 1 will always remove for testing // turn represents player index
+            if (selectedPiece != -1) {//player turn would go here
+                if(GameEngine.isLegal(selectedPoint)) {
+                    int turn = GameEngine.getCurrentTurn();
                     placingPiece(turn, selectedPiece, selectedPoint);
+                    Player.getPlayer(turn).pieceUsed(selectedPiece);
+                    SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow
+                    PlayerGrid.removePieceEvent(selectedPiece); //this should remove piece from PlayerGrid for the current player
+                    GameEngine.updateCurrentTurn();
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
-                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Error, No piece was selected. MainGridListener", "Illegal move!",JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -84,10 +82,12 @@ public class MainGrid {
             String[] b = button.split(",");
             int brow = Integer.parseInt(b[0]);
             int bcol = Integer.parseInt(b[1]);
-            Piece.getActionsListMap().get(selectedPiece).forEach(IntegerArray -> {
-                JButton btn = mainGridButtons[brow + IntegerArray[1]][bcol + IntegerArray[0]];
+
+            Piece.getActionsList(selectedPiece).forEach(actions -> {
+                JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
                 btn.setBackground(Options.getColor(turn));
                 btn.setEnabled(false);
+
                 if (Options.getIsColorblind()) {
                     ImageIcon icon = null;
                     switch (turn) {
@@ -107,11 +107,8 @@ public class MainGrid {
                     btn.setDisabledIcon(icon);
                     btn.setIcon(icon);
                 }
-            });
-            PiecesMonitor.removePiece(turn,selectedPiece);
-            SelectedPiece.pieceHasBeenPlacedEvent(turn); //this closes selectedPieceWindow
-            PlayerGrid.removePieceEvent(turn,selectedPiece); //this should remove piece from PlayerGrid
 
+            });
         }
     }
 }

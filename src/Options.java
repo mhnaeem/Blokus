@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class Options {
-    private static Boolean isColorblind =null;
+    private static Boolean isColorblind = null;
     private static String difficulty = null;
     private static String scoringType = null;
     private static HashMap<Integer,Color> mapOfColors = null;

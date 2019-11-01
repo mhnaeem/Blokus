@@ -1,8 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -82,6 +80,7 @@ public class GameGUI extends JFrame {
 
     private void createPlayingPieces() {
 
+        //TODO: what happens when there are two players or one player.
         for (int i = 0; i < 4; i++){
             JPanel tempPnl = listOfPiecesPanels.get(i);
             tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));

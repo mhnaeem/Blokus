@@ -1,23 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class Player {
     private String playerName;
     private Color playerColor;
     private int playerIndex;
-    PlayerGrid grid;
+    private PlayerGrid playerGrid;
+    private ArrayList<Integer> availablePiecesIndexes;
+    private static Player[] players = new Player[5];
 
     public Player(int index){
         this.setIndex(index);
         this.setName();
         this.setColor(Options.getColor(getPlayerIndex()));
+        this.availablePiecesIndexes = Piece.getPieceList();
+        players[index] = this;
     }
 
     private void setName(){
-        this.playerName = "Player "+playerIndex;
+        this.playerName = "Player " + playerIndex;
     }
 
     private void setIndex(int index){
@@ -30,14 +32,13 @@ public class Player {
 
 
     public JPanel createGrid(){
-        grid = new PlayerGrid(getPlayerIndex());
-        return grid.getPlayerGridPanel();
+        playerGrid = new PlayerGrid(this.playerIndex);
+        return PlayerGrid.getPlayerGridPanel(this.playerIndex);
     }
 
     public int getPlayerIndex(){
         return  this.playerIndex;
     }
-
 
     public String getPlayerName(){
         return this.playerName;
@@ -48,8 +49,14 @@ public class Player {
     }
 
     public ArrayList<Integer> getAvailablePieces(){
-        return PiecesMonitor.getAvailablePieces(getPlayerIndex());
+        return this.availablePiecesIndexes;
     }
 
+    public void pieceUsed(int piece_index){
+        this.availablePiecesIndexes.removeIf(value -> value == piece_index);
+    }
 
+    public static Player getPlayer(int player_index){
+        return players[player_index];
+    }
 }
