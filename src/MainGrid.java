@@ -74,6 +74,9 @@ public class MainGrid {
                     int turn = 1;//player 1 will always remove for testing // turn represents player index
                     placingPiece(turn, selectedPiece, selectedPoint);
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 

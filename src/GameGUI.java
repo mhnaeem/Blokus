@@ -75,6 +75,7 @@ public class GameGUI extends JFrame {
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
         setResizable(false);
+        setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setVisible(true);
     }
 

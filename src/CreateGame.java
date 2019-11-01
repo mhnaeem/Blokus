@@ -39,10 +39,11 @@ public class CreateGame extends JFrame {
         super("Blokus Game");
         createMenu();
         createComponents();
-        setVisible(true);
+        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850, 425);
         setResizable(false);
+        setVisible(true);
     }
 
     /**

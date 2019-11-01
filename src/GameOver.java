@@ -38,9 +38,9 @@ public class GameOver extends JFrame{
         createMenu();
         setBounds(400, 200, 600, 500);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
-        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setVisible(true);
     }
 
     /**
