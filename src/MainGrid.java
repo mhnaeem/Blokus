@@ -1,8 +1,12 @@
+import org.ietf.jgss.GSSManager;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MainGrid {
     private static JPanel mainGridPanel;
@@ -35,6 +39,7 @@ public class MainGrid {
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 btn.setFocusable(false);
                 btn.addActionListener(new MainGridListener());
+                btn.addMouseListener(new MainGridHoverListener());
                 tempPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
                 tempPanel.add(btn, gbc);
             }
@@ -61,9 +66,9 @@ public class MainGrid {
         @Override
         public void actionPerformed(ActionEvent e) {
             String selectedPoint = ((JButton) e.getSource()).getName();
-            int selectedPiece = GameEngine.getSelectedPiece();
+            Integer selectedPiece = GameEngine.getSelectedPiece();
 
-            if (selectedPiece != -1) {//player turn would go here
+            if (selectedPiece != null) {//player turn would go here
                 if(GameEngine.isLegal(selectedPoint)) {
                     int turn = GameEngine.getCurrentTurn();
                     placingPiece(turn, selectedPiece, selectedPoint);
@@ -110,5 +115,80 @@ public class MainGrid {
 
             });
         }
+    }
+
+    private void mouseHoverDisplay(String buttonName, boolean hover){
+
+        String[] b = buttonName.split(",");
+        int brow = Integer.parseInt(b[0]);
+        int bcol = Integer.parseInt(b[1]);
+        Integer selectedPieceIndex = GameEngine.getSelectedPiece();
+
+        if (GameEngine.isLegal(buttonName)){
+
+            Piece.getActionsList(selectedPieceIndex).forEach( actions -> {
+
+                JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
+
+                if(btn.isEnabled() && hover) {
+                    btn.setBackground(Options.getColor(GameEngine.getCurrentTurn()));
+
+                    if (Options.getIsColorblind()) {
+                        ImageIcon icon = null;
+                        switch (GameEngine.getCurrentTurn()) {
+                            case 1:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                                break;
+                            case 2:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                                break;
+                            case 3:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                                break;
+                            case 4:
+                                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                                break;
+                        }
+                        btn.setDisabledIcon(icon);
+                        btn.setIcon(icon);
+                    }
+                }
+                if(!hover && btn.isEnabled()){
+                    btn.setBackground(Color.white);
+                    btn.setIcon(null);
+                    btn.setDisabledIcon(null);
+                }
+            });
+        }
+    }
+
+    private class MainGridHoverListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (GameEngine.getSelectedPiece() != null) {
+                mouseHoverDisplay(((JButton) e.getSource()).getName(), true);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (GameEngine.getSelectedPiece() != null) {
+                mouseHoverDisplay(((JButton) e.getSource()).getName(), false);
+            }
+        }
+
     }
 }

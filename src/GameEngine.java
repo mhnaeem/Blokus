@@ -10,11 +10,7 @@ import javax.swing.*;
 public class GameEngine {
 
     private static int currentTurn = 1;
-    private static int selectedPiece;
-
-    public GameEngine(){
-
-    }
+    private static Integer selectedPiece = null;
 
     public static boolean isLegal(String selectedPoint){
         JButton[][] grid = MainGrid.getMainGridButtons();
@@ -25,7 +21,8 @@ public class GameEngine {
 
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
-                JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
+                System.out.println("Not a legal move");
                 return false;
             }
         }
@@ -53,7 +50,6 @@ public class GameEngine {
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
-
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             int newC = c+action[0];
             int newR = r+action[1];
@@ -79,18 +75,18 @@ public class GameEngine {
             currentTurn += 1;
         }
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
-        selectedPiece = -1;
+        selectedPiece = null;
     }
 
     public static Integer getSelectedPiece(){
-        if(selectedPiece == -1){
-            JOptionPane.showMessageDialog(null,"Error in getSelectedPiece, no piece was selected");
-            return -1;
+        if(selectedPiece == null){
+            System.out.println("Error in getSelectedPiece, no piece was selected");
+            //JOptionPane.showMessageDialog(null,"Error in getSelectedPiece, no piece was selected");
         }
         return selectedPiece;
     }
 
-    public static void setSelectedPiece(int piece_index){
+    public static void setSelectedPiece(Integer piece_index){
         selectedPiece = piece_index;
     }
 }

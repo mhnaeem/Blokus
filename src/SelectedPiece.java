@@ -51,7 +51,7 @@ public class SelectedPiece{
             //Set selected piece to nothing
             //TODO: set selected piece to null here
             //PiecesMonitor.setSelectedPiece(playerIndex,-1);
-            GameEngine.setSelectedPiece(-1);
+            GameEngine.setSelectedPiece(null);
             frm.dispose();
         });
 

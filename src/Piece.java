@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -186,7 +185,8 @@ public class Piece {
         if(actionsListMap.containsKey(piece_index)){
             return actionsListMap.get(piece_index);
         }
-        JOptionPane.showMessageDialog(null, "Error in getActionsList, piece index not found");
+        //JOptionPane.showMessageDialog(null, "Error in getActionsList, piece index not found");
+        System.out.println("Error in getActionsList, piece index not found");
         return null;
     }
 
@@ -202,7 +202,8 @@ public class Piece {
         if(pieceNumberToStringMap.containsKey(piece_index)){
             return pieceNumberToStringMap.get(piece_index);
         }
-        JOptionPane.showMessageDialog(null, "Error in getPieceDisplayCoordinates, piece index not found");
+        //JOptionPane.showMessageDialog(null, "Error in getPieceDisplayCoordinates, piece index not found");
+        System.out.println("Error in getPieceDisplayCoordinates, piece index not found");
         return null;
     }
 
