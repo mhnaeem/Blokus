@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class SelectedPiece{
 
-    private JButton pass, rotate, flip, back;
+    private JButton pass, rotate, flipUp, flipRight, back;
     private JPanel piece, buttons, main;
     private static JFrame frm;
     private String selectedButtonName;
@@ -48,8 +48,17 @@ public class SelectedPiece{
             Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
-        this.flip = new JButton("Flip");
-        this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
+        this.flipUp = new JButton("FlipU");
+        this.flipUp.addActionListener(ev -> {
+            Piece.setActionList(flipUp(Piece.getActionsList(GameEngine.getSelectedPiece())));
+            displayPiece();
+        });
+        this.flipRight = new JButton("FlipR");
+        this.flipRight.addActionListener(ev -> {
+            Piece.setActionList(flipRight(Piece.getActionsList(GameEngine.getSelectedPiece())));
+            displayPiece();
+        });
+
         this.back = new JButton("Back");
         this.back.addActionListener(ev -> {
             //Set selected piece to nothing
@@ -63,7 +72,9 @@ public class SelectedPiece{
 
         buttons.add(this.pass);
         buttons.add(this.rotate);
-        buttons.add(this.flip);
+        buttons.add(this.flipUp);
+        buttons.add(this.flipRight);
+        //TODO make back button appear
         buttons.add(this.back);
 
         main.add(buttons);
@@ -78,6 +89,8 @@ public class SelectedPiece{
         frm.setResizable(false);
         frm.setVisible(true);
     }
+
+
 
     private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight) {
         JPanel tempPanel = new JPanel();
@@ -188,6 +201,34 @@ public class SelectedPiece{
             int newX=(int) (xx.get(i)[0]*Math.cos(rad)-xx.get(i)[1]*Math.sin(rad));
             int newY=(int) (xx.get(i)[1]*Math.cos(rad)+xx.get(i)[0]*Math.sin(rad));
             toReturn.add(new int[]{newX, newY});
+        }
+        return toReturn;
+    }
+
+    private static ArrayList<int[]> flipUp(ArrayList<int[]> xx){
+        ArrayList<int[]> toReturn = new ArrayList<>();
+
+        for(int i=0;i<xx.size();i++){
+            int x = xx.get(i)[0];
+            int y = xx.get(i)[1];
+            if (y != 0){
+                y = -y;
+            }
+            toReturn.add(new int[]{x, y});
+        }
+        return toReturn;
+    }
+
+    private static ArrayList<int[]> flipRight(ArrayList<int[]> xx){
+        ArrayList<int[]> toReturn = new ArrayList<>();
+
+        for(int i=0;i<xx.size();i++){
+            int x = xx.get(i)[0];
+            int y = xx.get(i)[1];
+            if (x != 0){
+                x = -x;
+            }
+            toReturn.add(new int[]{x, y});
         }
         return toReturn;
     }
