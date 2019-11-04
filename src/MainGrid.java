@@ -68,7 +68,7 @@ public class MainGrid {
             String selectedPoint = ((JButton) e.getSource()).getName();
             Integer selectedPiece = GameEngine.getSelectedPiece();
 
-            if (selectedPiece != null) {//player turn would go here
+            if (selectedPiece != null) {
                 if(GameEngine.isLegal(selectedPoint)) {
                     int turn = GameEngine.getCurrentTurn();
                     placingPiece(turn, selectedPiece, selectedPoint);

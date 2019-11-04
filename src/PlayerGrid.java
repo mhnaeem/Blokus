@@ -13,6 +13,7 @@ public class PlayerGrid {
     private int playerIndex;
     private static HashMap<Integer, JButton[][]> playerGridButtonMap = new HashMap<>();
     private static HashMap<Integer, JPanel> playerGridPanelMap = new HashMap<>();
+    private boolean active = true;
 
     public PlayerGrid(int index) {
         this.playerIndex = index;
@@ -78,17 +79,14 @@ public class PlayerGrid {
 
     //Only to be called from the game engine class
     public static void disableOtherPlayerGrids(int player_index){
-        playerGridButtonMap.forEach((k,v) -> {
-            for (JButton[] jButtons : v) {
-                for (JButton jButton : jButtons) {
-                    if (k != player_index) {
-                        jButton.setEnabled(false);
-                    } else {
-                        jButton.setEnabled(true);
-                    }
-                }
+        for(int i=1;i<5;i++){
+            if (i!=player_index){
+                Player.getPlayer(i).getPlayerGrid().setActive(false);
             }
-        });
+            else {
+                Player.getPlayer(i).getPlayerGrid().setActive(true);
+            }
+        }
     }
 
     private void colorPieces() {
@@ -126,16 +124,24 @@ public class PlayerGrid {
         }
     }
 
+    public void setActive(boolean active){
+        this.active = active;
+    }
 
-    private class PlayerGridListener implements ActionListener {
+    private class PlayerGridListener implements ActionListener{
         @Override
-        public void actionPerformed(ActionEvent e) {
-            String btnName = ((JButton) e.getSource()).getName();
+        public final void actionPerformed(ActionEvent e){
+            if(active){
+                String btnName = ((JButton) e.getSource()).getName();
 
-            //TODO: Player turn is being set after the player has already clicked on the grid, change this.
-            //If player has clicked on it, then it is the player's turn
-            GameEngine.setSelectedPiece(Piece.getPieceMap().get(btnName));
-            new SelectedPiece(playerIndex, btnName, gridPanel);
+                //TODO: Player turn is being set after the player has already clicked on the grid, change this.
+                //If player has clicked on it, then it is the player's turn
+                GameEngine.setSelectedPiece(Piece.getPieceMap().get(btnName));
+                new SelectedPiece(playerIndex, btnName, gridPanel);
+            }
+            else {
+                //not player turn
+            }
         }
     }
 

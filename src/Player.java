@@ -52,6 +52,8 @@ public class Player {
         return this.availablePiecesIndexes;
     }
 
+    public PlayerGrid getPlayerGrid(){ return  this.playerGrid;}
+
     public void pieceUsed(int piece_index){
         this.availablePiecesIndexes.removeIf(value -> value == piece_index);
     }
