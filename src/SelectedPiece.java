@@ -44,7 +44,10 @@ public class SelectedPiece{
         this.pass = new JButton("Pass");
         this.pass.addActionListener(ev -> System.out.println("Pass button was pressed"));
         this.rotate = new JButton("Rotate");
-        this.rotate.addActionListener(ev -> rotateCounterClock(Piece.getActionsList(1)));
+        this.rotate.addActionListener(ev -> {
+            Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
+            displayPiece();
+        });
         this.flip = new JButton("Flip");
         this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
         this.back = new JButton("Back");
@@ -114,6 +117,15 @@ public class SelectedPiece{
 
 
     private void displayPiece(){
+        if(selectedButtonGrid != null){
+            for (int i = 0; i < selectedButtonGrid.length; i++) {
+                for (int j = 0; j < selectedButtonGrid[i].length; j++) {
+                    selectedButtonGrid[i][j].setBackground(Color.white);
+                    selectedButtonGrid[i][j].setIcon(null);
+                    selectedButtonGrid[i][j].setDisabledIcon(null);
+                }
+            }
+        }
         //These x and y represent the zero coordinates, all actions will be taken from these points
         int x = 2;
         int y = 2;
@@ -179,6 +191,6 @@ public class SelectedPiece{
         }
         return toReturn;
     }
-    }
+}
 
 

@@ -3,61 +3,65 @@ import java.util.*;
 import static java.util.Map.entry;
 
 public class Piece {
-    private static HashMap<Integer,ArrayList<int[]>> actionsListMap = createActionsListMap(); //piece number -> actionList[]
     private static HashMap<String,Integer> PIECE_MAP = createPieceMap(); //button coordinates to piece number
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number
     private static HashMap<Integer, ArrayList<String>> pieceNumberToStringMap = createPieceNumberToStringMap();
+    private static HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> playerPieceActionList = createActionsListMap();
 
     public Piece(){
 
     }
 
-    private static HashMap<Integer, ArrayList<int[]>> createActionsListMap(){
-        HashMap<Integer, ArrayList<int[]>> toReturn = new HashMap<>();
-        ArrayList<int[]> actionsList;
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0}));
-        toReturn.put(0,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0},new int[]{2,-1}));
-        toReturn.put(1,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0},new int[]{1,-1}));
-        toReturn.put(2,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,-1}));
-        toReturn.put(3,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{1,0},new int[]{1,1},new int[]{0,-1}));
-        toReturn.put(4,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,-1},new int[]{2,-1}));
-        toReturn.put(5,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{-1,1},new int[]{0,-1},new int[]{1,-1}));
-        toReturn.put(6,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,0},new int[]{-1,0}));
-        toReturn.put(7,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,0}));
-        toReturn.put(8,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,1},new int[]{1,-1}));
-        toReturn.put(9,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-1,1},new int[]{-1,0}));
-        toReturn.put(10,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,1},new int[]{-1,1}));
-        toReturn.put(11,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{-1,1},new int[]{1,0},new int[]{0,-1}));
-        toReturn.put(12,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-2,0},new int[]{-1,0}));
-        toReturn.put(13,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-1,0}));
-        toReturn.put(14,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{1,0}));
-        toReturn.put(15,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{1,0}));
-        toReturn.put(16,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0}));
-        toReturn.put(17,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,0},new int[]{2,0},new int[]{-1,0},new int[]{-2,0}));
-        toReturn.put(18,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,0},new int[]{-1,0}));
-        toReturn.put(19,actionsList);
-        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0}));
-        toReturn.put(20,actionsList);
-        return toReturn;
+    private static HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> createActionsListMap(){
+        HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> toReturnMaster = new HashMap<>();
+        for (int i = 1; i <= 4; i++) {
+            HashMap<Integer, ArrayList<int[]>> toReturn = new HashMap<>();
+            ArrayList<int[]> actionsList;
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0}));
+            toReturn.put(0,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0},new int[]{2,-1}));
+            toReturn.put(1,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0},new int[]{1,0},new int[]{2,0},new int[]{1,-1}));
+            toReturn.put(2,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,-1}));
+            toReturn.put(3,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{1,0},new int[]{1,1},new int[]{0,-1}));
+            toReturn.put(4,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,-1},new int[]{2,-1}));
+            toReturn.put(5,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{-1,1},new int[]{0,-1},new int[]{1,-1}));
+            toReturn.put(6,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,0},new int[]{-1,0}));
+            toReturn.put(7,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,0}));
+            toReturn.put(8,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,1},new int[]{1,-1}));
+            toReturn.put(9,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-1,1},new int[]{-1,0}));
+            toReturn.put(10,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{0,-1},new int[]{1,1},new int[]{-1,1}));
+            toReturn.put(11,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{-1,1},new int[]{1,0},new int[]{0,-1}));
+            toReturn.put(12,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-2,0},new int[]{-1,0}));
+            toReturn.put(13,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{-1,0}));
+            toReturn.put(14,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{0,1},new int[]{1,0}));
+            toReturn.put(15,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{1,0}));
+            toReturn.put(16,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0}));
+            toReturn.put(17,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,0},new int[]{2,0},new int[]{-1,0},new int[]{-2,0}));
+            toReturn.put(18,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,0},new int[]{-1,0}));
+            toReturn.put(19,actionsList);
+            actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{-1,0}));
+            toReturn.put(20,actionsList);
+            toReturnMaster.put(i, toReturn);
+        }
+        return toReturnMaster;
     }
 
     private static HashMap<Integer, ArrayList<String>> createPieceNumberToStringMap(){
@@ -182,11 +186,15 @@ public class Piece {
     }
 
     public static ArrayList<int[]> getActionsList(int piece_index){
-        if(actionsListMap.containsKey(piece_index)){
-            return actionsListMap.get(piece_index);
+        int currentPlayer = GameEngine.getCurrentTurn();
+
+        if(playerPieceActionList.containsKey(currentPlayer)){
+            if(playerPieceActionList.get(currentPlayer).containsKey(piece_index)){
+                return playerPieceActionList.get(currentPlayer).get(piece_index);
+            }
         }
         //JOptionPane.showMessageDialog(null, "Error in getActionsList, piece index not found");
-        System.out.println("Error in getActionsList, piece index not found");
+        System.out.println("Error in getActionsList, piece index, current player error not found");
         return null;
     }
 
@@ -218,6 +226,18 @@ public class Piece {
             toReturn.add(i);
         }
         return toReturn;
+    }
+
+    public static void setActionList(ArrayList<int[]> ar){
+        int currentPlayer = GameEngine.getCurrentTurn();
+
+        if(playerPieceActionList.containsKey(currentPlayer)){
+            if(playerPieceActionList.get(currentPlayer).containsKey(GameEngine.getSelectedPiece())){
+                playerPieceActionList.get(currentPlayer).put(GameEngine.getSelectedPiece(),ar);
+            }
+        }
+        //JOptionPane.showMessageDialog(null, "Error in getActionsList, piece index not found");
+        System.out.println("Error in setActionsList, piece index, current player error not found");
     }
 
 }
