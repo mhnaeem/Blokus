@@ -200,31 +200,28 @@ public class SelectedPiece{
         return toReturn;
     }
 
-    private static ArrayList<int[]> flipUp(ArrayList<int[]> xx){
+    private static ArrayList<int[]> flipUp(ArrayList<int[]> actionsList){
         ArrayList<int[]> toReturn = new ArrayList<>();
-
-        for(int i=0;i<xx.size();i++){
-            int x = xx.get(i)[0];
-            int y = xx.get(i)[1];
-            if (y != 0){
+        actionsList.forEach(action -> {
+            int y = action[1];
+            if (y != 0) {
                 y = -y;
             }
-            toReturn.add(new int[]{x, y});
-        }
+            toReturn.add(new int[]{action[0], y});
+        });
         return toReturn;
     }
 
-    private static ArrayList<int[]> flipRight(ArrayList<int[]> xx){
+    private static ArrayList<int[]> flipRight(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
-
-        for(int i=0;i<xx.size();i++){
-            int x = xx.get(i)[0];
-            int y = xx.get(i)[1];
+        actionList.forEach(action -> {
+            int x = action[0];
+            int y = action[1];
             if (x != 0){
                 x = -x;
             }
             toReturn.add(new int[]{x, y});
-        }
+        });
         return toReturn;
     }
 }
