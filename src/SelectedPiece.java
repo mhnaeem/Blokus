@@ -194,14 +194,9 @@ public class SelectedPiece{
         frm.dispose();
     }
 
-    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> xx){
+    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
-        double rad=90*Math.PI/180;
-        for(int i=0;i<xx.size();i++){
-            int newX=(int) (xx.get(i)[0]*Math.cos(rad)-xx.get(i)[1]*Math.sin(rad));
-            int newY=(int) (xx.get(i)[1]*Math.cos(rad)+xx.get(i)[0]*Math.sin(rad));
-            toReturn.add(new int[]{newX, newY});
-        }
+        actionList.forEach(action -> toReturn.add(new int[]{-action[1], action[0]}));
         return toReturn;
     }
 
