@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Selected Piece Screen for the Blokus Game
@@ -43,7 +44,7 @@ public class SelectedPiece{
         this.pass = new JButton("Pass");
         this.pass.addActionListener(ev -> System.out.println("Pass button was pressed"));
         this.rotate = new JButton("Rotate");
-        this.rotate.addActionListener(ev -> System.out.println("Rotate button was pressed"));
+        this.rotate.addActionListener(ev -> rotateCounterClock(Piece.getActionsList(1)));
         this.flip = new JButton("Flip");
         this.flip.addActionListener(ev -> System.out.println("Flip button was pressed"));
         this.back = new JButton("Back");
@@ -167,4 +168,17 @@ public class SelectedPiece{
     public static void pieceHasBeenPlacedEvent(){
         frm.dispose();
     }
-}
+
+    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> xx){
+        ArrayList<int[]> toReturn = new ArrayList<>();
+        double rad=90*Math.PI/180;
+        for(int i=0;i<xx.size();i++){
+            int newX=(int) (xx.get(i)[0]*Math.cos(rad)-xx.get(i)[1]*Math.sin(rad));
+            int newY=(int) (xx.get(i)[1]*Math.cos(rad)+xx.get(i)[0]*Math.sin(rad));
+            toReturn.add(new int[]{newX, newY});
+        }
+        return toReturn;
+    }
+    }
+
+
