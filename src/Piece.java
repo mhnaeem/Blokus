@@ -49,7 +49,7 @@ public class Piece {
         toReturn.put(15,actionsList);
         actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,-1},new int[]{0,-1},new int[]{1,0}));
         toReturn.put(16,actionsList);
-        actionsList = new ArrayList<>();
+        actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0}));
         toReturn.put(17,actionsList);
         actionsList = new ArrayList<>(Arrays.asList(new int[]{0,0},new int[]{1,0},new int[]{2,0},new int[]{-1,0},new int[]{-2,0}));
         toReturn.put(18,actionsList);
