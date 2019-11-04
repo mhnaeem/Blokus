@@ -8,13 +8,13 @@ public class Driver {
 
     public Driver(HashMap<Integer,Color> map, int count, int computer, int human,String difficulty, String scoring, Boolean isColorblind)
     {
-        Options ONE = new Options(isColorblind,difficulty,scoring,map);
+        new Options(true,"Easy","Basic",map);
         Player1 = new Player(1);
         Player2 = new Player(2);
         Player3 = new Player(3);
         Player4 = new Player(4);
-        new MainGrid();
-        JPanel mainGridPanel = MainGrid.getMainGridPanel();
+        JPanel mainGridPanel = new MainGrid().getMainGridPanel();
+        new Piece();
         new GameEngine();
         new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
     }
@@ -37,6 +37,11 @@ public class Driver {
         new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
     }
     public static void main(String[] args) {
-        new Driver();
+        HashMap<Integer, Color> map = new HashMap<>();
+        map.put(1,Color.RED);
+        map.put(2,Color.BLUE);
+        map.put(3,Color.YELLOW);
+        map.put(4,Color.GREEN);
+        new Driver(map,4,0,4,"Easy","Basic",true);
     }
 }
