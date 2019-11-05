@@ -42,17 +42,21 @@ public class GameEngine {
     }
 
     private static boolean isWithinGrid(String point, int[] action, JButton[][] grid){
-        int maxWidth = grid.length-1;
-        int maxHeight = grid[0].length-1;
+        int maxWidth = grid[1].length;
+        int maxHeight = grid[0].length;
 
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
 
-        if ( c+action[0] > maxWidth || c+action[0] < 0){
+        if ( c+action[0] >= maxWidth || c+action[0]<0){
+            System.out.println("test1");
             return false;
         }
-        if( r+action[1] > maxHeight || r+action[0] < 0){
+        if( r+action[1] >= maxHeight || r+action[1] < 0){
+            System.out.println(r+action[1]);
+            System.out.println(r+action[0]);
+            System.out.println("test2");
             return false;
         }
         return true;
