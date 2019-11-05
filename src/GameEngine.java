@@ -12,8 +12,6 @@ import java.util.HashMap;
  */
 public class GameEngine {
 
-    private static int testturn = 1;
-    private static boolean ret = false;
     private static Integer selectedPiece = null;
     private static HashMap<Integer,int[]> firstTurnMap = new HashMap<>();
     private static int[] turnOrder= GameEngine.calculateTurnOrder();
@@ -33,7 +31,7 @@ public class GameEngine {
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
                 //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
-                //System.out.println("Not a legal move");
+                System.out.println("Not a legal move");
                 return false;
             }
         }
@@ -377,7 +375,7 @@ public class GameEngine {
 
     public static Integer getSelectedPiece(){
         if(selectedPiece == null){
-            //System.out.println("Error in getSelectedPiece, no piece was selected");
+            System.out.println("Error in getSelectedPiece, no piece was selected");
             //JOptionPane.showMessageDialog(null,"Error in getSelectedPiece, no piece was selected");
         }
         return selectedPiece;
