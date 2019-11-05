@@ -15,8 +15,8 @@ public class Driver {
         Player4 = new Player(4);
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
         new Piece();
-        new GameEngine();
         new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
+        new GameEngine();
     }
 
     public Driver()
