@@ -32,6 +32,7 @@ public class Options {
         this.mapOfColors = mapOfColors;
     }
 
+
     private void setNumberOfPlayers(Integer number_of_players){ numberOfPlayers = number_of_players;}
 
     public static Boolean getIsColorblind(){

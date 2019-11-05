@@ -12,16 +12,23 @@ import java.util.HashMap;
  */
 public class GameEngine {
 
-    private static int currentTurn = 1;
     private static int testturn = 1;
     private static boolean ret = false;
     private static Integer selectedPiece = null;
-
+    private static HashMap<Integer,int[]> firstTurnMap = new HashMap<>();
+    private static int[] turnOrder= GameEngine.calculateTurnOrder();
+    private static int currentTurn = turnOrder[0];
+    private static int turn_index = 0;
+    public GameEngine(){
+        PlayerGrid.disableOtherPlayerGrids(currentTurn);
+    }
     public static boolean isLegal(String selectedPoint){
         JButton[][] grid = MainGrid.getMainGridButtons();
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
+
+
 
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
@@ -30,9 +37,13 @@ public class GameEngine {
                 return false;
             }
         }
-
-        playerScoring();
-        /*if (isEdge(selectedPoint) ||testturn<=4){
+        if(firstTurnMap.containsKey(currentTurn)){
+            return isOnStartingPoint(firstTurnMap.get(currentTurn),selectedPoint);
+        }
+        if ((isEdge(selectedPoint)&&!isSide(selectedPoint))){
+            return true;
+        }
+        if ((isLegalSide(selectedPoint))){
             return true;
         }
         else {
@@ -42,17 +53,17 @@ public class GameEngine {
     }
 
     private static boolean isWithinGrid(String point, int[] action, JButton[][] grid){
-        int maxWidth = grid.length-1;
-        int maxHeight = grid[0].length-1;
+        int maxWidth = grid[1].length;
+        int maxHeight = grid[0].length;
 
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
 
-        if ( c+action[0] > maxWidth || c+action[0] < 0){
+        if ( c+action[0] >= maxWidth || c+action[0]<0){
             return false;
         }
-        if( r+action[1] > maxHeight || r+action[0] < 0){
+        if( r+action[1] >= maxHeight || r+action[1] < 0){
             return false;
         }
         return true;
@@ -320,17 +331,48 @@ public class GameEngine {
         return currentTurn;
     }
 
-    //TODO: implement for two players and three players later
+    //TODO: implent three players and AI turn later
     public static void updateCurrentTurn(){
-        if (getCurrentTurn() == 4){
-            currentTurn = 1;
+        turn_index++;
+        if (turn_index >= 4){
+            turn_index=0;
         }
-        else {
-            currentTurn += 1;
-        }
-        testturn++;
+        currentTurn = turnOrder[turn_index];
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         selectedPiece = null;
+    }
+
+    private static int[] calculateTurnOrder() {
+        int first = 0, second = 0, third = 0, forth = 0;
+        for (int i = 1; i < 5; i++) {
+            Color color = Options.getColor(i);
+            if (color == Color.BLUE) {
+                first = i;
+            } else if (color == Color.YELLOW) {
+                second = i;
+            } else if (color == Color.RED) {
+                third = i;
+            } else if (color == Color.GREEN) {
+                forth = i;
+            }
+        }
+        firstTurnMap.put(first,(new int[]{0,19}));
+        firstTurnMap.put(second,(new int[]{19,19}));
+        firstTurnMap.put(third,(new int[]{19,0}));
+        firstTurnMap.put(forth,(new int[]{0,0}));
+        return (new int[]{first,second,third,forth});
+    }
+
+    private static boolean isOnStartingPoint(int[] array, String selectedPoint){
+        String[] strArr = selectedPoint.split(",");
+        int r = Integer.parseInt(strArr[0]);
+        int c = Integer.parseInt(strArr[1]);
+        for (int[] action : Piece.getActionsList(selectedPiece)){
+            if (((r+action[1]) == array[0]) && ((c+action[0])== array[1])){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Integer getSelectedPiece(){
@@ -345,32 +387,7 @@ public class GameEngine {
         selectedPiece = piece_index;
     }
 
-
-    public static HashMap<Integer, Integer> playerScoring()
-    {
-        int numPlayers = Options.getNumberOfPlayers();
-
-        HashMap<Integer, Integer> playerScoreList = new HashMap<>();
-
-        for (int h = 1; h <= numPlayers; h++)
-        {
-
-            JButton[][] playerPieces = PlayerGrid.getPlayerGridButtons(h);
-
-            int playerScore = 0;
-
-            for (int i = 0; i < playerPieces.length; i++) {
-                for (int j = 0; j < playerPieces[i].length; j++) {
-                    JButton playerGridCell = playerPieces[i][j];
-                    if (playerGridCell.isEnabled()) {
-                        playerScore += 1;
-                    }
-                }
-            }
-
-            playerScoreList.put(h, playerScore);
-        }
-        return playerScoreList;
+    public static void firstMoveEvent(){
+        firstTurnMap.remove(currentTurn);
     }
-
 }
