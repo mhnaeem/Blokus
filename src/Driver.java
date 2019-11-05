@@ -8,7 +8,7 @@ public class Driver {
 
     public Driver(HashMap<Integer,Color> map, int count, int computer, int human,String difficulty, String scoring, Boolean isColorblind)
     {
-        new Options(true,"Easy","Basic",map);
+        new Options(true,"Easy","Basic",map, count);
         Player1 = new Player(1);
         Player2 = new Player(2);
         Player3 = new Player(3);
@@ -26,7 +26,7 @@ public class Driver {
         map.put(2,Color.GREEN);
         map.put(3,Color.RED);
         map.put(4,Color.YELLOW);
-        Options ONE = new Options(true,"easy","String",map);
+        Options ONE = new Options(true,"easy","String",map, 4);
         Player1 = new Player(1);
         Player2 = new Player(2);
         Player3 = new Player(3);
