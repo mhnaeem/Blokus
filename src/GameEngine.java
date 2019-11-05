@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * GameEngine class:
@@ -29,16 +30,15 @@ public class GameEngine {
                 return false;
             }
         }
-        if ((isEdge(selectedPoint)&&!isSide(selectedPoint)) ||testturn<=4){
-            return true;
-        }
-        if ((isLegalSide(selectedPoint)) ||testturn<=4){
+
+        playerScoring();
+        /*if (isEdge(selectedPoint) ||testturn<=4){
             return true;
         }
         else {
             return false;
-        }
-        //return true;
+        }*/
+        return true;
     }
 
     private static boolean isWithinGrid(String point, int[] action, JButton[][] grid){
@@ -79,48 +79,15 @@ public class GameEngine {
         System.out.println("button(0,0) currently on " + selectedPoint);
         ArrayList<String> possibleEdges = calculateEdge(MainGrid.getMainGridButtons());
         ArrayList<String> pieceEdge = calculateSelectedPieceEdges(selectedPoint);
-        possibleEdges.forEach(button->System.out.println("possible edge"+button));
-        pieceEdge.forEach(button->System.out.println("piece edge"+button));
-        for(String button : pieceEdge){
-            if (possibleEdges.contains(button)){
-                return true;
+        for (String button : possibleEdges) {
+            System.out.println("possible edges" + button);
+            if (pieceEdge.contains(button)){
+            }
+            for (String button2 : pieceEdge){
+                System.out.println("piece edges " + button2);
             }
         }
-        return false;
-    }
-
-    private static boolean isSide(String selectedPoint) {
-        System.out.println("button(0,0) currently on " + selectedPoint);
-        ArrayList<String> possibleSides = calculateSide(MainGrid.getMainGridButtons());
-        ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
-        possibleSides.forEach(button->System.out.println("possible side"+button));
-        pieceSide.forEach(button->System.out.println("piece side"+button));
-        for(String button : pieceSide){
-            if (possibleSides.contains(button)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean isLegalSide(String selectedPoint) {
-        System.out.println("button(0,0) currently on " + selectedPoint);
-        ArrayList<String> IllegalSides = calculateSide(MainGrid.getMainGridButtons());
-        ArrayList<String> possibleSides = calculateLegalSide(MainGrid.getMainGridButtons());
-        ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
-        possibleSides.forEach(button->System.out.println("possible side"+button));
-        pieceSide.forEach(button->System.out.println("piece side"+button));
-        for(String button : pieceSide){
-            if (IllegalSides.contains(button)){
-                return false;
-            }
-        }
-        for(String button : pieceSide){
-            if (possibleSides.contains(button)){
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     private static ArrayList<String> calculateEdge(JButton[][] grid) {
@@ -170,7 +137,7 @@ public class GameEngine {
         ArrayList<String> toReturn = new ArrayList<>();
         ArrayList<int[]> actions = new ArrayList<>();
         for (int[] action : Piece.getActionsList(selectedPiece)){
-            actions.add(new int[]{r+action[1],c+action[0]});
+            actions.add(new int[]{r+action[0],c+action[1]});
         }
         actions.forEach(array->{
             int x = array[0];
@@ -180,7 +147,7 @@ public class GameEngine {
                     toReturn.add(new String(x+","+y));
                 }
             }
-            if (!actions.contains(new int[]{x-1,y}) && !actions.contains(new int[]{x,y+1})){
+            if (!actions.contains(new int[]{x,y+1}) && !actions.contains(new int[]{x,y+1})){
                 if (!toReturn.contains(new String(x+","+y))){
                     toReturn.add(new String(x+","+y));
                 }
@@ -199,122 +166,9 @@ public class GameEngine {
         return toReturn;
     }
 
-    private static ArrayList<String> calculateSide(JButton[][] grid) {
-        ArrayList<String> toReturn = new ArrayList<>();
-        Color color = Options.getColor(currentTurn);
-        int row = grid[0].length;
-        int col = grid[1].length;
-        for (int r = 0; r < row; r++) {
-            for (int c = 0; c < col; c++) {
-                if (r-1>=0) {
-                    if ((grid[r-1][c].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains(new String((r-1)+","+(c)))){
-                            toReturn.add(new String((r-1)+","+(c)));
-                        }
-                    }
-                }
-                if (c-1>=0) {
-                    if  ((grid[r][c-1].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r)+","+(c-1))))){
-                            toReturn.add((new String((r) + "," + (c - 1))));
-                        }
-                    }
-                }
-                if (c+1<col) {
-                    if  ((grid[r][c+1].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r)+","+(c+1))))){
-                            toReturn.add((new String((r)+","+(c+1))));
-                        }
-                    }
-                }
-                if (r+1<row) {
-                    if  ((grid[r+1][c].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r+1)+","+(c))))){
-                            toReturn.add((new String((r+1)+","+(c))));
-                        }
-                    }
-                }
-            }
-        }
-        return toReturn;
+    private static boolean isSide(String selectedPoint, JButton[][] grid){
+        return false;
     }
-
-    private static ArrayList<String> calculateLegalSide(JButton[][] grid) {
-        ArrayList<String> toReturn = new ArrayList<>();
-        Color color = Options.getColor(currentTurn);
-        int row = grid[0].length;
-        int col = grid[1].length;
-        for (int r = 0; r < row; r++) {
-            for (int c = 0; c < col; c++) {
-                if (r-1>=0) {
-                    if ((grid[r-1][c].isEnabled()) && (!grid[r][c].isEnabled()&& (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains(new String((r-1)+","+(c)))){
-                            toReturn.add(new String((r-1)+","+(c)));
-                        }
-                    }
-                }
-                if (c-1>=0) {
-                    if  ((grid[r][c-1].isEnabled()) && (!grid[r][c].isEnabled()&& (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r)+","+(c-1))))){
-                            toReturn.add((new String((r) + "," + (c - 1))));
-                        }
-                    }
-                }
-                if (c+1<col) {
-                    if  ((grid[r][c+1].isEnabled()) && (!grid[r][c].isEnabled()&& (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r)+","+(c+1))))){
-                            toReturn.add((new String((r)+","+(c+1))));
-                        }
-                    }
-                }
-                if (r+1<row) {
-                    if  ((grid[r+1][c].isEnabled()) && (!grid[r][c].isEnabled()&& (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r+1)+","+(c))))){
-                            toReturn.add((new String((r+1)+","+(c))));
-                        }
-                    }
-                }
-            }
-        }
-        return toReturn;
-    }
-
-    private static ArrayList<String> calculateSelectedPieceSide(String selectedPoint){
-        String[] strArr = selectedPoint.split(",");
-        int r = Integer.parseInt(strArr[0]);
-        int c = Integer.parseInt(strArr[1]);
-        ArrayList<String> toReturn = new ArrayList<>();
-        ArrayList<int[]> actions = new ArrayList<>();
-        for (int[] action : Piece.getActionsList(selectedPiece)){
-            actions.add(new int[]{r+action[1],c+action[0]});
-        }
-        actions.forEach(array->{
-            int x = array[0];
-            int y = array[1];
-            if (!actions.contains(new int[]{x-1,y})){
-                if (!toReturn.contains(new String(x+","+y))){
-                    toReturn.add(new String(x+","+y));
-                }
-            }
-            if (!actions.contains(new int[]{x,y-1})){
-                if (!toReturn.contains(new String(x+","+y))){
-                    toReturn.add(new String(x+","+y));
-                }
-            }
-            if (!actions.contains(new int[]{x,y+1})){
-                if (!toReturn.contains(new String(x+","+y))){
-                    toReturn.add(new String(x+","+y));
-                }
-            }
-            if (!actions.contains(new int[]{x+1,y})){
-                if (!toReturn.contains(new String(x+","+y))){
-                    toReturn.add(new String(x+","+y));
-                }
-            }
-        });
-        return toReturn;
-    }
-
 
     public static int getCurrentTurn(){
         return currentTurn;
@@ -344,4 +198,33 @@ public class GameEngine {
     public static void setSelectedPiece(Integer piece_index){
         selectedPiece = piece_index;
     }
+
+
+    public static HashMap<Integer, Integer> playerScoring()
+    {
+        int numPlayers = Options.getNumberOfPlayers();
+
+        HashMap<Integer, Integer> playerScoreList = new HashMap<>();
+
+        for (int h = 1; h <= numPlayers; h++)
+        {
+
+            JButton[][] playerPieces = PlayerGrid.getPlayerGridButtons(h);
+
+            int playerScore = 0;
+
+            for (int i = 0; i < playerPieces.length; i++) {
+                for (int j = 0; j < playerPieces[i].length; j++) {
+                    JButton playerGridCell = playerPieces[i][j];
+                    if (playerGridCell.isEnabled()) {
+                        playerScore += 1;
+                    }
+                }
+            }
+
+            playerScoreList.put(h, playerScore);
+        }
+        return playerScoreList;
+    }
+
 }
