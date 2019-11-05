@@ -48,52 +48,56 @@ public class About extends JFrame {
 
 
     private void setupTopLeftButtonPanel(){
-        //        buttonPanel for projectInfo and gameInfo
         Dimension btnSize = new Dimension(180, 50);
-        gameInfoButton = new JButton("Game Information");
-        projectInfoButton = new JButton("Project Information");
-
-        gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
-        projectInfoButton.addActionListener(x -> projectInfoButtonEvent());
-
 
         JPanel buttonPan = new JPanel();
         buttonPan.setPreferredSize(new Dimension(200, 120));
+
+        gameInfoButton = new JButton("Game Information");
+        projectInfoButton = new JButton("Project Information");
+
+        // Added functionality to buttons
+        gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
+        projectInfoButton.addActionListener(x -> projectInfoButtonEvent());
+
         gameInfoButton.setPreferredSize(btnSize);
         projectInfoButton.setPreferredSize(btnSize);
+
         buttonPan.add(gameInfoButton);
         buttonPan.add(projectInfoButton);
         buttonPan.setBorder(new EmptyBorder(0, 0, 0, 30));
 
-
         topPanel.add(buttonPan);
+    }
+
+    private void setupTopRightAboutPanel(){
+        JPanel aboutPanel = new JPanel();
+
+        about = new JLabel("About");
+        about.setFont(new Font(Font.SERIF, Font.BOLD, 50));
+
+        aboutPanel.add(about);
+        aboutPanel.setBorder(new EmptyBorder(40, 0, 0, 20));
+
+        topPanel.add(aboutPanel);
+        fullPanel.add(topPanel, BorderLayout.NORTH);
     }
 
 
 
     private void setupTopPanel() {
         topPanel = new JPanel();
-
-        setupTopLeftButtonPanel();
-
-        about = new JLabel("About");
         topPanel.setBorder(new EmptyBorder(0, 10, 20, 10));
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
-        // Putting Load Game Label on Top Panel
-        about.setFont(new Font(Font.SERIF, Font.BOLD, 50));
-        JPanel aboutPanel = new JPanel();
-        aboutPanel.add(about);
-        aboutPanel.setBorder(new EmptyBorder(40, 0, 0, 20));
-        topPanel.add(aboutPanel);
-        fullPanel.add(topPanel, BorderLayout.NORTH);
+        setupTopLeftButtonPanel();
+        setupTopRightAboutPanel();
+
     }
 
     private void setupMiddlePanel(){
-//        Dimension panelSize = new Dimension(500, 200);
         middlePanel = new JPanel(new BorderLayout());
         middlePanel.setBorder(new EmptyBorder(0, 40, 0, 30));
-//        middlePanel.setSize(panelSize);
 
         text = "<html><p>Blokus is an abstract strategy board game for two to four players, where players try to score points by occupying most of the board with pieces of their colour. " +
                 "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
