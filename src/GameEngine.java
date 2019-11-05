@@ -25,7 +25,7 @@ public class GameEngine {
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
                 //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
-                System.out.println("Not a legal move");
+                //System.out.println("Not a legal move");
                 return false;
             }
         }
@@ -73,12 +73,16 @@ public class GameEngine {
 
 
     private static boolean isEdge(String selectedPoint) {
-        System.out.println("button currently on " + selectedPoint);
+        System.out.println("button(0,0) currently on " + selectedPoint);
         ArrayList<String> possibleEdges = calculateEdge(MainGrid.getMainGridButtons());
-        possibleEdges.forEach(s -> System.out.println("possible" + s));
         ArrayList<String> pieceEdge = calculateSelectedPieceEdges(selectedPoint);
         for (String button : possibleEdges) {
-            System.out.println("possible test" + button);
+            System.out.println("possible edges" + button);
+            if (pieceEdge.contains(button)){
+            }
+            for (String button2 : pieceEdge){
+                System.out.println("piece edges " + button2);
+            }
         }
         return true;
     }
@@ -92,22 +96,30 @@ public class GameEngine {
             for (int c = 0; c < col; c++) {
                 if (c-1>=0&&r-1>=0) {
                     if ((grid[r][c-1].isEnabled() && grid[r-1][c].isEnabled() && grid[r-1][c-1].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        toReturn.add(new String((r-1)+","+(c-1)));
+                        if (!toReturn.contains(new String((r-1)+","+(c-1)))){
+                            toReturn.add(new String((r-1)+","+(c-1)));
+                        }
                     }
                 }
                 if (c+1<col&&r-1>=0) {
                     if  ((grid[r][c+1].isEnabled() && grid[r-1][c].isEnabled() && grid[r-1][c+1].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        toReturn.add((new String((r-1)+","+(c+1))));
+                        if (!toReturn.contains((new String((r-1)+","+(c+1))))){
+                            toReturn.add((new String((r - 1) + "," + (c + 1))));
+                        }
                     }
                 }
                 if (c-1>=0&&r+1<row) {
                     if  ((grid[r][c-1].isEnabled() && grid[r+1][c].isEnabled() && grid[r+1][c-1].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        toReturn.add((new String((r+1)+","+(c-1))));
+                        if (!toReturn.contains((new String((r+1)+","+(c-1))))){
+                            toReturn.add((new String((r+1)+","+(c-1))));
+                        }
                     }
                 }
                 if (c+1<col&&r+1<row) {
                     if  ((grid[r][c+1].isEnabled() && grid[r+1][c+1].isEnabled() && grid[r+1][c].isEnabled()) && (!grid[r][c].isEnabled()&& (grid[r][c].getBackground().equals(color)))) {
-                        toReturn.add((new String((r+1)+","+(c+1))));
+                        if (!toReturn.contains((new String((r+1)+","+(c+1))))){
+                            toReturn.add((new String((r+1)+","+(c+1))));
+                        }
                     }
                 }
             }
@@ -128,16 +140,24 @@ public class GameEngine {
             int x = array[0];
             int y = array[1];
             if (!actions.contains(new int[]{x,y-1}) && !actions.contains(new int[]{x-1,y})){
-                toReturn.add(new String(x+","+y));
+                if (!toReturn.contains(new String(x+","+y))){
+                    toReturn.add(new String(x+","+y));
+                }
             }
-            if (!actions.contains(new int[]{x,y+1}) && !actions.contains(new int[]{x-1,y})){
-                toReturn.add(new String(x+","+y));
+            if (!actions.contains(new int[]{x,y+1}) && !actions.contains(new int[]{x,y+1})){
+                if (!toReturn.contains(new String(x+","+y))){
+                    toReturn.add(new String(x+","+y));
+                }
             }
             if (!actions.contains(new int[]{x,y-1}) && !actions.contains(new int[]{x+1,y})){
-                toReturn.add(new String(x+","+y));
+                if (!toReturn.contains(new String(x+","+y))){
+                    toReturn.add(new String(x+","+y));
+                }
             }
             if (!actions.contains(new int[]{x,y+1}) && !actions.contains(new int[]{x+1,y})){
-                toReturn.add(new String(x+","+y));
+                if (!toReturn.contains(new String(x+","+y))){
+                    toReturn.add(new String(x+","+y));
+                }
             }
         });
         return toReturn;
@@ -166,7 +186,7 @@ public class GameEngine {
 
     public static Integer getSelectedPiece(){
         if(selectedPiece == null){
-            System.out.println("Error in getSelectedPiece, no piece was selected");
+            //System.out.println("Error in getSelectedPiece, no piece was selected");
             //JOptionPane.showMessageDialog(null,"Error in getSelectedPiece, no piece was selected");
         }
         return selectedPiece;
