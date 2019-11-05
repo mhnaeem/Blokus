@@ -18,12 +18,14 @@ import javax.swing.border.EmptyBorder;
 
 public class GameOver extends JFrame{
     private Container contentPane = getContentPane();
-    private JPanel fullPanel, topPanel, bottomPanel;
-    private JLabel gameOver;
+    private JPanel fullPanel, topPanel, middlePanel, bottomPanel;
+    private JLabel gameOver,paragraph;
     private JMenuBar menu;
     private JMenu file,about;
     private JMenuItem playAgain,exit;
     private JButton exitButton,playAgainButton;
+    private String text;
+    private int playerNum;
 
 
 
@@ -33,6 +35,7 @@ public class GameOver extends JFrame{
         fullPanel=new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
         setupTopPanel();
+        setupMiddlePanel();
         setupBottomPanel();
         contentPane.add(fullPanel);
         createMenu();
@@ -57,7 +60,7 @@ public class GameOver extends JFrame{
 
         file.add(playAgain);
         file.add(exit);
-        playAgain.addActionListener(x->playAgain());
+        playAgain.addActionListener(x-> playAgainEvent());
         exit.addActionListener(x->exitEvent());
         about.addActionListener(x->aboutEvent());
         menu.add(file);
@@ -79,7 +82,19 @@ public class GameOver extends JFrame{
         fullPanel.add(topPanel, BorderLayout.NORTH);
     }
 
+    private void setupMiddlePanel(){
+        middlePanel = new JPanel();
+        middlePanel.setBorder(new EmptyBorder(20, 40, 30, 30));
 
+        playerNum=3;
+        text ="<html><p> Player " +playerNum+" won the game.</p></html>";
+
+        paragraph=new JLabel(text);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+
+        middlePanel.add(paragraph);
+        topPanel.add(middlePanel);
+    }
     private void setupBottomPanel() {
 
         Dimension btnSize = new Dimension(100, 50);
@@ -101,6 +116,7 @@ public class GameOver extends JFrame{
         bottomPanel.add(exitButton);
         fullPanel.add(bottomPanel, BorderLayout.CENTER);
 
+        playAgainButton.addActionListener(x-> playAgainEvent());
         exitButton.addActionListener(x -> exitEvent());
     }
 
@@ -113,7 +129,7 @@ public class GameOver extends JFrame{
         System.exit(0);
     }
 
-    private void playAgain(){
+    private void playAgainEvent(){
         System.out.println("Clicked on Play Again menu button.");
     }
 

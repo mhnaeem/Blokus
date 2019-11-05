@@ -77,6 +77,44 @@ public class GameGUI extends JFrame {
         setVisible(true);
     }
 
+    private void createMenu()
+    {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu file = new JMenu("File");
+        JMenu about = new JMenu("About");
+        JMenu help = new JMenu("Help");
+
+        JMenuItem reset = new JMenuItem("Reset");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem newGame = new JMenuItem("New Game");
+        JMenuItem howTo = new JMenuItem("How To");
+
+        menuBar.add(file);
+        menuBar.add(about);
+        menuBar.add(help);
+
+        file.add(reset);
+        file.add(load);
+        file.add(newGame);
+        help.add(howTo);
+
+        newGame.addActionListener(x -> newGameEvent());
+        howTo.addActionListener(x -> howToEvent());
+        setJMenuBar(menuBar);
+    }
+
+    private void howToEvent()
+    {
+        new HelpDetails("game");
+    }
+
+    private void newGameEvent(){
+        this.dispose();
+        new CreateGame();
+    }
+
+
 
     private void createPlayingPieces() {
 
