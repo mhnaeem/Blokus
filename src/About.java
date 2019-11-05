@@ -29,7 +29,7 @@ public class About extends JFrame {
 
         //Setting layouts of all the panel
         fullPanel = new JPanel(new BorderLayout());
-        fullPanel.setBorder(new EmptyBorder(20, 10, 50, 10));
+        fullPanel.setBorder(new EmptyBorder(30, 10, 30, 10));
 
         setupTopPanel();
         setupMiddlePanel();
@@ -47,9 +47,35 @@ public class About extends JFrame {
 
 
 
+    private void setupTopLeftButtonPanel(){
+        //        buttonPanel for projectInfo and gameInfo
+        Dimension btnSize = new Dimension(180, 50);
+        gameInfoButton = new JButton("Game Information");
+        projectInfoButton = new JButton("Project Information");
+
+        gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
+        projectInfoButton.addActionListener(x -> projectInfoButtonEvent());
+
+
+        JPanel buttonPan = new JPanel();
+        buttonPan.setPreferredSize(new Dimension(200, 120));
+        gameInfoButton.setPreferredSize(btnSize);
+        projectInfoButton.setPreferredSize(btnSize);
+        buttonPan.add(gameInfoButton);
+        buttonPan.add(projectInfoButton);
+        buttonPan.setBorder(new EmptyBorder(0, 0, 0, 30));
+
+
+        topPanel.add(buttonPan);
+    }
+
+
 
     private void setupTopPanel() {
         topPanel = new JPanel();
+
+        setupTopLeftButtonPanel();
+
         about = new JLabel("About");
         topPanel.setBorder(new EmptyBorder(0, 10, 20, 10));
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
@@ -58,28 +84,7 @@ public class About extends JFrame {
         about.setFont(new Font(Font.SERIF, Font.BOLD, 50));
         JPanel aboutPanel = new JPanel();
         aboutPanel.add(about);
-
-
-//        buttonPanel for projectInfo and gameInfo
-        Dimension btnSize = new Dimension(180, 50);
-        projectInfoButton = new JButton("Project Information");
-        gameInfoButton = new JButton("Game Information");
-
-        projectInfoButton.addActionListener(x -> projectInfoButtonEvent());
-        gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
-
-
-
-        JPanel buttonPan = new JPanel();
-        buttonPan.setPreferredSize(new Dimension(200, 120));
-        projectInfoButton.setPreferredSize(btnSize);
-        gameInfoButton.setPreferredSize(btnSize);
-        buttonPan.add(projectInfoButton);
-        buttonPan.add(gameInfoButton);
-        buttonPan.setBorder(new EmptyBorder(0, 0, 0, 50));
-
-
-        topPanel.add(buttonPan);
+        aboutPanel.setBorder(new EmptyBorder(40, 0, 0, 20));
         topPanel.add(aboutPanel);
         fullPanel.add(topPanel, BorderLayout.NORTH);
     }
@@ -87,16 +92,16 @@ public class About extends JFrame {
     private void setupMiddlePanel(){
 //        Dimension panelSize = new Dimension(500, 200);
         middlePanel = new JPanel(new BorderLayout());
-        middlePanel.setBorder(new EmptyBorder(0, 10, 0, 10));
+        middlePanel.setBorder(new EmptyBorder(0, 40, 0, 30));
 //        middlePanel.setSize(panelSize);
 
         text = "<html><p>Blokus is an abstract strategy board game for two to four players, where players try to score points by occupying most of the board with pieces of their colour. " +
                 "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
-                "It has won several awards, including the Mensa Select award and the 2004 Teacher's Choice Award. </p></html>" +
-                "In 2009, the game was sold to Mattel.";
+                "In 2009, the game was sold to Mattel. </p></html>";
+
         paragraph=new JLabel(text);
-//        paragraph.setEditable(false);
-//        paragraph.setLineWrap(true);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+
         middlePanel.add(paragraph,BorderLayout.CENTER);
         fullPanel.add(middlePanel, BorderLayout.CENTER);
 
@@ -141,11 +146,38 @@ public class About extends JFrame {
     }
 
     private void projectInfoButtonEvent(){
-        System.out.println("Clicked Project Information Button!");
+        text="<html>" +"This is the Blokus game implemented for a software engineering course."+
+                "<p>\n" +
+                "Project Name: Blokus Game </br>\n" +
+                "Project Type: Group Project </br>\n" +
+                "Group Number: Group 9 </br>\n" +
+                "Course: COMP 2005 - Software Engineering </br>\n" +
+                "Instructor: Mark Hatcher as [mhatcher] </br>\n" +
+                "Teaching Assistants: </br>\n" +
+                "<ol>\n" +
+                "  <li>Ali Mohammad Saheb Alfosool as [alfosool] </li>\n" +
+                "  <li>Samira Saki as [Samira63] </li>\n" +
+                "</ol>\n" +
+                "</br>\n" +
+                "Member Names: </p>\n" +
+                "<ol>\n" +
+                "  <li>Muhammad Hammad as [mhnaeem]</li>\n" +
+                "  <li>Abdur Rahman Abul Hossain as [Rifat1]</li>\n" +
+                "  <li>Muhammad Uwais Jahmeerbacus as [uwaisj241299]</li>\n" +
+                "  <li>Zachary S. Cheema as [Sakif-Max-Flex]</li>\n" +
+                "  <li>Zoe S. Collins as [zscollins]</li>\t\n" +
+                "</ol></html>\n";
+
+        paragraph.setText(text);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
     }
 
     private void gameInfoButtonEvent(){
-        System.out.println("Clicked Game Information Button!");
+        text = "<html><p>Blokus is an abstract strategy board game for two to four players, where players try to score points by occupying most of the board with pieces of their colour. " +
+                "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
+                "In 2009, the game was sold to Mattel. </p></html>";
+        paragraph.setText(text);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
 
     public static void main(String[] args) {
