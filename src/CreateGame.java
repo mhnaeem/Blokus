@@ -21,8 +21,8 @@ public class CreateGame extends JFrame {
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
     private JMenuBar menu;
-    private JMenu file,about;
-    private JMenuItem reset,load,exit;
+    private JMenu file,about, help;
+    private JMenuItem reset,load,exit, howTo;
     private JButton start,back;
     private Border innerBorder,outerBorder;
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -55,17 +55,22 @@ public class CreateGame extends JFrame {
         menu = new JMenuBar();
         file = new JMenu("File");
         about = new JMenu("About");
+        help = new JMenu("Help");
         reset = new JMenuItem("Reset");
         load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
+        howTo = new JMenuItem("How To");
         menu.add(file);
         menu.add(about);
+        menu.add(help);
         file.add(reset);
         file.add(load);
         file.add(exit);
+        help.add(howTo);
         reset.addActionListener(x->resetEvent());
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
+        howTo.addActionListener(x -> howToEvent());
         setJMenuBar(menu);
     }
 
@@ -520,6 +525,11 @@ public class CreateGame extends JFrame {
      * displays About Blokus Game
      * TODO about event
      */
+
+    private void howToEvent()
+    {
+        new HelpDetails("create");
+    }
     private void aboutEvent(){
     }
 
