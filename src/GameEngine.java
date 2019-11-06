@@ -381,6 +381,10 @@ public class GameEngine {
         return selectedPiece;
     }
 
+    public static int getTurnOrder(int index){
+        return turnOrder[index];
+    }
+
     public static void setSelectedPiece(Integer piece_index){
         selectedPiece = piece_index;
     }

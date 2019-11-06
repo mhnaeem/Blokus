@@ -41,12 +41,12 @@ public class GameGUI extends JFrame {
 
     private HashMap<Color,Component> componentMap = new HashMap<>();
 
-    public GameGUI(JPanel player1Panel, JPanel player2Panel, JPanel player3Panel, JPanel player4Panel, JPanel GridPanel){
+    public GameGUI(JPanel GridPanel){
 
-        listOfPiecesPanels.add(player1Panel);
-        listOfPiecesPanels.add(player2Panel);
-        listOfPiecesPanels.add(player3Panel);
-        listOfPiecesPanels.add(player4Panel);
+        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(3)).createGrid());
+        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(0)).createGrid());
+        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(2)).createGrid());
+        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(1)).createGrid());
 
         leftPiecesPanel = new JPanel();
         rightPiecesPanel = new JPanel();
@@ -117,18 +117,18 @@ public class GameGUI extends JFrame {
 
 
     private void createPlayingPieces() {
-
+        int[] array = {3,0,2,1};
         //TODO: what happens when there are two players or one player.
         for (int i = 0; i < 4; i++){
             JPanel tempPnl = listOfPiecesPanels.get(i);
             tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));
             //This is naming every panel of pieces for its player
-            tempPnl.setName("Player " + Integer.toString(i+1));
+            tempPnl.setName(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
         }
 
         JLabel[] playerLabels = new JLabel[4];
         for (int i = 0; i < 4; i++){
-            JLabel tempLabel = new JLabel("Player " + Integer.toString(i+1));
+            JLabel tempLabel = new JLabel(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
             tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
             playerLabels[i] = tempLabel;
         }

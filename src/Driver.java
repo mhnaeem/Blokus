@@ -15,7 +15,7 @@ public class Driver {
         Player4 = new Player(4);
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
         new Piece();
-        new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
+        new GameGUI(mainGridPanel);
         new GameEngine();
     }
 
@@ -34,7 +34,7 @@ public class Driver {
         new MainGrid();
         JPanel mainGridPanel = MainGrid.getMainGridPanel();
         new GameEngine();
-        new GameGUI(Player1.createGrid(),Player2.createGrid(),Player3.createGrid(),Player4.createGrid(),mainGridPanel);
+        new GameGUI(mainGridPanel);
     }
     public static void main(String[] args) {
         HashMap<Integer, Color> map = new HashMap<>();
