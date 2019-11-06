@@ -12,28 +12,27 @@ import java.awt.*;
  * Exit button;
  *
  * @author (Abdur Rahman Abul Hossain)
- * @version (Version 1.1)
+ * @version (Version 1.2)
  */
 
 
 public class About extends JFrame {
     private Container contentPane = getContentPane();
-    private JPanel fullPanel, topPanel, bottomPanel,middlePanel;
+    private JPanel fullPanel, topPanel, exitPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
     private JLabel about,paragraph;
-    private JButton exitButton, projectInfoButton, gameInfoButton;
+    private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton;
     private String text;
 
 
 
     public About(){
 
-        //Setting layouts of all the panel
-        fullPanel = new JPanel(new BorderLayout());
-        fullPanel.setBorder(new EmptyBorder(30, 10, 30, 10));
 
+        createButtons();
+        setLayoutsOfAllPanels();
         setupTopPanel();
-        setupMiddlePanel();
-        setupBottomPanel();
+        setupParagraphPanel();
+        setupExitPanel();
 
         contentPane.add(fullPanel);
 
@@ -47,14 +46,77 @@ public class About extends JFrame {
 
 
 
-    private void setupTopLeftButtonPanel(){
-        Dimension btnSize = new Dimension(180, 50);
 
-        JPanel buttonPan = new JPanel();
-        buttonPan.setPreferredSize(new Dimension(200, 120));
+    /**
+     * This function does the following:
+     * Creates gameInfoButton and ProjectInfoButton for topLeftButtonPanel
+     * Creates disclaimerButton and exitButton for exitPanel
+     */
+    private void createButtons(){
 
+        //for topLeftButtonPanel
         gameInfoButton = new JButton("Game Information");
         projectInfoButton = new JButton("Project Information");
+
+        //for exitPanel
+        disclaimerButton=new JButton("Disclaimer");
+        exitButton = new JButton("Exit");
+
+    }
+
+
+
+
+    /**
+     * This function does the following:
+     * Sets layout of the fullPanel
+     * Sets layout of the topLeftButtonPanel
+     * Sets layout of the topRightAboutPanel
+     * Sets layout of the topPanel
+     * Sets layout of the paragraphPanel
+     * Sets layout of the exitPanel
+     */
+    private void setLayoutsOfAllPanels(){
+
+        //Adding layout of the fullPanel
+        fullPanel = new JPanel(new BorderLayout());
+        fullPanel.setBorder(new EmptyBorder(30, 10, 30, 10));
+
+        //Adding layout of the topLeftButtonPanel
+        topLeftButtonPanel = new JPanel();
+        topLeftButtonPanel.setPreferredSize(new Dimension(200, 120));
+        topLeftButtonPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
+
+        //Adding layout of the topRightAboutPanel
+        topRightAboutPanel = new JPanel();
+        topRightAboutPanel.setBorder(new EmptyBorder(40, 0, 0, 20));
+
+        //Adding layout of the topPanel
+        topPanel = new JPanel();
+        topPanel.setBorder(new EmptyBorder(0, 10, 20, 10));
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+
+        //Adding layout of the paragraphPanel
+        paragraphPanel = new JPanel(new BorderLayout());
+        paragraphPanel.setBorder(new EmptyBorder(0, 40, 0, 30));
+
+        //Adding layout of the exitPanel
+        exitPanel = new JPanel(new FlowLayout());
+
+    }
+
+
+
+
+    /**
+     * This function does the following:
+     * adds actionListeners to gameInfoButton and projectInfoButton buttons
+     * adds both buttons to topLeftButtonPanel
+     * adds topLeftButtonPanel to topPanel
+     */
+    private void setupTopLeftButtonPanel(){
+
+        Dimension btnSize = new Dimension(180, 50);
 
         // Added functionality to buttons
         gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
@@ -63,41 +125,61 @@ public class About extends JFrame {
         gameInfoButton.setPreferredSize(btnSize);
         projectInfoButton.setPreferredSize(btnSize);
 
-        buttonPan.add(gameInfoButton);
-        buttonPan.add(projectInfoButton);
-        buttonPan.setBorder(new EmptyBorder(0, 0, 0, 30));
+        topLeftButtonPanel.add(gameInfoButton);
+        topLeftButtonPanel.add(projectInfoButton);
 
-        topPanel.add(buttonPan);
+        topPanel.add(topLeftButtonPanel);
     }
 
+
+
+
+    /**
+     * This function does the following:
+     * adds About label to topRightAboutPanel
+     * adds topRightAboutPanel to topPanel
+     */
     private void setupTopRightAboutPanel(){
-        JPanel aboutPanel = new JPanel();
 
         about = new JLabel("About");
         about.setFont(new Font(Font.SERIF, Font.BOLD, 50));
 
-        aboutPanel.add(about);
-        aboutPanel.setBorder(new EmptyBorder(40, 0, 0, 20));
+        topRightAboutPanel.add(about);
 
-        topPanel.add(aboutPanel);
-        fullPanel.add(topPanel, BorderLayout.NORTH);
+        topPanel.add(topRightAboutPanel);
     }
 
 
 
-    private void setupTopPanel() {
-        topPanel = new JPanel();
-        topPanel.setBorder(new EmptyBorder(0, 10, 20, 10));
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
+    /**
+     * This function does the following:
+     * adds topLeftButtonPanel and topRightAboutPanel to topPanel by
+     * calling setupTopLeftButtonPanel() and setupTopRightAboutPanel()
+     * adds topPanel to fullPanel
+     */
+    private void setupTopPanel() {
+
+        //Adds Game Information button and Project Information Button to topLeftButtonPanel
         setupTopLeftButtonPanel();
+
+        //Adds About label to topLeftAboutPanel
         setupTopRightAboutPanel();
 
+        //adding topPanel to full Panel
+        fullPanel.add(topPanel, BorderLayout.NORTH);
+
     }
 
-    private void setupMiddlePanel(){
-        middlePanel = new JPanel(new BorderLayout());
-        middlePanel.setBorder(new EmptyBorder(0, 40, 0, 30));
+
+
+
+    /**
+     * This function does the following:
+     * adds Game Information to text variable
+     * adds text variable to paragraph label
+     */
+    private void setupParagraphPanel(){
 
         text = "<html><p>Blokus is an abstract strategy board game for two to four players, where players try to score points by occupying most of the board with pieces of their colour. " +
                 "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
@@ -106,41 +188,80 @@ public class About extends JFrame {
         paragraph=new JLabel(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 
-        middlePanel.add(paragraph,BorderLayout.CENTER);
-        fullPanel.add(middlePanel, BorderLayout.CENTER);
-
+        paragraphPanel.add(paragraph,BorderLayout.CENTER);
+        fullPanel.add(paragraphPanel, BorderLayout.CENTER);
     }
 
-    private void setupBottomPanel() {
 
-        Dimension btnSize = new Dimension(100, 50);
-        bottomPanel = new JPanel(new FlowLayout());
-
-
-        exitButton = new JButton("Exit");
-        exitButton.setPreferredSize(btnSize);
-
-
-        JPanel buttonPan = new JPanel();
-        buttonPan.setPreferredSize(new Dimension(200, 50));
-        buttonPan.setLayout(new FlowLayout());
-
-        bottomPanel.add(exitButton);
-        fullPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        exitButton.addActionListener(x -> exitEvent());
-    }
 
 
     /**
-     * when exit button in file menu is pressed
-     * exits
+     * This function does the following:
+     * adds Disclaimer button and Exit button to exitPanel
+     * adds exitPanel to fullPanel
+     * adds actionListener to both buttons
      */
-    private void exitEvent(){
+    private void setupExitPanel() {
+
+        Dimension btnSize = new Dimension(100, 50);
+
+        disclaimerButton.setPreferredSize(btnSize);
+        exitButton.setPreferredSize(btnSize);
+
+        //adding Disclaimer button and Exit button to exitPanel
+        exitPanel.add(disclaimerButton);
+        exitPanel.add(exitButton);
+
+        //adding exitPanel to fullPanel
+        fullPanel.add(exitPanel, BorderLayout.SOUTH);
+
+        //adding actionListener to both buttons
+        disclaimerButton.addActionListener(x -> disclaimerButtonEvent());
+        exitButton.addActionListener(x -> exitButtonEvent());
+    }
+
+
+
+
+    /**
+     * when exit button is pressed
+     * closes the window
+     */
+    private void exitButtonEvent(){
         this.dispose();
     }
 
 
+
+
+    /**
+     * when Disclaimer button is pressed
+     * Modifies text variable
+     * adds copyright information to text variable
+     * adds text variable to paragraph label
+     */
+    private void disclaimerButtonEvent(){
+        text="<html><p>©2013 Mattel. All Rights Reserved. " +
+                "Mattel, Inc., 636 Girard Avenue, East Aurora, NY 14052, U.S.A. Consumer Relations 1-800-524-8697.  " +
+                "Mattel  U.K.  Ltd.,  Vanwall  Business  Park,  Maidenhead  SL6  4UB.  " +
+                "Helpline  01628  500303.  Mattel  Australia Pty., Ltd., Richmond, Victoria. 3121.Consumer Advisory Service - 1300 135 312. " +
+                "Mattel East Asia Ltd., Room 503-09, North Tower, World Finance Centre, Harbour City, Tsimshatsui, HK, China. " +
+                "Diimport & Diedarkan Oleh: Mattel SEA  Ptd  Ltd.(993532-P)  Lot  13.5,  13th  Floor,  Menara  Lien  Hoe,  Persiaran  Tropicana  Golf  Country  Resort,  47410  PJ. Malaysia. Tel:03-78803817, Fax:03-78803867. " +
+                "Mattel Europa, B.V., Gondel 1, 1186 MJ Amstelveen, Nederland.\n" +
+                "Blokus® is based on the original concept by Bernard Tavitia\n</p></html>";
+        paragraph.setText(text);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
+    }
+
+
+
+
+    /**
+     * when Project Information button is pressed
+     * Modifies text variable
+     * adds project information to text variable
+     * adds text variable to paragraph label
+     */
     private void projectInfoButtonEvent(){
         text="<html>" +"This is the Blokus game implemented for a software engineering course."+
                 "<p>\n" +
@@ -168,6 +289,15 @@ public class About extends JFrame {
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
     }
 
+
+
+
+
+    /**
+     * when Game Information button is pressed
+     * Modifies text variable
+     * adds Game Information to text variable
+     */
     private void gameInfoButtonEvent(){
         text = "<html><p>Blokus is an abstract strategy board game for two to four players, where players try to score points by occupying most of the board with pieces of their colour. " +
                 "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
@@ -176,9 +306,9 @@ public class About extends JFrame {
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
 
-//    public static void main(String[] args) {
-//        new About();
-//    }
+    public static void main(String[] args) {
+        new About();
+    }
 
 
 }
