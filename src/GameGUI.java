@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.util.*;
 
@@ -40,6 +42,20 @@ public class GameGUI extends JFrame {
     private static String selectedPoint;
 
     private HashMap<Color,Component> componentMap = new HashMap<>();
+
+    private MenuListener aboutListener = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            new About();
+        }
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    };
+
 
     public GameGUI(JPanel GridPanel){
 
@@ -98,6 +114,8 @@ public class GameGUI extends JFrame {
         file.add(load);
         file.add(newGame);
         help.add(howTo);
+
+        about.addMenuListener(aboutListener);
 
         newGame.addActionListener(x -> newGameEvent());
         howTo.addActionListener(x -> howToEvent());

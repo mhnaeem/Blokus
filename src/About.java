@@ -20,7 +20,7 @@ public class About extends JFrame {
     private Container contentPane = getContentPane();
     private JPanel fullPanel, topPanel, bottomPanel,middlePanel;
     private JLabel about,paragraph;
-    private JButton exitButton,playButton, projectInfoButton, gameInfoButton;
+    private JButton exitButton, projectInfoButton, gameInfoButton;
     private String text;
 
 
@@ -40,7 +40,7 @@ public class About extends JFrame {
         setTitle("About");
         setBounds(400, 200, 600, 500);
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setResizable(false);
     }
@@ -118,21 +118,16 @@ public class About extends JFrame {
 
 
         exitButton = new JButton("Exit");
-        playButton=new JButton("Play Again");
-
         exitButton.setPreferredSize(btnSize);
-        playButton.setPreferredSize(btnSize);
 
 
         JPanel buttonPan = new JPanel();
         buttonPan.setPreferredSize(new Dimension(200, 50));
         buttonPan.setLayout(new FlowLayout());
 
-        bottomPanel.add(playButton);
         bottomPanel.add(exitButton);
         fullPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        playButton.addActionListener(x -> playEvent());
         exitButton.addActionListener(x -> exitEvent());
     }
 
@@ -142,12 +137,9 @@ public class About extends JFrame {
      * exits
      */
     private void exitEvent(){
-        System.exit(0);
+        this.dispose();
     }
 
-    private void playEvent(){
-        System.out.println("Clicked Play Button");
-    }
 
     private void projectInfoButtonEvent(){
         text="<html>" +"This is the Blokus game implemented for a software engineering course."+
@@ -184,9 +176,9 @@ public class About extends JFrame {
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
 
-    public static void main(String[] args) {
-        new About();
-    }
+//    public static void main(String[] args) {
+//        new About();
+//    }
 
 
 }

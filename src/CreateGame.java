@@ -1,8 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +33,18 @@ public class CreateGame extends JFrame {
     private String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
     private HashMap<Integer,Color> map_of_colours;
     private boolean isColorblind;
+    private MenuListener aboutListener = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            new About();
+        }
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    };
 
 
     public CreateGame() {
@@ -67,6 +79,9 @@ public class CreateGame extends JFrame {
         file.add(load);
         file.add(exit);
         help.add(howTo);
+
+//        about.setMnemonic(KeyEvent.VK_T);
+        about.addMenuListener(aboutListener);
         reset.addActionListener(x->resetEvent());
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
@@ -520,17 +535,9 @@ public class CreateGame extends JFrame {
         System.exit(0);
     }
 
-    /**
-     * when About menu is pressed in menu bar
-     * displays About Blokus Game
-     * TODO about event
-     */
-
     private void howToEvent()
     {
         new HelpDetails("create");
-    }
-    private void aboutEvent(){
     }
 
     /**
