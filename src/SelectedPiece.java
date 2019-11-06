@@ -42,7 +42,10 @@ public class SelectedPiece{
         main.add(this.piece);
 
         this.pass = new JButton("Pass");
-        this.pass.addActionListener(ev -> System.out.println("Pass button was pressed"));
+        this.pass.addActionListener(ev -> {
+            GameEngine.updateCurrentTurn();
+            frm.dispose();
+        });
         this.rotate = new JButton("Rotate");
         this.rotate.addActionListener(ev -> {
             Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
