@@ -97,12 +97,23 @@ public class Options {
             }
         }
         else{
+            if (numberOfAI==3){
+                Player.getPlayer(1).setName("AI Player 1");
+                AI_indexList.add(1);
+                Player.getPlayer(2).setName("AI Player 2");
+                AI_indexList.add(2);
+                Player.getPlayer(3).setName("AI Player 3");
+                AI_indexList.add(3);
+            }
             if (numberOfAI==2){
                 Player.getPlayer(3).setName("AI Player 1");
+                AI_indexList.add(3);
                 Player.getPlayer(4).setName("AI Player 2");
+                AI_indexList.add(4);
             }
             else if (numberOfAI==1){
                 Player.getPlayer(4).setName("AI Player");
+                AI_indexList.add(4);
             }
         }
 
