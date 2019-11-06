@@ -15,7 +15,7 @@ import java.util.*;
 public class GameGUI extends JFrame {
 
     private Container contentPane = getContentPane();
-    private JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
+    private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
     private int numberOfPlayers;
 
     private Player[] listOfPlayers;
@@ -38,6 +38,7 @@ public class GameGUI extends JFrame {
     private static JButton[][] mainGridButtons;
     private static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
     private static JButton[][] selectedPieceButtons;
+    private static JLabel[] playerLabels;
 
     private static String selectedPoint;
 
@@ -71,6 +72,7 @@ public class GameGUI extends JFrame {
         mainGridPanel = new JPanel();
         mainGridPanel.add(GridPanel);
 
+
         //Used to make the grid centered in the window
         mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
 
@@ -85,6 +87,7 @@ public class GameGUI extends JFrame {
 
         //Create the player pieces on the left and right
         createPlayingPieces();
+        createMenu();
 
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
@@ -144,7 +147,7 @@ public class GameGUI extends JFrame {
             tempPnl.setName(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
         }
 
-        JLabel[] playerLabels = new JLabel[4];
+        playerLabels = new JLabel[4];
         for (int i = 0; i < 4; i++){
             JLabel tempLabel = new JLabel(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
             tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
@@ -170,5 +173,11 @@ public class GameGUI extends JFrame {
         rightPiecesPanel.add(rightPanel);
     }
 
+    public static void updateLabels(){
+        int[] array = {3,0,2,1};
+        for (int i = 0; i < 4; i++){
+            playerLabels[i].setText(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
+        }
+    }
 
 }

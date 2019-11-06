@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Options {
@@ -7,14 +8,27 @@ public class Options {
     private static String scoringType = null;
     private static HashMap<Integer,Color> mapOfColors = null;
     private static Integer numberOfPlayers = null;
+    private static Integer numberOfAI= null;
+    private static Boolean hasAlternatePlayer = false;
+    private static ArrayList<Integer> AI_indexList = new ArrayList<>();
 
-    public Options(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players){
+    public Options(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
         this.setColorblind(isColorblind);
         this.setDifficulty(difficulty);
         this.setScoringType(scoringType);
         this.setMap(mapOfColors);
         this.setNumberOfPlayers(number_of_players);
+        this.setNumberOfAI(number_of_computer);
+        if (numberOfPlayers==3){
+            hasAlternatePlayer = true;
+        }
     }
+
+    private void setNumberOfAI(Integer number_of_computer){
+        numberOfAI = number_of_computer;
+    }
+
+    public static int getNumberOfAI(){return numberOfAI;}
 
     private void setColorblind(Boolean isColorblind){
         this.isColorblind = isColorblind;
@@ -53,5 +67,58 @@ public class Options {
 
     public static Integer getNumberOfPlayers() {
         return numberOfPlayers;
+    }
+
+    private static void setAlternatePlayer(){
+        if (hasAlternatePlayer()){
+            Player.getPlayer(4).setName("Alternate");
+        }
+    }
+
+    private static void setPlayerNames(){
+        if (numberOfPlayers==2){
+            Player.getPlayer(3).setName("Player 1");
+            Player.getPlayer(4).setName("Player 2");
+        }
+    }
+
+    private static void setAIPlayer(){
+        AI_indexList.clear();
+        if (Options.hasAlternatePlayer()){
+            if (numberOfAI==2){
+                Player.getPlayer(2).setName("AI Player 1");
+                AI_indexList.add(2);
+                Player.getPlayer(3).setName("AI Player 2");
+                AI_indexList.add(3);
+            }
+            else if (numberOfAI==1){
+                AI_indexList.add(3);
+                Player.getPlayer(3).setName("AI Player");
+            }
+        }
+        else{
+            if (numberOfAI==2){
+                Player.getPlayer(3).setName("AI Player 1");
+                Player.getPlayer(4).setName("AI Player 2");
+            }
+            else if (numberOfAI==1){
+                Player.getPlayer(4).setName("AI Player");
+            }
+        }
+
+    }
+
+    public static ArrayList<Integer> getAI_indexList(){
+        return AI_indexList;
+    }
+
+    public static void setOptions(){
+        setAIPlayer();
+        setPlayerNames();
+        setAlternatePlayer();
+    }
+
+    public static boolean hasAlternatePlayer(){
+        return hasAlternatePlayer;
     }
 }

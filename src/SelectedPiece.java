@@ -19,8 +19,6 @@ public class SelectedPiece{
     private String selectedButtonName;
     private int playerIndex;
     private JButton[][] selectedButtonGrid;
-    private String playerName;
-    private boolean colourBlind;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
@@ -71,8 +69,6 @@ public class SelectedPiece{
 
         this.back = new JButton(closeIcon);
         this.back.addActionListener(ev -> {
-            //Set selected piece to nothing
-            //TODO: set selected piece to null here
             GameEngine.setSelectedPiece(null);
             frm.dispose();
         });
@@ -83,7 +79,6 @@ public class SelectedPiece{
         buttons.add(this.rotate);
         buttons.add(this.flipUp);
         buttons.add(this.flipRight);
-        //TODO make back button appear
         buttons.add(this.back);
 
         main.add(buttons);

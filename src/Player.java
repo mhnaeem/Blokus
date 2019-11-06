@@ -22,6 +22,10 @@ public class Player {
         this.playerName = "Player " + playerIndex;
     }
 
+    public void setName(String name){
+        this.playerName = name;
+    }
+
     private void setIndex(int index){
         this.playerIndex = index;
     }
