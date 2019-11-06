@@ -292,7 +292,6 @@ public class About extends JFrame {
 
 
 
-
     /**
      * when Game Information button is pressed
      * Modifies text variable
@@ -306,9 +305,8 @@ public class About extends JFrame {
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
 
-    public static void main(String[] args) {
-        new About();
-    }
+
+
 
 
 }

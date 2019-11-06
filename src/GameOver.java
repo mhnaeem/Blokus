@@ -144,7 +144,7 @@ public class GameOver extends JFrame{
      */
     private void sortPlayerScores(){
         text="<html>";
-        for (int i = 1; i <= 4/*Options.getNumberOfPlayers()*/; i++){
+        for (int i = 1; i <= Options.getNumberOfPlayers(); i++){
             if(Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey() != null){
                 Integer pl = Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
                 if(pl!=null && playerScores.containsKey(pl)){
@@ -178,14 +178,7 @@ public class GameOver extends JFrame{
 
 
 
-    public static void main(String[] args) {
-        HashMap<Integer, Integer> playerScores = new HashMap<>();
-        playerScores.put( 1, 20);
-        playerScores.put( 2, -8);
-        playerScores.put( 3, -20);
-        playerScores.put( 4, -24);
-        new GameOver(playerScores);
-    }
+
 
 
 }
