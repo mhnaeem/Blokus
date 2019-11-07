@@ -14,16 +14,13 @@ public abstract class Options {
     private static ArrayList<Integer> AI_indexList = new ArrayList<>();
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
+        AI_indexList = new ArrayList<>();
         setColorblind(isColorblind);
         setDifficulty(difficulty);
         setScoringType(scoringType);
         setMap(mapOfColors);
         setNumberOfPlayers(number_of_players);
         setNumberOfAI(number_of_computer);
-//        new Player(1);
-//        new Player(2);
-//        new Player(3);
-//        new Player(4);
         new Player(1);
         new Player(2);
         new Player(3);
@@ -31,7 +28,6 @@ public abstract class Options {
         if (numberOfPlayers==3){
             hasAlternatePlayer = true;
         }
-
         setAIPlayer();
         setPlayerNames();
         setAlternatePlayer();
@@ -39,8 +35,10 @@ public abstract class Options {
 
 
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
+        GameEngine.calculateTurnOrder();
         new GameGUI(mainGridPanel);
         new GameEngine();
+
 
     }
 

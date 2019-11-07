@@ -16,15 +16,16 @@ public class GameEngine {
 
     private static Integer selectedPiece = null;
     private static HashMap<Integer, int[]> firstTurnMap = new HashMap<>();
-    private static int[] turnOrder = GameEngine.calculateTurnOrder();
-    private static int currentTurn = turnOrder[0];
+    private static int[] turnOrder;
+    private static int currentTurn;
     private static int turn_index = 0;
     private static int alternateTurn = 1;
 
 
     public GameEngine() {
+        firstTurnMap = new HashMap<>();
+        calculateTurnOrder();
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
-        turnOrder = GameEngine.calculateTurnOrder();
         currentTurn = turnOrder[0];
         turn_index = 0;
         alternateTurn = 1;
@@ -380,7 +381,7 @@ public class GameEngine {
         }
     }
 
-    private static int[] calculateTurnOrder() {
+    public static void calculateTurnOrder() {
         int first = 0, second = 0, third = 0, forth = 0;
         for (int i = 1; i < 5; i++) {
             Color color = Options.getColor(i);
@@ -398,7 +399,7 @@ public class GameEngine {
         firstTurnMap.put(second, (new int[]{19, 19}));
         firstTurnMap.put(third, (new int[]{19, 0}));
         firstTurnMap.put(forth, (new int[]{0, 0}));
-        return (new int[]{first, second, third, forth});
+        turnOrder= (new int[]{first, second, third, forth});
     }
 
     private static boolean isOnStartingPoint(int[] array, String selectedPoint) {
