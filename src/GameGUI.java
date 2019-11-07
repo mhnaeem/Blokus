@@ -1,9 +1,16 @@
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import java.awt.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Font;
 
 /**
  * Main GameGUI screen
@@ -16,54 +23,8 @@ public class GameGUI extends JFrame {
 
     private Container contentPane = getContentPane();
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
-    private int numberOfPlayers;
-
-    private Player[] listOfPlayers;
-
-    /* The panels are set based on indexes, in the following order
-       2 Players = [Player 1, Player 2]
-       3 Players = [Player 1, Player 2, Player 3]
-       4 Players = [Player 1, Player 2, Player 3, Player 4]
-
-       [1]   [Main Grid]    [2]
-       [3]   [Main Grid]    [4]
-     */
-    private ArrayList<JPanel> listOfPiecesPanels = new ArrayList<>();
-
-    // Meant to hold the player number and the colours
-    // For example: { 1 : Color.blue, 2 : Color.green}
-    private HashMap<Integer, Color> mapOfColours;
-    private boolean colour_blind;
-
-    private static JButton[][] mainGridButtons;
-    private static ArrayList<JButton[][]> playerButtons = new ArrayList<>(Arrays.asList());
-    private static JButton[][] selectedPieceButtons;
-    private static JLabel[] playerLabels;
-
-    private static String selectedPoint;
-
-    private HashMap<Color,Component> componentMap = new HashMap<>();
-
-    private MenuListener aboutListener = new MenuListener() {
-        @Override
-        public void menuSelected(MenuEvent e) {
-            new About();
-        }
-        @Override
-        public void menuDeselected(MenuEvent e) {
-        }
-        @Override
-        public void menuCanceled(MenuEvent e) {
-        }
-    };
-
 
     public GameGUI(JPanel GridPanel){
-
-        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(3)).createGrid());
-        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(0)).createGrid());
-        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(2)).createGrid());
-        listOfPiecesPanels.add(Player.getPlayer(GameEngine.getTurnOrder(1)).createGrid());
 
         leftPiecesPanel = new JPanel();
         rightPiecesPanel = new JPanel();
@@ -71,7 +32,6 @@ public class GameGUI extends JFrame {
         bottomPanel = new JPanel();
         mainGridPanel = new JPanel();
         mainGridPanel.add(GridPanel);
-
 
         //Used to make the grid centered in the window
         mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
@@ -124,45 +84,17 @@ public class GameGUI extends JFrame {
 
         about.addMenuListener(aboutListener);
 
-        newGame.addActionListener(x -> newGameEvent());
-        exit.addActionListener(x -> exitEvent());
-        howTo.addActionListener(x -> howToEvent());
+        newGame.addActionListener(actionEvent -> {
+            GameGUI.this.dispose();
+            new CreateGame();
+        });
+        exit.addActionListener(actionEvent -> System.exit(0));
+        howTo.addActionListener(actionEvent -> new HelpDetails("game"));
         setJMenuBar(menuBar);
     }
 
-    private void howToEvent()
-    {
-        new HelpDetails("game");
-    }
-
-    private void newGameEvent(){
-        this.dispose();
-        new CreateGame();
-    }
-
-    private void exitEvent()
-    {
-        System.exit(0);
-    }
-
-
-
     private void createPlayingPieces() {
-        int[] array = {3,0,2,1};
-        //TODO: what happens when there are two players or one player.
-        for (int i = 0; i < 4; i++){
-            JPanel tempPnl = listOfPiecesPanels.get(i);
-            tempPnl.setBorder(new EmptyBorder(10, 30, 30, 30));
-            //This is naming every panel of pieces for its player
-            tempPnl.setName(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
-        }
-
-        playerLabels = new JLabel[4];
-        for (int i = 0; i < 4; i++){
-            JLabel tempLabel = new JLabel(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
-            tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
-            playerLabels[i] = tempLabel;
-        }
+        //int[] array = {3,0,2,1};
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -170,26 +102,47 @@ public class GameGUI extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        leftPanel.add(playerLabels[0]);
-        leftPanel.add(listOfPiecesPanels.get(0));
-        rightPanel.add(playerLabels[1]);
-        rightPanel.add(listOfPiecesPanels.get(1));
-        leftPanel.add(playerLabels[2]);
-        leftPanel.add(listOfPiecesPanels.get(2));
-        rightPanel.add(playerLabels[3]);
-        rightPanel.add(listOfPiecesPanels.get(3));
+        for(int i = 1; i <= Options.getNumberOfPlayers(); i++){
 
+            JLabel tempLabel = new JLabel(Player.getPlayer(i).getPlayerName());
+            tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
 
+            JPanel labelPanel = new JPanel();
+            labelPanel.add(tempLabel);
+
+            if( i == 1 || i == 3){
+                leftPanel.add(labelPanel);
+                leftPanel.add(PlayerGrid.getPlayerGridPanel(i));
+            }
+
+            else{
+                rightPanel.add(labelPanel);
+                rightPanel.add(PlayerGrid.getPlayerGridPanel(i));
+            }
+
+        }
 
         leftPiecesPanel.add(leftPanel);
         rightPiecesPanel.add(rightPanel);
     }
 
-    public static void updateLabels(){
+    /*public static void updateLabels(){
         int[] array = {3,0,2,1};
         for (int i = 0; i < 4; i++){
             playerLabels[i].setText(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
         }
-    }
+    }*/
 
+    private MenuListener aboutListener = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            new About();
+        }
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    };
 }

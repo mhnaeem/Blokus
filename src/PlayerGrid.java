@@ -1,6 +1,13 @@
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -10,7 +17,7 @@ import java.util.HashSet;
 public class PlayerGrid {
 
     private JPanel gridPanel;
-    private int playerIndex;
+    private final int playerIndex;
     private static HashMap<Integer, JButton[][]> playerGridButtonMap = new HashMap<>();
     private static HashMap<Integer, JPanel> playerGridPanelMap = new HashMap<>();
     private boolean active = true;
@@ -21,7 +28,7 @@ public class PlayerGrid {
         playerGridPanelMap.put(this.playerIndex, this.gridPanel);
     }
 
-    private JPanel createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight) {
+    private void createGrid(int gridRows, int gridColumns, int buttonWidth, int buttonHeight) {
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new GridBagLayout());
         JButton[][] buttons = createButtonsList(gridRows, gridColumns);
@@ -37,13 +44,12 @@ public class PlayerGrid {
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 btn.setFocusable(false);
                 btn.addActionListener(new PlayerGridListener());
-                tempPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+                tempPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
                 tempPanel.add(btn, gbc);
             }
         }
         gridPanel = tempPanel;
         colorPieces();
-        return gridPanel;
     }
 
     private JButton[][] createButtonsList(int gridRows, int gridColumns) {
@@ -124,7 +130,7 @@ public class PlayerGrid {
         }
     }
 
-    public void setActive(boolean active){
+    private void setActive(boolean active){
         this.active = active;
     }
 
