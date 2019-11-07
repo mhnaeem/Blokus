@@ -219,7 +219,10 @@ public class About extends JFrame {
     }
 
     private void sourcesButtonEvent(){
-        text="<html><p>Link to our project in GitHub : <a href=\"https://github.com/mhnaeem/comp2005-fall19-group9\">comp2005-fall19-group9</a></p></html>";
+        text="<html><p>Link to our project in GitHub : <a href=\"https://github.com/mhnaeem/comp2005-fall19-group9\">comp2005-fall19-group9</a><br>" +
+                "Link to original owners of the game we created for this project: <a href=\"https://www.mattelgames.com/en-ca/blokus\">Mattel Games</a><br>" +
+                "Link to Wikipedia for more information about Blokus: <a href=\"https://en.wikipedia.org/wiki/Blokus\">WIKIPEDIA</a><br>" +
+                "Link to the source where we got our icon from: <a href=\"https://www.flaticon.com/free-icon/tetris_566312\">FLATICON</a><br></p></html>";
 
         paragraph.setText(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
