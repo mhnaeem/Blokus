@@ -83,6 +83,8 @@ public class GameGUI extends JFrame {
 
         //mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
 
+        createMenu();
+
         contentPane.setLayout(new BorderLayout());
         contentPane.add(leftPiecesPanel, BorderLayout.WEST);
         contentPane.add(rightPiecesPanel, BorderLayout.EAST);
@@ -114,6 +116,7 @@ public class GameGUI extends JFrame {
         JMenuItem reset = new JMenuItem("Reset");
         JMenuItem load = new JMenuItem("Load");
         JMenuItem newGame = new JMenuItem("New Game");
+        JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
 
         menuBar.add(file);
@@ -123,11 +126,13 @@ public class GameGUI extends JFrame {
         file.add(reset);
         file.add(load);
         file.add(newGame);
+        file.add(exit);
         help.add(howTo);
 
         about.addMenuListener(aboutListener);
 
         newGame.addActionListener(x -> newGameEvent());
+        exit.addActionListener(x -> exitEvent());
         howTo.addActionListener(x -> howToEvent());
         setJMenuBar(menuBar);
     }
@@ -140,6 +145,11 @@ public class GameGUI extends JFrame {
     private void newGameEvent(){
         this.dispose();
         new CreateGame();
+    }
+
+    private void exitEvent()
+    {
+        System.exit(0);
     }
 
 
