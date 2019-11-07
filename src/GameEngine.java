@@ -43,10 +43,7 @@ public class GameEngine {
         if(firstTurnMap.containsKey(currentTurn)){
             return isOnStartingPoint(firstTurnMap.get(currentTurn),selectedPoint);
         }
-        if ((isEdge(selectedPoint)&&!isSide(selectedPoint))){
-            return true;
-        }
-        if ((isLegalSide(selectedPoint))){
+        if ((isEdge(selectedPoint)&&!isSide(selectedPoint)) || ((isEdge(selectedPoint)&&!isSide(selectedPoint)) & (isLegalSide(selectedPoint)))){
             return true;
         }
         else {
