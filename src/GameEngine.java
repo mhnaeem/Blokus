@@ -429,7 +429,7 @@ public class GameEngine {
         firstTurnMap.remove(currentTurn);
     }
 
-    public static Integer playerScoring()
+    public static HashMap<Integer, Integer> playerScoring()
     {
         int numPlayers = Options.getNumberOfPlayers();
 
@@ -447,8 +447,7 @@ public class GameEngine {
                     if (playerGridCell.isEnabled()) {
                         if (Options.getScoringType().equals("Basic")) {
                             playerScore += 1;
-                        }
-                        else if (Options.getScoringType().equals("Advanced")) {
+                        } else if (Options.getScoringType().equals("Advanced")) {
                             playerScore -= 1;
                         }
                     }
@@ -462,46 +461,47 @@ public class GameEngine {
              * and calling to return playerScoreList;
              */
             playerScoreList.put(h, playerScore);
-
-            /*
-             * for basic scoring
-             * finds the minimum score in playerScoreList. the player with the minimum score is the winner
-             */
-            if (Options.getScoringType().equals("Basic")) {
-                for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
-                    if (min == null || min.getValue() > entry.getValue()) {
-                        min = entry;
-                    }
+        }
+        /*
+         * for basic scoring
+         * finds the minimum score in playerScoreList. the player with the minimum score is the winner
+         */
+        if (Options.getScoringType().equals("Basic")) {
+            for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
+                if (min == null || min.getValue() > entry.getValue()) {
+                    min = entry;
                 }
-            }
-
-            /*
-             * for advanced scoring
-             * finds the maximum score in playerScoreList. the player with the maximum score is the winner
-             */
-            else if (Options.getScoringType().equals("Advanced")) {
-                for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
-                    if (max == null || max.getValue() > entry.getValue()) {
-                        max = entry;
-                    }
-                }
-            }
-
-            /*
-             * returns basic scoring winner
-             */
-            if (Options.getScoringType().equals("Basic")) {
-                return (min.getKey());
-            }
-
-            /*
-             * returns advanced scoring winner
-             */
-            else if (Options.getScoringType().equals("Advanced")) {
-                return (max.getKey());
             }
         }
-        return 0; //TODO FIX THIS RETURN 0 FOR TESTING ONLY
+
+        /*
+         * for advanced scoring
+         * finds the maximum score in playerScoreList. the player with the maximum score is the winner
+         */
+        else if (Options.getScoringType().equals("Advanced")) {
+            for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
+                if (max == null || max.getValue() > entry.getValue()) {
+                    max = entry;
+                }
+            }
+        }
+
+        return playerScoreList;
+
+        /*
+         * returns basic scoring winner
+         */
+//            if (Options.getScoringType().equals("Basic")) {
+//                return (min.getKey());
+//        }
+
+        /*
+         * returns advanced scoring winner
+         */
+//            else if (Options.getScoringType().equals("Advanced")) {
+//                return (max.getKey());
+//        }
+
     }
 
 
