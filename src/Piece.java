@@ -1,16 +1,17 @@
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import static java.util.Map.entry;
 
-public class Piece {
+
+public abstract class Piece {
+
     private static HashMap<String,Integer> PIECE_MAP = createPieceMap(); //button coordinates to piece number
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number
     private static HashMap<Integer, ArrayList<String>> pieceNumberToStringMap = createPieceNumberToStringMap();
     private static HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> playerPieceActionList = createActionsListMap();
 
-    public Piece(){
-
-    }
 
     private static HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> createActionsListMap(){
         HashMap<Integer, HashMap<Integer, ArrayList<int[]>>> toReturnMaster = new HashMap<>();

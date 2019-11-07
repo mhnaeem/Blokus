@@ -1,8 +1,9 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Options {
+public abstract class Options {
     private static Boolean isColorblind = null;
     private static String difficulty = null;
     private static String scoringType = null;
@@ -12,42 +13,59 @@ public class Options {
     private static Boolean hasAlternatePlayer = false;
     private static ArrayList<Integer> AI_indexList = new ArrayList<>();
 
-    public Options(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
-        this.setColorblind(isColorblind);
-        this.setDifficulty(difficulty);
-        this.setScoringType(scoringType);
-        this.setMap(mapOfColors);
-        this.setNumberOfPlayers(number_of_players);
-        this.setNumberOfAI(number_of_computer);
+    public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
+        setColorblind(isColorblind);
+        setDifficulty(difficulty);
+        setScoringType(scoringType);
+        setMap(mapOfColors);
+        setNumberOfPlayers(number_of_players);
+        setNumberOfAI(number_of_computer);
+//        new Player(1);
+//        new Player(2);
+//        new Player(3);
+//        new Player(4);
+        new Player(1);
+        new Player(2);
+        new Player(3);
+        new Player(4);
         if (numberOfPlayers==3){
             hasAlternatePlayer = true;
         }
+
+        setAIPlayer();
+        setPlayerNames();
+        setAlternatePlayer();
+
+
+
+        JPanel mainGridPanel = new MainGrid().getMainGridPanel();
+        new GameGUI(mainGridPanel);
+        new GameEngine();
     }
 
-    private void setNumberOfAI(Integer number_of_computer){
+    private static void setNumberOfAI(Integer number_of_computer){
         numberOfAI = number_of_computer;
     }
 
     public static int getNumberOfAI(){return numberOfAI;}
 
-    private void setColorblind(Boolean isColorblind){
-        this.isColorblind = isColorblind;
+    private static void setColorblind(Boolean is_Color_blind){
+        isColorblind = is_Color_blind;
     }
 
-    private void setDifficulty(String difficulty){
-        this.difficulty = difficulty;
+    private static void setDifficulty(String difficultyLevel){
+        difficulty = difficultyLevel;
     }
 
-    private void setScoringType(String scoringType){
-        this.scoringType = scoringType;
+    private static void setScoringType(String scoring_type){
+        scoringType = scoring_type;
     }
 
-    private void setMap(HashMap<Integer,Color> mapOfColors){
-        this.mapOfColors = mapOfColors;
+    private static void setMap(HashMap<Integer,Color> map_Of_Colors){
+        mapOfColors = map_Of_Colors;
     }
 
-
-    private void setNumberOfPlayers(Integer number_of_players){ numberOfPlayers = number_of_players;}
+    private static void setNumberOfPlayers(Integer number_of_players){ numberOfPlayers = number_of_players;}
 
     public static Boolean getIsColorblind(){
         return isColorblind;
@@ -121,12 +139,6 @@ public class Options {
 
     public static ArrayList<Integer> getAI_indexList(){
         return AI_indexList;
-    }
-
-    public static void setOptions(){
-        setAIPlayer();
-        setPlayerNames();
-        setAlternatePlayer();
     }
 
     public static boolean hasAlternatePlayer(){

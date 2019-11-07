@@ -441,7 +441,7 @@ public class CreateGame extends JFrame {
             map_of_colours = new HashMap<>();
             setSelectedParameters();
             this.dispose();
-            new Driver(map_of_colours,playerNumber,computerNumber,humanNumber,difficulty,scoringType,isColorblind);
+            Options.setOptions(isColorblind,difficulty,scoringType,map_of_colours,playerNumber,computerNumber);
         }
         else{
             JOptionPane.showMessageDialog(null,s);
@@ -569,6 +569,15 @@ public class CreateGame extends JFrame {
             default:
                 break;
         }
+    }
+
+    public static void main(String[] args) {
+        HashMap<Integer, Color> map = new HashMap<>();
+        map.put(1,Color.RED);
+        map.put(2,Color.BLUE);
+        map.put(3,Color.YELLOW);
+        map.put(4,Color.GREEN);
+        Options.setOptions(true,"Easy","Basic",map,4,0);
     }
 }
 
