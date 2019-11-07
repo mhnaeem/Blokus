@@ -21,6 +21,7 @@ public class GameEngine {
     private static int turn_index = 0;
     private static int alternateTurn = 1;
 
+
     public GameEngine() {
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         turnOrder = GameEngine.calculateTurnOrder();
