@@ -106,7 +106,7 @@ public class GameGUI extends JFrame {
 
         for(int i = 0; i < 4; i++){
 
-            JLabel tempLabel = new JLabel(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
+            JLabel tempLabel = new JLabel(Player.getPlayer(Options.getTurnOrder(array[i])).getPlayerName());
             tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
             playerLabels[i] = tempLabel;
 
@@ -115,12 +115,12 @@ public class GameGUI extends JFrame {
 
             if( i == 0 || i == 2){
                 leftPanel.add(labelPanel);
-                leftPanel.add(Player.getPlayer(GameEngine.getTurnOrder(array[i])).createGrid());
+                leftPanel.add(Player.getPlayer(Options.getTurnOrder(array[i])).createGrid());
             }
 
             else{
                 rightPanel.add(labelPanel);
-                rightPanel.add(Player.getPlayer(GameEngine.getTurnOrder(array[i])).createGrid());
+                rightPanel.add(Player.getPlayer(Options.getTurnOrder(array[i])).createGrid());
             }
 
         }
@@ -132,7 +132,7 @@ public class GameGUI extends JFrame {
     public static void updateLabels(){
         int[] array = {3,0,2,1};
         for (int i = 0; i < 4; i++){
-            playerLabels[i].setText(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
+            playerLabels[i].setText(Player.getPlayer(Options.getTurnOrder(array[i])).getPlayerName());
         }
     }
 

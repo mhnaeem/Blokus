@@ -12,6 +12,8 @@ public abstract class Options {
     private static Integer numberOfAI= null;
     private static Boolean hasAlternatePlayer = false;
     private static ArrayList<Integer> AI_indexList = new ArrayList<>();
+    private static int[] turnOrder;
+    private static HashMap<Integer, int[]> firstTurnMap = new HashMap<>();
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
         AI_indexList = new ArrayList<>();
@@ -31,11 +33,11 @@ public abstract class Options {
         setAIPlayer();
         setPlayerNames();
         setAlternatePlayer();
+        calculateTurnOrder();
 
 
 
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
-        GameEngine.calculateTurnOrder();
         new GameGUI(mainGridPanel);
         new GameEngine();
 
@@ -134,6 +136,39 @@ public abstract class Options {
             }
         }
 
+    }
+
+    private static void calculateTurnOrder() {
+        int first = 0, second = 0, third = 0, forth = 0;
+        for (int i = 1; i < 5; i++) {
+            Color color = Options.getColor(i);
+            if (color == Color.BLUE) {
+                first = i;
+            } else if (color == Color.YELLOW) {
+                second = i;
+            } else if (color == Color.RED) {
+                third = i;
+            } else if (color == Color.GREEN) {
+                forth = i;
+            }
+        }
+        firstTurnMap.put(first, (new int[]{0, 19}));
+        firstTurnMap.put(second, (new int[]{19, 19}));
+        firstTurnMap.put(third, (new int[]{19, 0}));
+        firstTurnMap.put(forth, (new int[]{0, 0}));
+        turnOrder =  (new int[]{first, second, third, forth});
+    }
+
+    public static HashMap<Integer,int[]> getFirstTurnMap(){
+        return firstTurnMap;
+    }
+
+    public static int getTurnOrder(int index){
+        return turnOrder[index];
+    }
+
+    public static void cornerMoveEvent() {
+        firstTurnMap.remove(GameEngine.getCurrentTurn());
     }
 
     public static ArrayList<Integer> getAI_indexList(){

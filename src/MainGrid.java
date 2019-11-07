@@ -89,7 +89,7 @@ public class MainGrid {
                     Player.getPlayer(turn).pieceUsed(selectedPiece);
                     SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow
                     PlayerGrid.removePieceEvent(selectedPiece); //this should remove piece from PlayerGrid for the current player
-                    GameEngine.firstMoveEvent();
+                    Options.cornerMoveEvent();
                     //TODO should make a check if game is over here before updating turn
                     GameEngine.updateCurrentTurn();
                 }

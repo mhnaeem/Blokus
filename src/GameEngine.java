@@ -23,11 +23,9 @@ public class GameEngine {
 
 
     public GameEngine() {
-        firstTurnMap = new HashMap<>();
-        calculateTurnOrder();
-        currentTurn = turnOrder[0];
-        PlayerGrid.disableOtherPlayerGrids(currentTurn);
         turn_index = 0;
+        currentTurn = Options.getTurnOrder(turn_index);
+        PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
     }
 
@@ -47,15 +45,15 @@ public class GameEngine {
 
 
         }
-        if (firstTurnMap.containsKey(currentTurn)) {
-            return isOnStartingPoint(firstTurnMap.get(currentTurn), selectedPoint);
+        if (Options.getFirstTurnMap().containsKey(currentTurn)) {
+            return isOnStartingPoint(Options.getFirstTurnMap().get(currentTurn), selectedPoint);
         }
         if ((isEdge(selectedPoint) && !isSide(selectedPoint)) || ((isEdge(selectedPoint) && !isSide(selectedPoint)) & (isLegalSide(selectedPoint)))) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
-        //return true;
     }
 
     private static boolean isWithinGrid(String point, int[] action, JButton[][] grid) {
@@ -90,7 +88,6 @@ public class GameEngine {
         }
         return false;
     }
-
 
     private static boolean isEdge(String selectedPoint) {
         System.out.println("button(0,0) currently on " + selectedPoint);
@@ -337,24 +334,25 @@ public class GameEngine {
         return currentTurn;
     }
 
-    //TODO: implment AI move
+    //TODO: implement AI move
     public static void updateCurrentTurn() {
 
+        //if alternate player update ALTERNATE PLAYER LABEL
         if (Options.hasAlternatePlayer()) {
-            //if game has alternate player, this makes alternate alternate again after alternate is played by a player
             Player.getPlayer(4).setName("Alternate");
             GameGUI.updateLabels();
         }
-
 
         turn_index++;
         if (turn_index >= 4) {
             turn_index = 0;
         }
-        currentTurn = turnOrder[turn_index];
+
+        currentTurn = Options.getTurnOrder(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         selectedPiece = null;
 
+        //IF AI TURN
         if (Options.getAI_indexList().contains(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
@@ -362,17 +360,25 @@ public class GameEngine {
             //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
 
-        //current turn is now the alternate turn which is always 4
+        //if game has alternate player & alternate player turn
         if (Options.hasAlternatePlayer() && currentTurn == 4) {
+
+            //update alternate label to the player who should make the alternate move
             Player.getPlayer(4).setName(Player.getPlayer(alternateTurn).getPlayerName());
             GameGUI.updateLabels();
+
+            //if AI turn to play alternate player
             if (Options.getAI_indexList().contains(alternateTurn)) {
                 //TODO: here AI function to play alternate turn here
                 //AI should play using the current turn
                 //DISABLE ALL GRIDS WHILE AI IS PLAYING
-            } else {
-                //alternate turn is played by a human, text label for alternate changes to the player name who should play the alternate turn
+                //turn over when updateCurrentTurn() is called again
             }
+            else {
+                //alternate turn is played by a human
+                //turn over when updateCurrentTurn() is called again
+            }
+
             alternateTurn++;
             //alternate turn is played by player index 1,2,3. It cannot be played by index 4 which is itself
             if (alternateTurn >= 4) {
@@ -381,26 +387,6 @@ public class GameEngine {
         }
     }
 
-    public static void calculateTurnOrder() {
-        int first = 0, second = 0, third = 0, forth = 0;
-        for (int i = 1; i < 5; i++) {
-            Color color = Options.getColor(i);
-            if (color == Color.BLUE) {
-                first = i;
-            } else if (color == Color.YELLOW) {
-                second = i;
-            } else if (color == Color.RED) {
-                third = i;
-            } else if (color == Color.GREEN) {
-                forth = i;
-            }
-        }
-        firstTurnMap.put(first, (new int[]{0, 19}));
-        firstTurnMap.put(second, (new int[]{19, 19}));
-        firstTurnMap.put(third, (new int[]{19, 0}));
-        firstTurnMap.put(forth, (new int[]{0, 0}));
-        turnOrder= (new int[]{first, second, third, forth});
-    }
 
     private static boolean isOnStartingPoint(int[] array, String selectedPoint) {
         String[] strArr = selectedPoint.split(",");
@@ -422,17 +408,11 @@ public class GameEngine {
         return selectedPiece;
     }
 
-    public static int getTurnOrder(int index) {
-        return turnOrder[index];
-    }
 
     public static void setSelectedPiece(Integer piece_index) {
         selectedPiece = piece_index;
     }
 
-    public static void firstMoveEvent() {
-        firstTurnMap.remove(currentTurn);
-    }
 
     public static HashMap<Integer, Integer> playerScoring() {
         int numPlayers = Options.getNumberOfPlayers();
@@ -511,6 +491,5 @@ public class GameEngine {
     }
     public static void gameEnd(){
         new GameOver(playerScoring());
-
     }
 }
