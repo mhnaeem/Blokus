@@ -23,6 +23,7 @@ public class GameGUI extends JFrame {
 
     private Container contentPane = getContentPane();
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
+    private static JLabel[] playerLabels;
 
     public GameGUI(JPanel GridPanel){
 
@@ -94,7 +95,8 @@ public class GameGUI extends JFrame {
     }
 
     private void createPlayingPieces() {
-        //int[] array = {3,0,2,1};
+        int[] array = {3,0,2,1};
+        playerLabels = new JLabel[]{null,null,null,null};
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -102,22 +104,23 @@ public class GameGUI extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        for(int i = 1; i <= Options.getNumberOfPlayers(); i++){
+        for(int i = 0; i < 4; i++){
 
-            JLabel tempLabel = new JLabel(Player.getPlayer(i).getPlayerName());
+            JLabel tempLabel = new JLabel(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
             tempLabel.setFont(new Font("Serif", Font.BOLD, 35));
+            playerLabels[i] = tempLabel;
 
             JPanel labelPanel = new JPanel();
             labelPanel.add(tempLabel);
 
-            if( i == 1 || i == 3){
+            if( i == 0 || i == 2){
                 leftPanel.add(labelPanel);
-                leftPanel.add(PlayerGrid.getPlayerGridPanel(i));
+                leftPanel.add(Player.getPlayer(GameEngine.getTurnOrder(array[i])).createGrid());
             }
 
             else{
                 rightPanel.add(labelPanel);
-                rightPanel.add(PlayerGrid.getPlayerGridPanel(i));
+                rightPanel.add(Player.getPlayer(GameEngine.getTurnOrder(array[i])).createGrid());
             }
 
         }
@@ -126,12 +129,12 @@ public class GameGUI extends JFrame {
         rightPiecesPanel.add(rightPanel);
     }
 
-    /*public static void updateLabels(){
+    public static void updateLabels(){
         int[] array = {3,0,2,1};
         for (int i = 0; i < 4; i++){
             playerLabels[i].setText(Player.getPlayer(GameEngine.getTurnOrder(array[i])).getPlayerName());
         }
-    }*/
+    }
 
     private MenuListener aboutListener = new MenuListener() {
         @Override

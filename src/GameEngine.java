@@ -504,6 +504,7 @@ public class GameEngine {
                 return (max.getKey());
             }
         }
+        return 0; //TODO FIX THIS RETURN 0 FOR TESTING ONLY
     }
 
 
