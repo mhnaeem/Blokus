@@ -1,14 +1,8 @@
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import org.w3c.dom.Text;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * About Screen that includes the following:
@@ -24,7 +18,7 @@ public class About extends JFrame {
 
     private JPanel fullPanel, topPanel, exitPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
     private JLabel paragraph;
-    private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton;
+    private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton, sourcesButton;
     private String text;
 
     public About(){
@@ -38,11 +32,12 @@ public class About extends JFrame {
         getContentPane().add(fullPanel);
 
         setTitle("About");
-        setBounds(400, 200, 600, 500);
+        setBounds(400, 200, 650, 550);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setResizable(false);
+        setAlwaysOnTop(true);
     }
 
 
@@ -60,6 +55,8 @@ public class About extends JFrame {
         //for exitPanel
         disclaimerButton=new JButton("Disclaimer");
         exitButton = new JButton("Exit");
+
+        sourcesButton=new JButton("Sources");
 
     }
 
@@ -184,10 +181,12 @@ public class About extends JFrame {
 
         Dimension btnSize = new Dimension(100, 50);
 
+        sourcesButton.setPreferredSize(btnSize);
         disclaimerButton.setPreferredSize(btnSize);
         exitButton.setPreferredSize(btnSize);
 
         //adding Disclaimer button and Exit button to exitPanel
+        exitPanel.add(sourcesButton);
         exitPanel.add(disclaimerButton);
         exitPanel.add(exitButton);
 
@@ -195,8 +194,16 @@ public class About extends JFrame {
         fullPanel.add(exitPanel, BorderLayout.SOUTH);
 
         //adding actionListener to both buttons
+        sourcesButton.addActionListener(actionEvent -> sourcesButtonEvent());
         disclaimerButton.addActionListener(actionEvent -> disclaimerButtonEvent());
         exitButton.addActionListener(actionEvent -> About.this.dispose());
+    }
+
+    private void sourcesButtonEvent(){
+        text="<html><p>Link to our project in GitHub : <a href=\"https://github.com/mhnaeem/comp2005-fall19-group9\">comp2005-fall19-group9</a></p></html>";
+
+        paragraph.setText(text);
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
 
     /**
