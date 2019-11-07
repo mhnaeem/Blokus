@@ -71,22 +71,27 @@ public class LoadScreen extends JFrame {
         menu = new JMenuBar();
         file = new JMenu("File");
         about = new JMenu("About");
+        JMenu help = new JMenu("Help");
         load = new JMenuItem("Load");
         deleteLoad=new JMenuItem("Delete Load State");
         exit = new JMenuItem("Exit");
+        JMenuItem howTo = new JMenuItem("How To");
 
         file.add(load);
         file.add(deleteLoad);
         file.add(exit);
+        help.add(howTo);
 
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
         deleteLoad.addActionListener(x->deleteLoadEvent());
+        howTo.addActionListener(actionEvent -> new HelpDetails("load"));
 
         about.addMenuListener(aboutListener);
 
         menu.add(file);
         menu.add(about);
+        menu.add(help);
         setJMenuBar(menu);
     }
 

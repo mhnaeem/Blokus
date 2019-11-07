@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -21,6 +23,7 @@ public class MainScreen extends JFrame{
    
    public MainScreen(){
        setFrame();
+       createMenu();
        createLabel();
        createButtons();
        addDetails();
@@ -39,9 +42,40 @@ public class MainScreen extends JFrame{
        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
        setResizable(false);
    }
+
+    private void createMenu()
+    {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu file = new JMenu("File");
+        JMenu about = new JMenu("About");
+        JMenu help = new JMenu("Help");
+
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem howTo = new JMenuItem("How To");
+
+        menuBar.add(file);
+        menuBar.add(about);
+        menuBar.add(help);
+
+        file.add(exit);
+        help.add(howTo);
+
+        about.addMenuListener(aboutListener);
+
+        exit.addActionListener(actionEvent -> System.exit(0));
+        howTo.addActionListener(actionEvent -> new HelpDetails("blokus"));
+        setJMenuBar(menuBar);
+    }
    
    public void createLabel(){
-        mainLbl = new JLabel("BLOKUS");
+       String text="<html><span style='color: #4285f4'>B</span>" +  //BLUE
+               "  <span style='color: #ea4335'>L</span>" +          //RED
+               "  <span style='color: #fbbc05'>O</span>" +            //YELLOW
+               "  <span style='color: #4285f4'>K</span>" +             //BLUE
+               "  <span style='color: #34a853'>U</span>" +           //GREEN
+               "  <span style='color: #ea4335'>S</span></html>";        //RED
+        mainLbl = new JLabel(text);
    }
    
    public void createButtons(){
@@ -102,4 +136,17 @@ public class MainScreen extends JFrame{
             //screen
         });
     }
+
+    private MenuListener aboutListener = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            new About();
+        }
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    };
 }

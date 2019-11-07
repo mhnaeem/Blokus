@@ -42,6 +42,7 @@ public class HelpDetails extends JFrame
         {
             contentLabel.setText("Starting a Game: ");
             message += "To start a game, fill all drop-down boxes with game specifics, then press start!\n\n";
+            message += "For quickest setup, select 4 players, 4 human players, easy bot, colourblind option, basic scoring, and random colours.\n\n";
             setTitle("Setup Instructions");
 
         }
@@ -55,6 +56,8 @@ public class HelpDetails extends JFrame
             message += "You can also pass your turn.\n\n";
             message += "Once the piece is oriented correctly, select a location on the game board. \n\n";
             message += "This will play your piece. \n\n";
+            message += "The first piece must be placed in the corner closest to your colour piece tray. \n\n";
+            message += "Pieces must be placed with one corner touching another piece of the same colour, but no adjacent sides. \n\n";
             setTitle("Game Instructions");
         }
 
@@ -66,6 +69,14 @@ public class HelpDetails extends JFrame
             message += "Each player's first move must have a piece placed in a corner of the board.\n\n";
             message += "Pieces must be placed next to the corner of another piece of that colour, but with no two sides adjacent.\n\n";
             setTitle("Blokus Information ");
+        }
+
+        // called on the MainScreen
+        if (type.equals("load"))
+        {
+            contentLabel.setText("Load Instructions: ");
+            message += "Select a saved game to load. \n\n";
+            setTitle("Load Game ");
         }
 
         // creates the parts of the jframe
