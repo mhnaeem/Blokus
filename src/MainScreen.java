@@ -41,7 +41,13 @@ public class MainScreen extends JFrame{
    }
    
    public void createLabel(){
-        mainLbl = new JLabel("BLOKUS");
+       String text="<html><span style='color: #4285f4'>B</span>" +  //BLUE
+               "  <span style='color: #ea4335'>L</span>" +          //RED
+               "  <span style='color: #fbbc05'>O</span>" +            //YELLOW
+               "  <span style='color: #4285f4'>K</span>" +             //BLUE
+               "  <span style='color: #34a853'>U</span>" +           //GREEN
+               "  <span style='color: #ea4335'>S</span></html>";        //RED
+        mainLbl = new JLabel(text);
    }
    
    public void createButtons(){
