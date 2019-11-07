@@ -1,8 +1,4 @@
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,6 +24,12 @@ public class SelectedPiece{
     private JButton[][] selectedButtonGrid;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
+        // For Mac's look and feel
+        try {
+            UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.playerIndex = player_index;
         this.selectedButtonName = selected_button_name;
@@ -126,6 +128,11 @@ public class SelectedPiece{
                 btn.setForeground(Color.white);
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+
+                // To account for different screen sizes
+                btn.setMinimumSize(new Dimension(buttonWidth-5, buttonHeight-5));
+                btn.setMaximumSize(new Dimension(buttonWidth+5,buttonHeight+5));
+
                 btn.setFocusable(false);
                 tempPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
                 tempPanel.add(btn, gbc);

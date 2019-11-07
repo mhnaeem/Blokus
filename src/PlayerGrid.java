@@ -1,7 +1,4 @@
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +20,14 @@ public class PlayerGrid {
     private boolean active = true;
 
     public PlayerGrid(int index) {
+
+        // For Mac's look and feel
+        try {
+            UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.playerIndex = index;
         createGrid(16, 17, 20, 20);
         playerGridPanelMap.put(this.playerIndex, this.gridPanel);
@@ -42,6 +47,11 @@ public class PlayerGrid {
                 btn.setForeground(Color.white);
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+
+                // To account for different screen sizes
+                btn.setMinimumSize(new Dimension(buttonWidth-5, buttonHeight-5));
+                btn.setMaximumSize(new Dimension(buttonWidth+5,buttonHeight+5));
+
                 btn.setFocusable(false);
                 btn.addActionListener(new PlayerGridListener());
                 tempPanel.setBorder(new EmptyBorder(10, 30, 10, 30));

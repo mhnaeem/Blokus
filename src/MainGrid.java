@@ -1,5 +1,3 @@
-import org.ietf.jgss.GSSManager;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -13,6 +11,13 @@ public class MainGrid {
     private static JButton[][] mainGridButtons;
 
     public MainGrid() {
+
+        // For Mac's look and feel
+        try {
+            UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mainGridPanel = createGrid(20, 20, 35, 35);
     }
 
@@ -37,6 +42,11 @@ public class MainGrid {
                 btn.setForeground(Color.white);
                 btn.setBackground(Color.white);
                 btn.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+
+                // To account for different screen sizes
+                btn.setMinimumSize(new Dimension(buttonWidth-5, buttonHeight-5));
+                btn.setMaximumSize(new Dimension(buttonWidth+5,buttonHeight+5));
+
                 btn.setFocusable(false);
                 btn.addActionListener(new MainGridListener());
                 btn.addMouseListener(new MainGridHoverListener());

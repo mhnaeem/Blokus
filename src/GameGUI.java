@@ -1,11 +1,4 @@
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.BorderLayout;
@@ -26,6 +19,13 @@ public class GameGUI extends JFrame {
     private static JLabel[] playerLabels;
 
     public GameGUI(JPanel GridPanel){
+
+        // For Mac's look and feel
+        try {
+            UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         leftPiecesPanel = new JPanel();
         rightPiecesPanel = new JPanel();
