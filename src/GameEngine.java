@@ -25,8 +25,8 @@ public class GameEngine {
     public GameEngine() {
         firstTurnMap = new HashMap<>();
         calculateTurnOrder();
-        PlayerGrid.disableOtherPlayerGrids(currentTurn);
         currentTurn = turnOrder[0];
+        PlayerGrid.disableOtherPlayerGrids(currentTurn);
         turn_index = 0;
         alternateTurn = 1;
     }
