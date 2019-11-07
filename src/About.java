@@ -1,9 +1,14 @@
-
-
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 
 /**
  * About Screen that includes the following:
@@ -15,18 +20,14 @@ import java.awt.*;
  * @version (Version 1.2)
  */
 
-
 public class About extends JFrame {
-    private Container contentPane = getContentPane();
+
     private JPanel fullPanel, topPanel, exitPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
-    private JLabel about,paragraph;
+    private JLabel paragraph;
     private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton;
     private String text;
 
-
-
     public About(){
-
 
         createButtons();
         setLayoutsOfAllPanels();
@@ -34,7 +35,7 @@ public class About extends JFrame {
         setupParagraphPanel();
         setupExitPanel();
 
-        contentPane.add(fullPanel);
+        getContentPane().add(fullPanel);
 
         setTitle("About");
         setBounds(400, 200, 600, 500);
@@ -43,8 +44,6 @@ public class About extends JFrame {
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setResizable(false);
     }
-
-
 
 
     /**
@@ -63,9 +62,6 @@ public class About extends JFrame {
         exitButton = new JButton("Exit");
 
     }
-
-
-
 
     /**
      * This function does the following:
@@ -102,11 +98,7 @@ public class About extends JFrame {
 
         //Adding layout of the exitPanel
         exitPanel = new JPanel(new FlowLayout());
-
     }
-
-
-
 
     /**
      * This function does the following:
@@ -119,8 +111,8 @@ public class About extends JFrame {
         Dimension btnSize = new Dimension(180, 50);
 
         // Added functionality to buttons
-        gameInfoButton.addActionListener(x -> gameInfoButtonEvent());
-        projectInfoButton.addActionListener(x -> projectInfoButtonEvent());
+        gameInfoButton.addActionListener(actionEvent -> gameInfoButtonEvent());
+        projectInfoButton.addActionListener(actionEvent -> projectInfoButtonEvent());
 
         gameInfoButton.setPreferredSize(btnSize);
         projectInfoButton.setPreferredSize(btnSize);
@@ -131,9 +123,6 @@ public class About extends JFrame {
         topPanel.add(topLeftButtonPanel);
     }
 
-
-
-
     /**
      * This function does the following:
      * adds About label to topRightAboutPanel
@@ -141,16 +130,13 @@ public class About extends JFrame {
      */
     private void setupTopRightAboutPanel(){
 
-        about = new JLabel("About");
+        JLabel about = new JLabel("About");
         about.setFont(new Font(Font.SERIF, Font.BOLD, 50));
 
         topRightAboutPanel.add(about);
 
         topPanel.add(topRightAboutPanel);
     }
-
-
-
 
     /**
      * This function does the following:
@@ -168,11 +154,7 @@ public class About extends JFrame {
 
         //adding topPanel to full Panel
         fullPanel.add(topPanel, BorderLayout.NORTH);
-
     }
-
-
-
 
     /**
      * This function does the following:
@@ -191,9 +173,6 @@ public class About extends JFrame {
         paragraphPanel.add(paragraph,BorderLayout.CENTER);
         fullPanel.add(paragraphPanel, BorderLayout.CENTER);
     }
-
-
-
 
     /**
      * This function does the following:
@@ -216,23 +195,9 @@ public class About extends JFrame {
         fullPanel.add(exitPanel, BorderLayout.SOUTH);
 
         //adding actionListener to both buttons
-        disclaimerButton.addActionListener(x -> disclaimerButtonEvent());
-        exitButton.addActionListener(x -> exitButtonEvent());
+        disclaimerButton.addActionListener(actionEvent -> disclaimerButtonEvent());
+        exitButton.addActionListener(actionEvent -> About.this.dispose());
     }
-
-
-
-
-    /**
-     * when exit button is pressed
-     * closes the window
-     */
-    private void exitButtonEvent(){
-        this.dispose();
-    }
-
-
-
 
     /**
      * when Disclaimer button is pressed
@@ -252,9 +217,6 @@ public class About extends JFrame {
         paragraph.setText(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
     }
-
-
-
 
     /**
      * when Project Information button is pressed
@@ -289,9 +251,6 @@ public class About extends JFrame {
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
     }
 
-
-
-
     /**
      * when Game Information button is pressed
      * Modifies text variable
@@ -304,9 +263,4 @@ public class About extends JFrame {
         paragraph.setText(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
     }
-
-
-
-
-
 }
