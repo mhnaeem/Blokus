@@ -1,7 +1,14 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.Collections;
 import java.util.HashMap;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 
@@ -16,15 +23,13 @@ import javax.swing.border.EmptyBorder;
  * @version (Version 1.2)
  */
 
-
 public class GameOver extends JFrame{
-    private Container contentPane = getContentPane();
+
     private JPanel fullPanel, gameOverPanel, playerScoresPanel, buttonPanel;
     private JLabel gameOver,paragraph;
     private JButton exitButton,playAgainButton;
     private String text;
     private HashMap<Integer, Integer> playerScores;
-
 
     public GameOver(HashMap<Integer, Integer> map){
 
@@ -35,7 +40,7 @@ public class GameOver extends JFrame{
         setupPlayerScoresPanel();
         setupButtonPanel();
 
-        contentPane.add(fullPanel);
+        getContentPane().add(fullPanel);
 
         setBounds(400, 200, 600, 500);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
@@ -54,12 +59,12 @@ public class GameOver extends JFrame{
     private void setLayoutsOfAllPanels(){
 
         //Setting layout of the fullPanel
-        fullPanel=new JPanel(new BorderLayout());
+        fullPanel = new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 40, 150));
 
         //Setting layout of the gameOverPanel
-        gameOverPanel =new JPanel(new FlowLayout(1));
-        gameOver =new JLabel("Game Over");
+        gameOverPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        gameOver = new JLabel("Game Over");
         gameOverPanel.setBorder(new EmptyBorder(20, 0, 40, 0));
 
         //Setting layout of the playerScoresPanel
@@ -70,7 +75,6 @@ public class GameOver extends JFrame{
         buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(200, 60));
     }
-
 
     /**
      * This function does the following:
@@ -88,8 +92,6 @@ public class GameOver extends JFrame{
         fullPanel.add(gameOverPanel, BorderLayout.NORTH);
     }
 
-
-
     /**
      * This function does the following:
      * calls sortPlayerScores() which adds Player numbers and scores to String variable text
@@ -99,16 +101,13 @@ public class GameOver extends JFrame{
 
         // adds Player numbers and scores to String variable text
         sortPlayerScores();
-
-
-        paragraph=new JLabel(text);
+        
+        paragraph = new JLabel(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 
         playerScoresPanel.add(paragraph);
         fullPanel.add(playerScoresPanel,BorderLayout.CENTER);
     }
-
-
 
     /**
      * This function does the following:
@@ -119,23 +118,22 @@ public class GameOver extends JFrame{
 
         Dimension btnSize = new Dimension(100, 50);
 
-
         exitButton = new JButton("Exit");
-        playAgainButton=new JButton("Play Again");
+        playAgainButton = new JButton("Play Again");
 
         exitButton.setPreferredSize(btnSize);
         playAgainButton.setPreferredSize(btnSize);
-
 
         buttonPanel.add(playAgainButton);
         buttonPanel.add(exitButton);
         fullPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        playAgainButton.addActionListener(x-> playAgainEvent());
-        exitButton.addActionListener(x -> exitEvent());
+        playAgainButton.addActionListener(actionEvent -> {
+            GameOver.this.dispose();
+            new MainScreen();
+        });
+        exitButton.addActionListener(actionEvent -> System.exit(0));
     }
-
-
 
     /**
      * This function does the following:
@@ -147,38 +145,12 @@ public class GameOver extends JFrame{
         for (int i = 1; i <= Options.getNumberOfPlayers(); i++){
             if(Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey() != null){
                 Integer pl = Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
-                if(pl!=null && playerScores.containsKey(pl)){
-                    text +="<p>Player "+pl+" Scored : "+playerScores.get(pl)+" points </p></br>";
+                if(pl != null && playerScores.containsKey(pl)){
+                    text += "<p>Player " + pl + " Scored : " + playerScores.get(pl) + " points </p></br>";
                     playerScores.remove(pl);
                 }
             }
         }
-        text+="</html>";
+        text += "</html>";
     }
-
-
-
-    /**
-     * when exit button is pressed
-     * exits
-     */
-    private void exitEvent(){
-        System.exit(0);
-    }
-
-
-    /**
-     * when Play Again button is pressed
-     * Opens CreateGame Window
-     */
-    private void playAgainEvent(){
-        new CreateGame();
-        this.dispose();
-    }
-
-
-
-
-
-
 }
