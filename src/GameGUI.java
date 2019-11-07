@@ -70,18 +70,11 @@ public class GameGUI extends JFrame {
         topPanel = new JPanel();
         bottomPanel = new JPanel();
         mainGridPanel = new JPanel();
-        //mainGridPanel.add(GridPanel);
+        mainGridPanel.add(GridPanel);
 
 
         //Used to make the grid centered in the window
-        mainGridPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = 0;
-        gbc.gridx = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        mainGridPanel.add(GridPanel,gbc);
-
-        //mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
+        mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
 
         createMenu();
 
@@ -171,7 +164,7 @@ public class GameGUI extends JFrame {
             playerLabels[i] = tempLabel;
         }
 
-        /*JPanel rightPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
         JPanel leftPanel = new JPanel();
@@ -184,43 +177,8 @@ public class GameGUI extends JFrame {
         leftPanel.add(playerLabels[2]);
         leftPanel.add(listOfPiecesPanels.get(2));
         rightPanel.add(playerLabels[3]);
-        rightPanel.add(listOfPiecesPanels.get(3));*/
+        rightPanel.add(listOfPiecesPanels.get(3));
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridBagLayout());
-
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridBagLayout());
-
-        JPanel tempPanel;
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(0,0,0,0);
-        leftPanel.add(playerLabels[0],gbc);
-        rightPanel.add(playerLabels[1],gbc);
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0,0,0,0);
-        leftPanel.add(listOfPiecesPanels.get(0),gbc);
-        rightPanel.add(listOfPiecesPanels.get(1),gbc);
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0,0,0,0);
-        tempPanel = new JPanel();
-        tempPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        leftPanel.add(tempPanel,gbc);
-        tempPanel = new JPanel();
-        tempPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        rightPanel.add(tempPanel,gbc);
-        gbc.gridy = 3;
-        gbc.insets = new Insets(0,0,0,0);
-        leftPanel.add(playerLabels[2],gbc);
-        rightPanel.add(playerLabels[3],gbc);
-        gbc.gridy = 4;
-        gbc.insets = new Insets(0,0,0,0);
-        leftPanel.add(listOfPiecesPanels.get(2),gbc);
-        rightPanel.add(listOfPiecesPanels.get(3),gbc);
 
 
         leftPiecesPanel.add(leftPanel);
