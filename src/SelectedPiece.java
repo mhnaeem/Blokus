@@ -171,21 +171,7 @@ public class SelectedPiece{
             (Piece.getActionsList(key)).forEach(action -> {
                 selectedButtonGrid[x + action[0]][y + action[1]].setBackground(color);
                 if (Options.getIsColorblind()) {
-                    ImageIcon icon = null;
-                    switch (this.playerIndex) {
-                        case 1:
-                            icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
-                            break;
-                        case 2:
-                            icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
-                            break;
-                        case 3:
-                            icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
-                            break;
-                        case 4:
-                            icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
-                            break;
-                    }
+                    ImageIcon icon = Player.getPlayerIcon(this.playerIndex);
                     selectedButtonGrid[x + action[0]][y + action[1]].setDisabledIcon(icon);
                     selectedButtonGrid[x + action[0]][y + action[1]].setIcon(icon);
                 }

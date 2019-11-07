@@ -1,4 +1,5 @@
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -65,4 +66,24 @@ public class Player {
     public static Player getPlayer(int player_index){
         return players[player_index];
     }
+
+    public static ImageIcon getPlayerIcon(Integer player_index){
+        ImageIcon icon = null;
+        switch (player_index) {
+            case 1:
+                icon = new ImageIcon("./Assets/Shapes/iconfinder_star_216411.png");
+                break;
+            case 2:
+                icon = new ImageIcon("./Assets/Shapes/iconfinder_times_216465.png");
+                break;
+            case 3:
+                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-record_216317.png");
+                break;
+            case 4:
+                icon = new ImageIcon("./Assets/Shapes/iconfinder_media-stop_216325.png");
+                break;
+        }
+        return icon;
+    }
+
 }
