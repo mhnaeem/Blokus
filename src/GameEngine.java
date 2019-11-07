@@ -12,13 +12,12 @@ import java.util.HashMap;
  */
 public class GameEngine {
 
-    private static int testturn = 1;
-    private static boolean ret = false;
     private static Integer selectedPiece = null;
     private static HashMap<Integer,int[]> firstTurnMap = new HashMap<>();
     private static int[] turnOrder= GameEngine.calculateTurnOrder();
     private static int currentTurn = turnOrder[0];
     private static int turn_index = 0;
+    private static int alternateTurn = 1;
     public GameEngine(){
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
     }
@@ -33,7 +32,7 @@ public class GameEngine {
         for (int[] action : Piece.getActionsList(selectedPiece)) {
             if(!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)){
                 //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
-                //System.out.println("Not a legal move");
+                System.out.println("Not a legal move");
                 return false;
             }
         }
@@ -331,8 +330,16 @@ public class GameEngine {
         return currentTurn;
     }
 
-    //TODO: implent three players and AI turn later
+    //TODO: implment AI move
     public static void updateCurrentTurn(){
+
+        if (Options.hasAlternatePlayer()){
+            //if game has alternate player, this makes alternate alternate again after alternate is played by a player
+            Player.getPlayer(4).setName("Alternate");
+            GameGUI.updateLabels();
+        }
+
+
         turn_index++;
         if (turn_index >= 4){
             turn_index=0;
@@ -340,6 +347,32 @@ public class GameEngine {
         currentTurn = turnOrder[turn_index];
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         selectedPiece = null;
+
+        if(Options.getAI_indexList().contains(currentTurn)){
+            //AI turn here
+            //TODO: AI should make move using current turn
+            //DISABLE ALL GRIDS WHILE AI IS PLAYING
+            //AI TURN IS OVER WHEN updateCurrentTurn() is called again
+        }
+
+        //current turn is now the alternate turn which is always 4
+        if (Options.hasAlternatePlayer()&&currentTurn==4){
+            Player.getPlayer(4).setName(Player.getPlayer(alternateTurn).getPlayerName());
+            GameGUI.updateLabels();
+            if(Options.getAI_indexList().contains(alternateTurn)){
+                //TODO: here AI function to play alternate turn here
+                //AI should play using the current turn
+                //DISABLE ALL GRIDS WHILE AI IS PLAYING
+            }
+            else {
+                //alternate turn is played by a human, text label for alternate changes to the player name who should play the alternate turn
+                }
+            alternateTurn++;
+            //alternate turn is played by player index 1,2,3. It cannot be played by index 4 which is itself
+            if (alternateTurn>=4){
+                alternateTurn =1;
+            }
+        }
     }
 
     private static int[] calculateTurnOrder() {
@@ -377,10 +410,14 @@ public class GameEngine {
 
     public static Integer getSelectedPiece(){
         if(selectedPiece == null){
-            //System.out.println("Error in getSelectedPiece, no piece was selected");
+            System.out.println("Error in getSelectedPiece, no piece was selected");
             //JOptionPane.showMessageDialog(null,"Error in getSelectedPiece, no piece was selected");
         }
         return selectedPiece;
+    }
+
+    public static int getTurnOrder(int index){
+        return turnOrder[index];
     }
 
     public static void setSelectedPiece(Integer piece_index){

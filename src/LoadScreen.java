@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
 /**
  * Load Saved Game that includes the following:
  * Load Game Label;
@@ -24,6 +27,19 @@ public class LoadScreen extends JFrame {
     private JMenu file,about;
     private JMenuItem deleteLoad,load,exit;
     private JButton exitButton;
+    private MenuListener aboutListener = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            new About();
+        }
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    };
+
 
 
 
@@ -62,10 +78,13 @@ public class LoadScreen extends JFrame {
         file.add(load);
         file.add(deleteLoad);
         file.add(exit);
+
         load.addActionListener(x->loadEvent());
         exit.addActionListener(x->exitEvent());
         deleteLoad.addActionListener(x->deleteLoadEvent());
-        about.addActionListener(x->aboutEvent());
+
+        about.addMenuListener(aboutListener);
+
         menu.add(file);
         menu.add(about);
         setJMenuBar(menu);
@@ -133,9 +152,6 @@ public class LoadScreen extends JFrame {
         System.exit(0);
     }
 
-    private void aboutEvent(){
-        System.out.println("Clicked on About menu button.");
-    }
     private void loadEvent(){
         System.out.println("Clicked on load menu button.");
     }

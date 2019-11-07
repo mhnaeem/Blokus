@@ -19,8 +19,6 @@ public class SelectedPiece{
     private String selectedButtonName;
     private int playerIndex;
     private JButton[][] selectedButtonGrid;
-    private String playerName;
-    private boolean colourBlind;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
@@ -35,35 +33,42 @@ public class SelectedPiece{
 
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
+        ImageIcon flipUpIcon = new ImageIcon("./Assets/Icons/iconfinder_multimedia-26_2849810.png");
+        ImageIcon flipRightIcon = new ImageIcon("./Assets/Icons/iconfinder_DoubleChevronLeftRight_1031523.png");
+        ImageIcon closeIcon = new ImageIcon("./Assets/Icons/close.png");
+        ImageIcon rotateIcon = new ImageIcon("./Assets/Icons/rotate.png");
+        ImageIcon passIcon = new ImageIcon("./Assets/Icons/pass.png");
         this.piece = new JPanel();
         this.piece.setBorder(new EmptyBorder(5,5,5,5));
         this.piece.add(createGrid(5,5,50,50));
 
         main.add(this.piece);
 
-        this.pass = new JButton("Pass");
-        this.pass.addActionListener(ev -> System.out.println("Pass button was pressed"));
-        this.rotate = new JButton("Rotate");
+        this.rotate = new JButton(rotateIcon);
         this.rotate.addActionListener(ev -> {
             Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
-        this.flipUp = new JButton("FlipU");
+        this.pass = new JButton(passIcon);
+        this.pass.addActionListener(ev -> {
+            GameEngine.updateCurrentTurn();
+            frm.dispose();
+        });
+        this.flipUp = new JButton(flipUpIcon);
         this.flipUp.addActionListener(ev -> {
             Piece.setActionList(flipUp(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
-        this.flipRight = new JButton("FlipR");
+        //this.flipUp.setDisabledIcon(icon);
+        //this.flipUp.setIcon(icon);
+        this.flipRight = new JButton(flipRightIcon);
         this.flipRight.addActionListener(ev -> {
             Piece.setActionList(flipRight(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
 
-        this.back = new JButton("Back");
+        this.back = new JButton(closeIcon);
         this.back.addActionListener(ev -> {
-            //Set selected piece to nothing
-            //TODO: set selected piece to null here
-            //PiecesMonitor.setSelectedPiece(playerIndex,-1);
             GameEngine.setSelectedPiece(null);
             frm.dispose();
         });
@@ -74,7 +79,6 @@ public class SelectedPiece{
         buttons.add(this.rotate);
         buttons.add(this.flipUp);
         buttons.add(this.flipRight);
-        //TODO make back button appear
         buttons.add(this.back);
 
         main.add(buttons);

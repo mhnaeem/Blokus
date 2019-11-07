@@ -57,6 +57,10 @@ public class MainGrid {
                 buttons[r][c] = btn;
             }
         }
+        buttons[0][0].setBorder(BorderFactory.createLineBorder(Color.GREEN,2));
+        buttons[0][19].setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+        buttons[19][0].setBorder(BorderFactory.createLineBorder(Color.RED,2));
+        buttons[19][19].setBorder(BorderFactory.createLineBorder(Color.YELLOW,2));
         mainGridButtons = buttons;
         return buttons;
     }
@@ -76,6 +80,7 @@ public class MainGrid {
                     SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow
                     PlayerGrid.removePieceEvent(selectedPiece); //this should remove piece from PlayerGrid for the current player
                     GameEngine.firstMoveEvent();
+                    //TODO should make a check if game is over here before updating turn
                     GameEngine.updateCurrentTurn();
                 }
             }
@@ -159,6 +164,26 @@ public class MainGrid {
                     btn.setIcon(null);
                     btn.setDisabledIcon(null);
                 }
+            });
+        }
+        else{
+            Piece.getActionsList(selectedPieceIndex).forEach( actions -> {
+                if ((brow +actions[1]<20)&&(brow +actions[1]>=0)&&(bcol + actions[0]<20)&&(bcol + actions[0]>=0)){
+                    JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
+
+                    if(btn.isEnabled() && hover) {
+                        btn.setBackground(Color.BLACK);
+                        //ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_multimedia-26_2849810.png");
+                        //btn.setDisabledIcon(icon);
+                        //btn.setIcon(icon);
+                        }
+                    if(!hover && btn.isEnabled()){
+                        btn.setBackground(Color.white);
+                        btn.setIcon(null);
+                        btn.setDisabledIcon(null);
+                    }
+                }
+
             });
         }
     }
