@@ -15,8 +15,6 @@ import java.util.Map;
 public class GameEngine {
 
     private static Integer selectedPiece = null;
-    private static HashMap<Integer, int[]> firstTurnMap = new HashMap<>();
-    private static int[] turnOrder;
     private static int currentTurn;
     private static int turn_index = 0;
     private static int alternateTurn = 1;
