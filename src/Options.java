@@ -41,6 +41,7 @@ public abstract class Options {
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
         new GameGUI(mainGridPanel);
         new GameEngine();
+
     }
 
     private static void setNumberOfAI(Integer number_of_computer){

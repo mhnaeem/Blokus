@@ -23,6 +23,10 @@ public class GameEngine {
 
     public GameEngine() {
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
+        turnOrder = GameEngine.calculateTurnOrder();
+        currentTurn = turnOrder[0];
+        turn_index = 0;
+        alternateTurn = 1;
     }
 
     public static boolean isLegal(String selectedPoint) {
