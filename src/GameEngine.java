@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * GameEngine class:
@@ -35,6 +37,8 @@ public class GameEngine {
                 System.out.println("Not a legal move");
                 return false;
             }
+
+
         }
         if(firstTurnMap.containsKey(currentTurn)){
             return isOnStartingPoint(firstTurnMap.get(currentTurn),selectedPoint);
@@ -427,4 +431,80 @@ public class GameEngine {
     public static void firstMoveEvent(){
         firstTurnMap.remove(currentTurn);
     }
+
+    public static Integer playerScoring()
+    {
+        int numPlayers = Options.getNumberOfPlayers();
+
+        HashMap<Integer, Integer> playerScoreList = new HashMap<>();
+        Map.Entry<Integer, Integer> min = null;
+        Map.Entry<Integer, Integer> max = null;
+
+        for (int h = 1; h <= numPlayers; h++) {
+            JButton[][] playerPieces = PlayerGrid.getPlayerGridButtons(h);
+            int playerScore = 0;
+
+            for (int i = 0; i < playerPieces.length; i++) {
+                for (int j = 0; j < playerPieces[i].length; j++) {
+                    JButton playerGridCell = playerPieces[i][j];
+                    if (playerGridCell.isEnabled()) {
+                        if (Options.getScoringType().equals("Basic")) {
+                            playerScore += 1;
+                        }
+                        else if (Options.getScoringType().equals("Advanced")) {
+                            playerScore -= 1;
+                        }
+                    }
+                }
+            }
+
+            /*
+             * this is the map of player int and their score
+             * can edit this function's return value to this if playerScoreList needed instead of the winner
+             * done by changing return type to HashMap<Integer, Integer>
+             * and calling to return playerScoreList;
+             */
+            playerScoreList.put(h, playerScore);
+
+            /*
+             * for basic scoring
+             * finds the minimum score in playerScoreList. the player with the minimum score is the winner
+             */
+            if (Options.getScoringType().equals("Basic")) {
+                for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
+                    if (min == null || min.getValue() > entry.getValue()) {
+                        min = entry;
+                    }
+                }
+            }
+
+            /*
+             * for advanced scoring
+             * finds the maximum score in playerScoreList. the player with the maximum score is the winner
+             */
+            else if (Options.getScoringType().equals("Advanced")) {
+                for (Map.Entry<Integer, Integer> entry : playerScoreList.entrySet()) {
+                    if (max == null || max.getValue() > entry.getValue()) {
+                        max = entry;
+                    }
+                }
+            }
+
+            /*
+             * returns basic scoring winner
+             */
+            if (Options.getScoringType().equals("Basic")) {
+                return (min.getKey());
+            }
+
+            /*
+             * returns advanced scoring winner
+             */
+            else if (Options.getScoringType().equals("Advanced")) {
+                return (max.getKey());
+            }
+        }
+    }
+
+
 }
