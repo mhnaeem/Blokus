@@ -2,6 +2,8 @@ import org.w3c.dom.Text;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 
 /**
@@ -17,7 +19,7 @@ import java.awt.*;
 public class About extends JFrame {
 
     private JPanel fullPanel, topPanel, exitPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
-    private JLabel paragraph;
+    private JEditorPane paragraph;
     private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton, sourcesButton;
     private String text;
 
@@ -164,7 +166,24 @@ public class About extends JFrame {
                 "It was invented by Bernard Tavitian and first released in 2000 by Sekkoïa, a French company. " +
                 "In 2009, the game was sold to Mattel. </p></html>";
 
-        paragraph=new JLabel(text);
+        paragraph=new JEditorPane();
+        paragraph.setContentType("text/html");//set content as html
+        paragraph.setText(text);
+
+        paragraph.addHyperlinkListener(actionEvent -> {
+            if (HyperlinkEvent.EventType.ACTIVATED.equals(actionEvent.getEventType())) {
+                System.out.println(actionEvent.getURL());
+                Desktop desktop = Desktop.getDesktop();
+                try {
+                    desktop.browse(actionEvent.getURL().toURI());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        paragraph.setEditable(false);//so its not editable
+        paragraph.setOpaque(false);//so we dont see whit background
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 
         paragraphPanel.add(paragraph,BorderLayout.CENTER);
