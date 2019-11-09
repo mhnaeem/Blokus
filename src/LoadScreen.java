@@ -3,12 +3,19 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 /**
  * Load Saved Game that includes the following:
@@ -19,29 +26,7 @@ import javax.swing.event.MenuListener;
  * @version (Version 1.1)
  */
 public class LoadScreen extends JFrame {
-    private Container contentPane = getContentPane();
     private JPanel fullPanel, topPanel, bottomPanel, exitPanel;
-    private JLabel loadGame;
-    private JScrollPane scroll;
-    private JMenuBar menu;
-    private JMenu file,about;
-    private JMenuItem deleteLoad,load,exit;
-    private JButton exitButton;
-    private MenuListener aboutListener = new MenuListener() {
-        @Override
-        public void menuSelected(MenuEvent e) {
-            new About();
-        }
-        @Override
-        public void menuDeselected(MenuEvent e) {
-        }
-        @Override
-        public void menuCanceled(MenuEvent e) {
-        }
-    };
-
-
-
 
 
     public LoadScreen(){
@@ -52,6 +37,7 @@ public class LoadScreen extends JFrame {
         setupTopPanel();
         setupBottomPanel();
         setupExitPanel();
+        Container contentPane = getContentPane();
         contentPane.add(fullPanel);
         createMenu();
         setBounds(400, 200, 600, 500);
@@ -68,13 +54,13 @@ public class LoadScreen extends JFrame {
      */
     private void createMenu()
     {
-        menu = new JMenuBar();
-        file = new JMenu("File");
-        about = new JMenu("About");
+        JMenuBar menu = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenu about = new JMenu("About");
         JMenu help = new JMenu("Help");
-        load = new JMenuItem("Load");
-        deleteLoad=new JMenuItem("Delete Load State");
-        exit = new JMenuItem("Exit");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem deleteLoad = new JMenuItem("Delete Load State");
+        JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
 
         file.add(load);
@@ -82,12 +68,11 @@ public class LoadScreen extends JFrame {
         file.add(exit);
         help.add(howTo);
 
-        load.addActionListener(x->loadEvent());
-        exit.addActionListener(x->exitEvent());
-        deleteLoad.addActionListener(x->deleteLoadEvent());
+        load.addActionListener(actionEvent -> loadEvent());
+        exit.addActionListener(actionEvent -> System.exit(0));
+        deleteLoad.addActionListener(actionEvent -> deleteLoadEvent());
         howTo.addActionListener(actionEvent -> new HelpDetails("load"));
-
-        about.addMenuListener(aboutListener);
+        about.addMouseListener(new AboutListener());
 
         menu.add(file);
         menu.add(about);
@@ -99,7 +84,7 @@ public class LoadScreen extends JFrame {
     //Setting up Load Game label on top panel
     private void setupTopPanel(){
         topPanel=new JPanel(new FlowLayout(1));
-        loadGame=new JLabel("Load Screen");
+        JLabel loadGame = new JLabel("Load Screen");
         topPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
 
         // Putting Load Game Label on Top Panel
@@ -131,7 +116,7 @@ public class LoadScreen extends JFrame {
         }
     
         //Adding scrollbar to bottom panel
-        scroll=new JScrollPane(bottomPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroll = new JScrollPane(bottomPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //Adding scroll to fullPanel
         fullPanel.add(scroll,BorderLayout.CENTER);
     }
@@ -139,22 +124,12 @@ public class LoadScreen extends JFrame {
     private void setupExitPanel(){
 
         exitPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
-        exitButton=new JButton("Exit");
+        JButton exitButton = new JButton("Exit");
 
         exitPanel.add(exitButton);
         fullPanel.add(exitPanel,BorderLayout.SOUTH);
 
-        exitButton.addActionListener(x->exitEvent());
-        
-        
-    }
-
-    /**
-     * when exit button in file menu is pressed
-     * exits
-     */
-    private void exitEvent(){
-        System.exit(0);
+        exitButton.addActionListener(actionEvent -> System.exit(0));
     }
 
     private void loadEvent(){
@@ -162,6 +137,34 @@ public class LoadScreen extends JFrame {
     }
     private void deleteLoadEvent(){
         System.out.println("Clicked on delete load menu button.");
+    }
+
+    private class AboutListener implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            new About();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 
 }
