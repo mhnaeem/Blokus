@@ -1,8 +1,25 @@
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,32 +37,14 @@ public class CreateGame extends JFrame {
     private HashMap<String,JComboBox> map;
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
-    private JMenuBar menu;
-    private JMenu file,about, help;
-    private JMenuItem reset,load,exit, howTo;
     private JButton start,back;
     private Border innerBorder,outerBorder;
     private GridBagConstraints gbc = new GridBagConstraints();
-    private static Dimension d;
     private static String s ="";
-    private int size = 0;
     private int playerNumber,humanNumber,computerNumber; //global variables to get selected parameters
     private String difficulty,colorblind,scoringType,player1Color,player2Color,player3Color,player4Color,alternateColor; //global variables to get selected parameters
     private HashMap<Integer,Color> map_of_colours;
     private boolean isColorblind;
-    private MenuListener aboutListener = new MenuListener() {
-        @Override
-        public void menuSelected(MenuEvent e) {
-            new About();
-        }
-        @Override
-        public void menuDeselected(MenuEvent e) {
-        }
-        @Override
-        public void menuCanceled(MenuEvent e) {
-        }
-    };
-
 
     public CreateGame() {
         super("Blokus Game");
@@ -65,28 +64,31 @@ public class CreateGame extends JFrame {
      */
     private void createMenu()
     {
-        menu = new JMenuBar();
-        file = new JMenu("File");
-        about = new JMenu("About");
-        help = new JMenu("Help");
-        reset = new JMenuItem("Reset");
-        load = new JMenuItem("Load");
-        exit = new JMenuItem("Exit");
-        howTo = new JMenuItem("How To");
+        JMenuBar menu = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenu about = new JMenu("About");
+        JMenu help = new JMenu("Help");
+        JMenuItem reset = new JMenuItem("Reset");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem howTo = new JMenuItem("How To");
+
         menu.add(file);
         menu.add(about);
         menu.add(help);
+
         file.add(reset);
         file.add(load);
         file.add(exit);
+
         help.add(howTo);
 
-//        about.setMnemonic(KeyEvent.VK_T);
-        about.addMenuListener(aboutListener);
-        reset.addActionListener(x->resetEvent());
-        load.addActionListener(x->loadEvent());
-        exit.addActionListener(x->exitEvent());
-        howTo.addActionListener(x -> howToEvent());
+        about.addMouseListener(new AboutListener());
+        reset.addActionListener(actionEvent -> resetEvent());
+        load.addActionListener(actionEvent -> loadEvent());
+        exit.addActionListener(actionEvent -> exitEvent());
+        howTo.addActionListener(actionEvent -> howToEvent());
+
         setJMenuBar(menu);
     }
 
@@ -128,11 +130,11 @@ public class CreateGame extends JFrame {
      * adds ActionListeners to combo boxes
      */
     private void addActionListenerToComboBoxes(){
-        playerBox.addActionListener(x->playerNumberEvent());
-        humanBox.addActionListener(x->humanNumberEvent());
-        computerBox.addActionListener(x->computerNumberEvent());
-        isRandomBox.addActionListener(x->isRandomEvent());
-        playerBoxList.forEach(player->player.addActionListener(x->playerColorEvent(player)));
+        playerBox.addActionListener(actionEvent -> playerNumberEvent());
+        humanBox.addActionListener(actionEvent -> humanNumberEvent());
+        computerBox.addActionListener(actionEvent -> computerNumberEvent());
+        isRandomBox.addActionListener(actionEvent -> isRandomEvent());
+        playerBoxList.forEach(player -> player.addActionListener(actionEvent -> playerColorEvent(player)));
     }
 
     /**
@@ -141,9 +143,13 @@ public class CreateGame extends JFrame {
      * sets default selection to null
      */
     private void setComboBoxPreferences(){
-        boxList.forEach(x->x.setSelectedItem(null));
-        d = new Dimension(115,20);
-        boxList.forEach(box -> {box.setPreferredSize(d);box.setMinimumSize(d);box.setMaximumSize(d);});
+        boxList.forEach( x -> x.setSelectedItem(null));
+        Dimension d = new Dimension(115,20);
+        boxList.forEach(box -> {
+            box.setPreferredSize(d);
+            box.setMinimumSize(d);
+            box.setMaximumSize(d);
+        });
     }
 
     /**
@@ -153,8 +159,8 @@ public class CreateGame extends JFrame {
     private void createButtons(){
         start = new JButton("Start");
         back = new JButton("Back");
-        start.addActionListener(x->startEvent());
-        back.addActionListener(x->backEvent());
+        start.addActionListener(actionEvent -> startEvent());
+        back.addActionListener(actionEvent -> backEvent());
     }
 
     /**
@@ -164,6 +170,7 @@ public class CreateGame extends JFrame {
         createLabels();
         createComboBoxes();
 
+        //TODO: Why store the variables and also store the lists, remove so only one thing is stored either the list or the variables.
         //ArrayList of Labels and ComboBoxes
         labelList = new ArrayList<>(Arrays.asList(playerLabel,humanLabel,computerLabel,difficultyLabel,isColorblindLabel,scoringLabel,isRandomLabel,player1Label,player2Label,player3Label,player4Label));
         boxList = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox,player1Box,player2Box,player3Box,player4Box));
@@ -235,7 +242,7 @@ public class CreateGame extends JFrame {
         gbc.gridy =0;
         gbc.weightx = .25;
         gbc.weighty = .25;
-        for (int row=5;row<7;row++){
+        for (int row = 5; row < 7; row++){
             gbc.gridx = 0;
             gbc.anchor = GridBagConstraints.WEST;
             gbc.insets = new Insets(0,29,0,0);
@@ -309,26 +316,24 @@ public class CreateGame extends JFrame {
      * removes and clears all previously selected options
      */
     private void playerNumberEvent() {
-        if (playerBox.getSelectedIndex()!=-1) {
+        if (playerBox.getSelectedIndex() != -1) {
             String s = (String) playerBox.getSelectedItem();
-            playerNumberEventBoxList.forEach(box -> {
-                box.removeAllItems();
-            });
+            playerNumberEventBoxList.forEach(box -> box.removeAllItems());
             switch (s) {
-                case ("2"):
+                case "2":
                     temp = new ArrayList<>(Arrays.asList(new String[]{"1", "2"}, new String[]{"0", "1"}, colorOption1, colorOption1, nullString, nullString));
                     break;
-                case ("3"):
+                case "3":
                     temp = new ArrayList<>(Arrays.asList(new String[]{"1", "2", "3"}, new String[]{"0", "1", "2"}, colorOption2, colorOption2, colorOption2, nullString));
                     break;
-                case ("4"):
+                case "4":
                     temp = new ArrayList<>(Arrays.asList(new String[]{"1", "2", "3", "4"}, new String[]{"0", "1", "2", "3"}, colorOption2, colorOption2, colorOption2, colorOption2));
                     break;
                 default:
                     break;
             }
             playerNumberEventBoxList.forEach(box -> {
-                box.setModel(new DefaultComboBoxModel<String>(temp.remove(0)));
+                box.setModel(new DefaultComboBoxModel<>(temp.remove(0)));
                 box.setSelectedItem(null);
             });
             isRandomBox.setSelectedItem("Not Random");
@@ -341,8 +346,8 @@ public class CreateGame extends JFrame {
      * example: total no of players is 3, if 1 is selected for the number of human players then the number of computer players will become 2
      */
     private void humanNumberEvent() {
-        if ((humanBox.getSelectedIndex()!=-1) && humanBox.getItemCount()==computerBox.getItemCount()) {
-            int x =((humanBox.getItemCount())-(humanBox.getSelectedIndex())-1);
+        if ( (humanBox.getSelectedIndex() != -1) && (humanBox.getItemCount() == computerBox.getItemCount()) ) {
+            int x = ( (humanBox.getItemCount()) - (humanBox.getSelectedIndex()) - 1 );
             computerBox.setSelectedIndex(x);
         }
     }
@@ -352,8 +357,8 @@ public class CreateGame extends JFrame {
      * example: total no of players is 2, if 0 is selected for computer players then the number of human players will become 2
      */
     private void computerNumberEvent() {
-        if ((computerBox.getSelectedIndex()!=-1) && computerBox.getItemCount()==humanBox.getItemCount()) {
-            int x =((computerBox.getItemCount())-(computerBox.getSelectedIndex())-1);
+        if ( (computerBox.getSelectedIndex() != -1) && (computerBox.getItemCount() == humanBox.getItemCount()) ) {
+            int x = ( (computerBox.getItemCount()) - (computerBox.getSelectedIndex()) - 1 );
             humanBox.setSelectedIndex(x);
         }
     }
@@ -364,32 +369,33 @@ public class CreateGame extends JFrame {
      * does automatic selection for players
      */
     private void isRandomEvent() {
-        if (isRandomBox.getSelectedIndex()!=-1) {
+        if (isRandomBox.getSelectedIndex() != -1) {
             String s = (String) isRandomBox.getSelectedItem();
+
             if (s.equals("Not Random")) {
-                playerBoxList.forEach(box->{box.setEnabled(true);});
+                playerBoxList.forEach( box-> box.setEnabled(true));
             }
             else if (s.equals("Random")) {
-                playerBoxList.forEach(box -> {box.setEnabled(false);});
-                if (playerBox.getSelectedIndex()!=-1) {
+                playerBoxList.forEach(box -> box.setEnabled(false));
+                if (playerBox.getSelectedIndex() != -1) {
                     int size = Integer.parseInt((String) playerBox.getSelectedItem());
                     ArrayList<Integer> temp = new ArrayList<>();
-                    while (temp.size()!=size)
+                    while (temp.size() != size)
                     {
                         int i = randgen.nextInt(size);
                         if (!temp.contains(i)) {
                             temp.add(i);
                         }
                     }
-                    if (size>=2) {
+                    if (size >= 2) {
                         player1Box.setSelectedIndex(temp.remove(temp.size() - 1));
                         player2Box.setSelectedIndex(temp.remove(temp.size() - 1));
                     }
-                    if (size>=3) {
-                        player3Box.setSelectedIndex(temp.remove(temp.size()-1));
+                    if (size >= 3) {
+                        player3Box.setSelectedIndex(temp.remove(temp.size() - 1));
                     }
-                    if (size>=4) {
-                        player4Box.setSelectedIndex(temp.remove(temp.size()-1));
+                    if (size >= 4) {
+                        player4Box.setSelectedIndex(temp.remove(temp.size() - 1));
                     }
                 }
             }
@@ -404,13 +410,13 @@ public class CreateGame extends JFrame {
      * @param box where X the player number
      */
     private void playerColorEvent(JComboBox box) {
-        if (playerBox.getSelectedIndex()!=-1)
+        if (playerBox.getSelectedIndex() != -1)
         {
-            if (box.getSelectedIndex()!=-1)
+            if (box.getSelectedIndex() != -1)
             {
                 String s = (String) box.getSelectedItem();
                 if (map.containsKey(s)) {
-                    JComboBox temp = (JComboBox) map.get(s);
+                    JComboBox temp = map.get(s);
                     if (temp.getSelectedItem().equals(s)) {
                         temp.setSelectedItem(null);
                         map.remove(s,temp);
@@ -429,14 +435,24 @@ public class CreateGame extends JFrame {
      */
     private void startEvent(){
         String x = "Invalid ";
+
+        //TODO: name s something better
         s = ""; //error list string
         ArrayList<JComboBox> test = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox));
-        ArrayList<String> errormsg = new ArrayList<>(Arrays.asList("number of players selected!\n","number of human players selected! \n","number of computer players selected! \n","difficulty selected! \n","colorblind option selected! \n","scoring type selected! \n","is color random choice!\n"));
+        ArrayList<String> errorMessage = new ArrayList<>(Arrays.asList("number of players selected!\n","number of human players selected! \n","number of computer players selected! \n","difficulty selected! \n","colorblind option selected! \n","scoring type selected! \n","is color random choice!\n"));
         ArrayList<String> errormsgPlayerColor = new ArrayList<>(Arrays.asList("player 1 color selected! \n","player 2 color selected! \n","player 3 color selected! \n","player 4 color selected! \n"));
-        test.forEach(box -> {if (box.getSelectedIndex()==-1){s= s+ x + errormsg.get(test.indexOf(box));}});
-        if (playerBox.getSelectedIndex()!=-1){
+        test.forEach(box -> {
+            if (box.getSelectedIndex() == -1){
+                s += x + errorMessage.get(test.indexOf(box));
+            }
+        });
+        if (playerBox.getSelectedIndex() != -1){
             int size = Integer.parseInt((String)playerBox.getSelectedItem());
-            playerBoxList.forEach(box -> {if ((box.getSelectedIndex()==-1)&&(playerBoxList.indexOf(box)<size)){s= s+ x + errormsgPlayerColor.get(playerBoxList.indexOf(box));}});
+            playerBoxList.forEach(box -> {
+                if ( (box.getSelectedIndex() == -1) && (playerBoxList.indexOf(box) < size) ){
+                    s += x + errormsgPlayerColor.get(playerBoxList.indexOf(box));
+                }
+            });
         }
         if (s.equals("")) {
             map_of_colours = new HashMap<>();
@@ -457,7 +473,7 @@ public class CreateGame extends JFrame {
         playerNumber = Integer.parseInt((String) playerBox.getSelectedItem() );
         humanNumber = Integer.parseInt((String)humanBox.getSelectedItem());
         computerNumber = Integer.parseInt((String)computerBox.getSelectedItem());
-        if (playerNumber>=2){
+        if (playerNumber >= 2){
             player1Color = (String) player1Box.getSelectedItem();
             addToMap(1,player1Color);
             player2Color = (String) player2Box.getSelectedItem();
@@ -467,15 +483,14 @@ public class CreateGame extends JFrame {
         if (playerNumber==3){
             player3Color = (String) player3Box.getSelectedItem();
             addToMap(3,player3Color);
-            for (int i=0;i<4;i++) {
+            for (int i = 0; i < 4; i++) {
                 if (!map.containsKey(colorOption2[i])){
                     alternateColor = colorOption2[i];
                     addToMap(4,alternateColor);
-
                 }
             }
         }
-        if (playerNumber==4){
+        if (playerNumber == 4){
             player3Color = (String) player3Box.getSelectedItem();
             addToMap(3,player3Color);
             player4Color = (String) player4Box.getSelectedItem();
@@ -515,9 +530,9 @@ public class CreateGame extends JFrame {
      * resets all selected parameters
      */
     private void resetEvent(){
-        boxList.forEach(box ->{box.setSelectedItem(null);});
-        playerBoxList.forEach(box -> {box.removeAllItems();});
-        playerNumberEventBoxList.forEach(box -> {box.removeAllItems();});
+        boxList.forEach(box -> box.setSelectedItem(null));
+        playerBoxList.forEach(box -> box.removeAllItems());
+        playerNumberEventBoxList.forEach(box -> box.removeAllItems());
     }
 
     /**
@@ -545,30 +560,58 @@ public class CreateGame extends JFrame {
      * takes player number and selected string
      * adds them to map_of_colors
      */
-    private void addToMap(int i,String s){
+    private void addToMap(int i, String s){
         switch (s){
-            case("Blue & Red"):
+            case "Blue & Red":
                 map_of_colours.put(i,Color.BLUE);
                 map_of_colours.put(i+2,Color.RED);
                 break;
-            case("Yellow & Green"):
+            case "Yellow & Green":
                 map_of_colours.put(i,Color.YELLOW);
                 map_of_colours.put(i+2,Color.GREEN);
                 break;
-            case("Blue"):
+            case "Blue":
                 map_of_colours.put(i,Color.BLUE);
                 break;
-            case("Yellow"):
+            case "Yellow":
                 map_of_colours.put(i,Color.YELLOW);
                 break;
-            case("Red"):
+            case "Red":
                 map_of_colours.put(i,Color.RED);
                 break;
-            case("Green"):
+            case "Green":
                 map_of_colours.put(i,Color.GREEN);
                 break;
             default:
                 break;
+        }
+    }
+
+    private class AboutListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            new About();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 
