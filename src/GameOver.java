@@ -26,8 +26,7 @@ import javax.swing.border.EmptyBorder;
 public class GameOver extends JFrame{
 
     private JPanel fullPanel, gameOverPanel, playerScoresPanel, buttonPanel;
-    private JLabel gameOver,paragraph;
-    private JButton exitButton,playAgainButton;
+    private JLabel gameOver;
     private String text;
     private HashMap<Integer, Integer> playerScores;
 
@@ -101,8 +100,8 @@ public class GameOver extends JFrame{
 
         // adds Player numbers and scores to String variable text
         sortPlayerScores();
-        
-        paragraph = new JLabel(text);
+
+        JLabel paragraph = new JLabel(text);
         paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 
         playerScoresPanel.add(paragraph);
@@ -118,8 +117,8 @@ public class GameOver extends JFrame{
 
         Dimension btnSize = new Dimension(100, 50);
 
-        exitButton = new JButton("Exit");
-        playAgainButton = new JButton("Play Again");
+        JButton exitButton = new JButton("Exit");
+        JButton playAgainButton = new JButton("Play Again");
 
         exitButton.setPreferredSize(btnSize);
         playAgainButton.setPreferredSize(btnSize);
