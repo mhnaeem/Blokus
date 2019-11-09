@@ -1,9 +1,17 @@
-import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Main GameGUI screen
@@ -14,7 +22,6 @@ import java.awt.Font;
 
 public class GameGUI extends JFrame {
 
-    private Container contentPane = getContentPane();
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
     private static JLabel[] playerLabels;
 
@@ -39,6 +46,7 @@ public class GameGUI extends JFrame {
 
         createMenu();
 
+        Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(leftPiecesPanel, BorderLayout.WEST);
         contentPane.add(rightPiecesPanel, BorderLayout.EAST);
@@ -83,7 +91,7 @@ public class GameGUI extends JFrame {
         file.add(exit);
         help.add(howTo);
 
-        about.addMenuListener(aboutListener);
+        about.addMouseListener(new AboutListener());
 
         newGame.addActionListener(actionEvent -> {
             GameGUI.this.dispose();
@@ -136,16 +144,31 @@ public class GameGUI extends JFrame {
         }
     }
 
-    private MenuListener aboutListener = new MenuListener() {
+    private class AboutListener implements MouseListener {
+
         @Override
-        public void menuSelected(MenuEvent e) {
+        public void mouseClicked(MouseEvent e) {
             new About();
         }
+
         @Override
-        public void menuDeselected(MenuEvent e) {
+        public void mousePressed(MouseEvent e) {
+
         }
+
         @Override
-        public void menuCanceled(MenuEvent e) {
+        public void mouseReleased(MouseEvent e) {
+
         }
-    };
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
 }
