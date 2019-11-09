@@ -1,8 +1,12 @@
-import java.awt.*;
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-import javax.swing.*;
-import javax.swing.border.Border;
 
 /**
  * Help details displays the information to assist users in playing the Blokus game
@@ -32,7 +36,7 @@ public class HelpDetails extends JFrame
         helpPanel.add(helpPanelCenter, BorderLayout.CENTER);
 
         // sets the empty space around the text
-        helpPanel.setBorder(setBorderHelpMenu());
+        helpPanel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
         JLabel contentLabel = new JLabel("");
         String message = "";
 
@@ -81,7 +85,6 @@ public class HelpDetails extends JFrame
 
         // creates the parts of the jframe
         JTextArea howToText = new JTextArea(message);
-        JScrollPane scrollPane = new JScrollPane(howToText);
 
         // sets attributes of the textarea
         howToText.setEditable(false);
@@ -101,15 +104,5 @@ public class HelpDetails extends JFrame
         // sets visible
         setVisible(true);
     }
-
-    private Border setBorderHelpMenu() {
-        Border empty = BorderFactory.createEmptyBorder(50,50,50,50);
-        return empty;
-    }
-
-//    public static void main(String[] args){
-//        new HelpDetails("blokus");
-//    }
-
 }
 
