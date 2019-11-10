@@ -183,14 +183,18 @@ public class MainGrid {
 
                     if(btn.isEnabled() && hover) {
                         btn.setBackground(Color.BLACK);
-                        //ImageIcon icon = new ImageIcon("./Assets/Shapes/iconfinder_multimedia-26_2849810.png");
-                        //btn.setDisabledIcon(icon);
-                        //btn.setIcon(icon);
-                        }
+                        btn.setForeground(Color.white);
+                        btn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+                        btn.setText("X");
+                        System.out.println(btn.getMargin());
+                        btn.setMargin(new Insets(0, 0, 0, 0));
+                    }
                     if(!hover && btn.isEnabled()){
                         btn.setBackground(Color.white);
                         btn.setIcon(null);
                         btn.setDisabledIcon(null);
+                        btn.setFont(null);
+                        btn.setText("");
                     }
                 }
 
