@@ -60,6 +60,9 @@ public class SelectedPiece{
         frm.setLocationRelativeTo(player_grid_panel);
         frm.setResizable(false);
         frm.setVisible(true);
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(frm);
+        }
     }
 
     private void createButtons(){

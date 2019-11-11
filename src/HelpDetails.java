@@ -103,6 +103,9 @@ public class HelpDetails extends JFrame
 
         // sets visible
         setVisible(true);
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(this);
+        }
     }
 }
 

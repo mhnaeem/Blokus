@@ -14,6 +14,7 @@ public abstract class Options {
     private static ArrayList<Integer> AI_indexList = new ArrayList<>();
     private static int[] turnOrder;
     private static HashMap<Integer, int[]> firstTurnMap = new HashMap<>();
+    private static boolean darkMode = false;
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
         AI_indexList = new ArrayList<>();
@@ -177,5 +178,34 @@ public abstract class Options {
 
     public static boolean hasAlternatePlayer(){
         return hasAlternatePlayer;
+    }
+
+    public static boolean isDarkMode(){
+        return darkMode;
+    }
+
+    public static void switchDarkMode(){
+        darkMode = !darkMode;
+    }
+
+    public static void setDarkModeColour(Container parent)
+    {
+        for(Component c : parent.getComponents())
+        {
+            System.out.println(c);
+            if(c instanceof Container)
+            {
+
+                if(c instanceof JPanel)
+                {
+                    c.setBackground(new Color(48,48,48));
+                }
+                if(c instanceof JLabel)
+                {
+                    c.setForeground(new Color(255,255,255));
+                }
+                setDarkModeColour((Container)c);
+            }
+        }
     }
 }

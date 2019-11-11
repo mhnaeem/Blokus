@@ -7,9 +7,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -65,6 +63,11 @@ public class GameGUI extends JFrame {
         setResizable(false);
         setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setVisible(true);
+
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(this);
+        }
+
     }
 
     private void createMenu()

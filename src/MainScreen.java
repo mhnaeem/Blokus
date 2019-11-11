@@ -30,6 +30,9 @@ public class MainScreen extends JFrame{
        buttonAction();
        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
        setVisible(true);
+       if(Options.isDarkMode()){
+           Options.setDarkModeColour(this);
+       }
    }
    
    public void setFrame(){
@@ -54,14 +57,18 @@ public class MainScreen extends JFrame{
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
 
+        JMenuItem darkMode = new JMenuItem("Dark Mode");
+
         menuBar.add(file);
         menuBar.add(about);
         menuBar.add(help);
 
+        file.add(darkMode);
         file.add(exit);
         help.add(howTo);
 
         about.addMenuListener(aboutListener);
+        darkMode.addActionListener(actionEvent -> Options.switchDarkMode());
 
         exit.addActionListener(actionEvent -> System.exit(0));
         howTo.addActionListener(actionEvent -> new HelpDetails("blokus"));

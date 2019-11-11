@@ -56,6 +56,9 @@ public class CreateGame extends JFrame {
         setSize(850, 425);
         setResizable(false);
         setVisible(true);
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(this);
+        }
     }
 
     /**

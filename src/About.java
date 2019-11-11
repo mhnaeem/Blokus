@@ -47,6 +47,9 @@ public class About extends JFrame {
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setResizable(false);
         setAlwaysOnTop(true);
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(this);
+        }
     }
 
 

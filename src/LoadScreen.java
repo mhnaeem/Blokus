@@ -45,6 +45,9 @@ public class LoadScreen extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
+        if(Options.isDarkMode()){
+            Options.setDarkModeColour(this);
+        }
     }
 
 
