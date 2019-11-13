@@ -30,9 +30,6 @@ public class MainScreen extends JFrame{
        buttonAction();
        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
        setVisible(true);
-       if(Options.isDarkMode()){
-           Options.setDarkModeColour(this);
-       }
    }
    
    public void setFrame(){
@@ -68,7 +65,15 @@ public class MainScreen extends JFrame{
         help.add(howTo);
 
         about.addMenuListener(aboutListener);
-        darkMode.addActionListener(actionEvent -> Options.switchDarkMode());
+        darkMode.addActionListener(actionEvent -> {
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Changing to dark mode is permanent, you will have to exit the window to change it back? Do you still want to continue with dark mode?","Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if(dialogResult == JOptionPane.YES_OPTION) {
+                Options.switchDarkMode();
+            }
+            if(Options.isDarkMode()){
+                Options.setDarkModeColour(MainScreen.this);
+            }
+        });
 
         exit.addActionListener(actionEvent -> System.exit(0));
         howTo.addActionListener(actionEvent -> new HelpDetails("blokus"));
