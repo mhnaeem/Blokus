@@ -25,9 +25,9 @@ import java.awt.Font;
 
 public class About extends JFrame {
 
-    private JPanel fullPanel, topPanel, exitPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
+    private JPanel fullPanel, topPanel, goBackPanel, paragraphPanel, topLeftButtonPanel, topRightAboutPanel;
     private JEditorPane paragraph;
-    private JButton exitButton, projectInfoButton, gameInfoButton, disclaimerButton, sourcesButton;
+    private JButton goBackButton, projectInfoButton, gameInfoButton, disclaimerButton, sourcesButton;
     private String text;
 
     public About(){
@@ -66,7 +66,7 @@ public class About extends JFrame {
 
         //for exitPanel
         disclaimerButton=new JButton("Disclaimer");
-        exitButton = new JButton("Exit");
+        goBackButton = new JButton("Back");
 
         sourcesButton=new JButton("Sources");
 
@@ -106,7 +106,7 @@ public class About extends JFrame {
         paragraphPanel.setBorder(new EmptyBorder(0, 40, 0, 30));
 
         //Adding layout of the exitPanel
-        exitPanel = new JPanel(new FlowLayout());
+        goBackPanel = new JPanel(new FlowLayout());
     }
 
     /**
@@ -212,20 +212,20 @@ public class About extends JFrame {
 
         sourcesButton.setPreferredSize(btnSize);
         disclaimerButton.setPreferredSize(btnSize);
-        exitButton.setPreferredSize(btnSize);
+        goBackButton.setPreferredSize(btnSize);
 
         //adding Disclaimer button and Exit button to exitPanel
-        exitPanel.add(sourcesButton);
-        exitPanel.add(disclaimerButton);
-        exitPanel.add(exitButton);
+        goBackPanel.add(sourcesButton);
+        goBackPanel.add(disclaimerButton);
+        goBackPanel.add(goBackButton);
 
         //adding exitPanel to fullPanel
-        fullPanel.add(exitPanel, BorderLayout.SOUTH);
+        fullPanel.add(goBackPanel, BorderLayout.SOUTH);
 
         //adding actionListener to both buttons
         sourcesButton.addActionListener(actionEvent -> sourcesButtonEvent());
         disclaimerButton.addActionListener(actionEvent -> disclaimerButtonEvent());
-        exitButton.addActionListener(actionEvent -> About.this.dispose());
+        goBackButton.addActionListener(actionEvent -> About.this.dispose());
     }
 
     private void sourcesButtonEvent(){
