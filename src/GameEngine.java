@@ -473,4 +473,8 @@ public class GameEngine {
     public static void gameEnd(){
         new GameOver(playerScoring());
     }
+
+    public static int getAlternateTurn() {
+        return alternateTurn;
+    }
 }

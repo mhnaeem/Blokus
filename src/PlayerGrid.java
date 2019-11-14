@@ -130,6 +130,10 @@ public class PlayerGrid {
         this.active = active;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     private class PlayerGridListener implements ActionListener{
         @Override
         public final void actionPerformed(ActionEvent e){

@@ -53,6 +53,49 @@ public class SaveGame {
         return "white";
     }
 
+    /**
+     * turn_index|alternateTurn
+     */
+    private static String getTurnSettings() {
+        return GameEngine.getCurrentTurn()+"|"+GameEngine.getAlternateTurn();
+    }
+
+    /**
+     * isColorblind|difficulty|{1:java.color,2:color,..}|number_of_players|number_of_AI
+     */
+    private static String getOptions(){
+        String mapOfColorsString = "{1:"+colourToString(Options.getColor(1))+",2:"+colourToString(Options.getColor(2))+",3:"+colourToString(Options.getColor(3))+",4:"+colourToString(Options.getColor(4))+"}";
+        return Options.getIsColorblind()+"|"+Options.getDifficulty()+"|"+Options.getScoringType()+"|"+mapOfColorsString+"|"+Options.getNumberOfPlayers()+"|"+Options.getNumberOfAI();
+    }
+
+    /**
+     * PlayerNumber;isGridActive;[[(0,0)true],[(0,1)false],..]
+     */
+    private static String getPlayerGridState(int PlayerNumber){
+        String toReturn = PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
+        JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
+        for (int row=0;row<grid.length;row++){
+            for (int col=0;col<grid[0].length;col++){
+                toReturn = toReturn + "[(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
+            }
+        }
+        return toReturn.substring(0,toReturn.length()-1) + "]";
+    }
+
+    /**
+     * [[color;(0,0)true],..]
+     */
+    private static String getMainGridState(){
+        String toReturn = "[";
+        JButton[][] grid = MainGrid.getMainGridButtons();
+        for (int row=0;row<grid.length;row++){
+            for (int col=0;col<grid[0].length;col++){
+                toReturn = toReturn + "[" + (colourToString(grid[row][col].getBackground())) + ";" +"(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
+            }
+        }
+        return toReturn.substring(0,toReturn.length()-1) + "]";
+    }
+
     public static void main(String[] args) {
         createSaveFile("hello.txt");
     }
