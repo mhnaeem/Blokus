@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -48,23 +46,23 @@ public class MainScreen extends JFrame{
         JMenuBar menuBar = new JMenuBar();
 
         JMenu file = new JMenu("File");
-        JMenu about = new JMenu("About");
         JMenu help = new JMenu("Help");
 
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
+        JMenuItem about = new JMenuItem("About");
 
         JMenuItem darkMode = new JMenuItem("Dark Mode");
 
         menuBar.add(file);
-        menuBar.add(about);
         menuBar.add(help);
 
         file.add(darkMode);
         file.add(exit);
         help.add(howTo);
+        help.add(about);
 
-        about.addMenuListener(aboutListener);
+
         darkMode.addActionListener(actionEvent -> {
             int dialogResult = JOptionPane.showConfirmDialog (null, "Changing to dark mode is permanent, you will have to exit the window to change it back? Do you still want to continue with dark mode?","Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if(dialogResult == JOptionPane.YES_OPTION) {
@@ -77,6 +75,7 @@ public class MainScreen extends JFrame{
 
         exit.addActionListener(actionEvent -> System.exit(0));
         howTo.addActionListener(actionEvent -> new HelpDetails("blokus"));
+        about.addActionListener(actionEvent -> new About());
         setJMenuBar(menuBar);
     }
    
@@ -139,8 +138,7 @@ public class MainScreen extends JFrame{
             System.exit(0);
         });
         loadButton.addActionListener((ActionEvent ev) -> {
-            dispose();
-            new LoadScreen();// This button will load saved files 
+            new LoadScreen();// This button will load saved files
         });
         startButton.addActionListener((ActionEvent ev) -> {
             dispose();
@@ -149,16 +147,5 @@ public class MainScreen extends JFrame{
         });
     }
 
-    private MenuListener aboutListener = new MenuListener() {
-        @Override
-        public void menuSelected(MenuEvent e) {
-            new About();
-        }
-        @Override
-        public void menuDeselected(MenuEvent e) {
-        }
-        @Override
-        public void menuCanceled(MenuEvent e) {
-        }
-    };
+
 }

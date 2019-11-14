@@ -8,8 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 /**
  * Main GameGUI screen
@@ -63,7 +62,7 @@ public class GameGUI extends JFrame {
         setResizable(false);
         setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setVisible(true);
-
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         if(Options.isDarkMode()){
             Options.setDarkModeColour(this);
         }
@@ -75,26 +74,32 @@ public class GameGUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu file = new JMenu("File");
-        JMenu about = new JMenu("About");
         JMenu help = new JMenu("Help");
 
         JMenuItem reset = new JMenuItem("Reset");
+        JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
         JMenuItem newGame = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
+        JMenuItem about = new JMenuItem("About");
 
         menuBar.add(file);
         menuBar.add(about);
         menuBar.add(help);
 
         file.add(reset);
+        file.add(save);
         file.add(load);
         file.add(newGame);
         file.add(exit);
         help.add(howTo);
+        help.add(about);
 
-        about.addMouseListener(new AboutListener());
+//        save.addActionListener(actionEvent -> new SavedState());
+        load.addActionListener(actionEvent -> new LoadScreen());
+
+        about.addActionListener(actionEvent -> new About());
 
         newGame.addActionListener(actionEvent -> {
             GameGUI.this.dispose();
@@ -147,31 +152,4 @@ public class GameGUI extends JFrame {
         }
     }
 
-    private class AboutListener implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            new About();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
 }

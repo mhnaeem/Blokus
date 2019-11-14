@@ -18,8 +18,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -69,15 +67,14 @@ public class CreateGame extends JFrame {
     {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
-        JMenu about = new JMenu("About");
         JMenu help = new JMenu("Help");
         JMenuItem reset = new JMenuItem("Reset");
         JMenuItem load = new JMenuItem("Load");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
+        JMenuItem about = new JMenuItem("About");
 
         menu.add(file);
-        menu.add(about);
         menu.add(help);
 
         file.add(reset);
@@ -85,8 +82,9 @@ public class CreateGame extends JFrame {
         file.add(exit);
 
         help.add(howTo);
+        help.add(about);
 
-        about.addMouseListener(new AboutListener());
+        about.addActionListener(actionEvent -> new About());
         reset.addActionListener(actionEvent -> resetEvent());
         load.addActionListener(actionEvent -> loadEvent());
         exit.addActionListener(actionEvent -> exitEvent());
@@ -590,33 +588,7 @@ public class CreateGame extends JFrame {
         }
     }
 
-    private class AboutListener implements MouseListener {
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            new About();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
 
     public static void main(String[] args) {
         HashMap<Integer, Color> map = new HashMap<>();

@@ -3,8 +3,6 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,7 +24,7 @@ import javax.swing.border.EmptyBorder;
  * @version (Version 1.1)
  */
 public class LoadScreen extends JFrame {
-    private JPanel fullPanel, topPanel, bottomPanel, exitPanel;
+    private JPanel fullPanel, topPanel, bottomPanel, goBackPanel;
 
 
     public LoadScreen(){
@@ -36,7 +34,7 @@ public class LoadScreen extends JFrame {
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
         setupTopPanel();
         setupBottomPanel();
-        setupExitPanel();
+        setupGoBackPanel();
         Container contentPane = getContentPane();
         contentPane.add(fullPanel);
         createMenu();
@@ -59,26 +57,26 @@ public class LoadScreen extends JFrame {
     {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
-        JMenu about = new JMenu("About");
         JMenu help = new JMenu("Help");
         JMenuItem load = new JMenuItem("Load");
         JMenuItem deleteLoad = new JMenuItem("Delete Load State");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
+        JMenuItem about = new JMenuItem("About");
 
         file.add(load);
         file.add(deleteLoad);
         file.add(exit);
         help.add(howTo);
+        help.add(about);
 
         load.addActionListener(actionEvent -> loadEvent());
         exit.addActionListener(actionEvent -> System.exit(0));
         deleteLoad.addActionListener(actionEvent -> deleteLoadEvent());
         howTo.addActionListener(actionEvent -> new HelpDetails("load"));
-        about.addMouseListener(new AboutListener());
+        about.addActionListener(actionEvent -> new About());
 
         menu.add(file);
-        menu.add(about);
         menu.add(help);
         setJMenuBar(menu);
     }
@@ -124,15 +122,15 @@ public class LoadScreen extends JFrame {
         fullPanel.add(scroll,BorderLayout.CENTER);
     }
 
-    private void setupExitPanel(){
+    private void setupGoBackPanel(){
 
-        exitPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton exitButton = new JButton("Exit");
+        goBackPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("Back");
 
-        exitPanel.add(exitButton);
-        fullPanel.add(exitPanel,BorderLayout.SOUTH);
+        goBackPanel.add(backButton);
+        fullPanel.add(goBackPanel,BorderLayout.SOUTH);
 
-        exitButton.addActionListener(actionEvent -> System.exit(0));
+        backButton.addActionListener(actionEvent -> this.dispose());
     }
 
     private void loadEvent(){
@@ -142,33 +140,6 @@ public class LoadScreen extends JFrame {
         System.out.println("Clicked on delete load menu button.");
     }
 
-    private class AboutListener implements MouseListener{
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            new About();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
 
 }
 
