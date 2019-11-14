@@ -61,7 +61,7 @@ public class SaveGame {
     }
 
     /**
-     * isColorblind|difficulty|{1:color,2:color,..}|number_of_players|number_of_AI
+     * isColorblind|difficulty|{1:color,2:color,key:value,player_number:value..}|number_of_players|number_of_AI
      */
     private static String getOptions(){
         String mapOfColorsString = "{1:"+colourToString(Options.getColor(1))+",2:"+colourToString(Options.getColor(2))+",3:"+colourToString(Options.getColor(3))+",4:"+colourToString(Options.getColor(4))+"}";
