@@ -12,8 +12,7 @@ public class SaveGame {
 
     public static void createSaveFile(String filename){
 
-        //TODO: add the new function as the last argument for line, so that all the player grids are saved in the text file
-        List<String> lines = Arrays.asList(SaveGame.getOptions(), saveTurnSettings(), saveMainGrid(), savePlayerGridState(2));
+        List<String> lines = Arrays.asList(SaveGame.getOptions(), saveTurnSettings(), saveMainGrid(), savePlayerGrid());
         Path file = Paths.get("./SavedGames/" + filename);
         try {
             Files.write(file, lines, StandardCharsets.UTF_8);
@@ -77,12 +76,17 @@ public class SaveGame {
      * PlayerNumber;isGridActive;[[(0,0)true],[(0,1)false],..]
      */
 
-    //TODO: Make one more function that returns all the player grids in a string. So maybe it will have
-    // for i in 4:
-    //    String +=  savePlayerGrid()
-    //or something like that
+
+    private static String savePlayerGrid(){
+        String toReturn = null;
+        for (int i=1;i<5;i++){
+            toReturn += savePlayerGridState(i)+"\n";
+        }
+        return toReturn;
+    }
+
     private static String savePlayerGridState(int PlayerNumber){
-        String toReturn = PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
+        String toReturn = "Player" + PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
         JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
         for (int row=0;row<grid.length;row++){
             for (int col=0;col<grid[0].length;col++){
