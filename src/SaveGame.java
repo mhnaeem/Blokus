@@ -61,7 +61,7 @@ public class SaveGame {
     }
 
     /**
-     * isColorblind|difficulty|{1:java.color,2:color,..}|number_of_players|number_of_AI
+     * isColorblind|difficulty|{1:color,2:color,..}|number_of_players|number_of_AI
      */
     private static String getOptions(){
         String mapOfColorsString = "{1:"+colourToString(Options.getColor(1))+",2:"+colourToString(Options.getColor(2))+",3:"+colourToString(Options.getColor(3))+",4:"+colourToString(Options.getColor(4))+"}";
@@ -76,7 +76,7 @@ public class SaveGame {
         JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
         for (int row=0;row<grid.length;row++){
             for (int col=0;col<grid[0].length;col++){
-                toReturn = toReturn + "[(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
+                toReturn += "[(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
             }
         }
         return toReturn.substring(0,toReturn.length()-1) + "]";
@@ -90,7 +90,7 @@ public class SaveGame {
         JButton[][] grid = MainGrid.getMainGridButtons();
         for (int row=0;row<grid.length;row++){
             for (int col=0;col<grid[0].length;col++){
-                toReturn = toReturn + "[" + (colourToString(grid[row][col].getBackground())) + ";" +"(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
+                toReturn += "[" + (colourToString(grid[row][col].getBackground())) + ";" +"(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
             }
         }
         return toReturn.substring(0,toReturn.length()-1) + "]";
