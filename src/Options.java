@@ -192,7 +192,6 @@ public abstract class Options {
     {
         for(Component c : parent.getComponents())
         {
-            System.out.println(c);
             if(c instanceof Container)
             {
 

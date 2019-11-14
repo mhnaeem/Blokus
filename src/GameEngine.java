@@ -1,7 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,12 +39,12 @@ public class GameEngine {
                 System.out.println("Not a legal move");
                 return false;
             }
-
-
         }
+
         if (Options.getFirstTurnMap().containsKey(currentTurn)) {
             return isOnStartingPoint(Options.getFirstTurnMap().get(currentTurn), selectedPoint);
         }
+
         if ((isEdge(selectedPoint) && !isSide(selectedPoint)) || ((isEdge(selectedPoint) && !isSide(selectedPoint)) & (isLegalSide(selectedPoint)))) {
             return true;
         }
@@ -88,7 +87,7 @@ public class GameEngine {
     }
 
     private static boolean isEdge(String selectedPoint) {
-        System.out.println("button(0,0) currently on " + selectedPoint);
+        //System.out.println("button(0,0) currently on " + selectedPoint);
         ArrayList<String> possibleEdges = calculateEdge(MainGrid.getMainGridButtons());
         ArrayList<String> pieceEdge = calculateSelectedPieceEdges(selectedPoint);
         possibleEdges.forEach(button -> System.out.println("possible edge" + button));
@@ -102,7 +101,7 @@ public class GameEngine {
     }
 
     private static boolean isSide(String selectedPoint) {
-        System.out.println("button(0,0) currently on " + selectedPoint);
+        //System.out.println("button(0,0) currently on " + selectedPoint);
         ArrayList<String> possibleSides = calculateSide(MainGrid.getMainGridButtons());
         ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
         possibleSides.forEach(button -> System.out.println("possible side" + button));
@@ -116,7 +115,7 @@ public class GameEngine {
     }
 
     private static boolean isLegalSide(String selectedPoint) {
-        System.out.println("button(0,0) currently on " + selectedPoint);
+        //System.out.println("button(0,0) currently on " + selectedPoint);
         ArrayList<String> IllegalSides = calculateSide(MainGrid.getMainGridButtons());
         ArrayList<String> possibleSides = calculateLegalSide(MainGrid.getMainGridButtons());
         ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
@@ -444,6 +443,7 @@ public class GameEngine {
              */
             playerScoreList.put(h, playerScore);
         }
+
         /*
          * for basic scoring
          * finds the minimum score in playerScoreList. the player with the minimum score is the winner
@@ -469,23 +469,6 @@ public class GameEngine {
         }
 
         return playerScoreList;
-
-        /*
-         * returns basic scoring winner
-         */
-//            if (Options.getScoringType().equals("Basic")) {
-//                return (min.getKey());
-//        }
-
-        /*
-         * returns advanced scoring winner
-         */
-//            else if (Options.getScoringType().equals("Advanced")) {
-//                return (max.getKey());
-//        }
-
-
-
     }
     public static void gameEnd(){
         new GameOver(playerScoring());

@@ -1,4 +1,9 @@
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
@@ -24,6 +29,7 @@ public class SelectedPiece{
     private JButton[][] selectedButtonGrid;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
+
         // For Mac's look and feel
         try {
             UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
@@ -214,7 +220,7 @@ public class SelectedPiece{
         frm.dispose();
     }
 
-    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
+    public static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionList.forEach(action -> toReturn.add(new int[]{-action[1], action[0]}));
         return toReturn;
