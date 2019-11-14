@@ -1,5 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import java.awt.Color;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,8 +11,10 @@ import java.util.List;
 public class SaveGame {
 
     public static void createSaveFile(String filename){
-        List<String> lines = Arrays.asList("The first line", saveMainGrid());
-        Path file = Paths.get("./SavedGames/"+filename);
+
+        //TODO: add the new function as the last argument for line, so that all the player grids are saved in the text file
+        List<String> lines = Arrays.asList(SaveGame.getOptions(), saveTurnSettings(), saveMainGrid(), savePlayerGridState(2));
+        Path file = Paths.get("./SavedGames/" + filename);
         try {
             Files.write(file, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -20,6 +22,9 @@ public class SaveGame {
         }
     }
 
+    /**
+     * maingrid: [(0,0);true;blue] , [(0,1);false;red],..]
+     */
     private static String saveMainGrid(){
         JButton[][] buttonsToSave = MainGrid.getMainGridButtons();
 
@@ -71,26 +76,17 @@ public class SaveGame {
     /**
      * PlayerNumber;isGridActive;[[(0,0)true],[(0,1)false],..]
      */
+
+    //TODO: Make one more function that returns all the player grids in a string. So maybe it will have
+    // for i in 4:
+    //    String +=  savePlayerGrid()
+    //or something like that
     private static String savePlayerGridState(int PlayerNumber){
         String toReturn = PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
         JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
         for (int row=0;row<grid.length;row++){
             for (int col=0;col<grid[0].length;col++){
-                toReturn += "[(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
-            }
-        }
-        return toReturn.substring(0,toReturn.length()-1) + "]";
-    }
-
-    /**
-     * [[color;(0,0)true],[color;(0,1)false]..]
-     */
-    private static String saveMainGridState(){
-        String toReturn = "[";
-        JButton[][] grid = MainGrid.getMainGridButtons();
-        for (int row=0;row<grid.length;row++){
-            for (int col=0;col<grid[0].length;col++){
-                toReturn += "[" + (colourToString(grid[row][col].getBackground())) + ";" +"(" + row + "," + col + ")" + (grid[row][col].isEnabled()) + "],";
+                toReturn += "[(" + row + "," + col + ");" + (grid[row][col].isEnabled()) + "],";
             }
         }
         return toReturn.substring(0,toReturn.length()-1) + "]";

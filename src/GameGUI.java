@@ -1,12 +1,4 @@
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -83,15 +75,18 @@ public class GameGUI extends JFrame {
         JMenuItem newGame = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
+        JMenuItem saveGame = new JMenuItem("Save Game");
 
         menuBar.add(file);
         menuBar.add(about);
         menuBar.add(help);
 
-        file.add(reset);
-        file.add(load);
         file.add(newGame);
+        file.add(saveGame);
+        file.add(load);
+        file.add(reset);
         file.add(exit);
+
         help.add(howTo);
 
         about.addMouseListener(new AboutListener());
@@ -99,6 +94,11 @@ public class GameGUI extends JFrame {
         newGame.addActionListener(actionEvent -> {
             GameGUI.this.dispose();
             new CreateGame();
+        });
+
+        saveGame.addActionListener(actionEvent -> {
+            String fileName = JOptionPane.showInputDialog(GameGUI.this, "Enter the name of the save file");
+            SaveGame.createSaveFile(fileName+".txt");
         });
         exit.addActionListener(actionEvent -> System.exit(0));
         howTo.addActionListener(actionEvent -> new HelpDetails("game"));
