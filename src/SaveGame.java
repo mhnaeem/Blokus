@@ -56,7 +56,7 @@ public class SaveGame {
     /**
      * turn_index|alternateTurn
      */
-    private static String getTurnSettings() {
+    private static String saveTurnSettings() {
         return GameEngine.getCurrentTurn()+"|"+GameEngine.getAlternateTurn();
     }
 
@@ -71,7 +71,7 @@ public class SaveGame {
     /**
      * PlayerNumber;isGridActive;[[(0,0)true],[(0,1)false],..]
      */
-    private static String getPlayerGridState(int PlayerNumber){
+    private static String savePlayerGridState(int PlayerNumber){
         String toReturn = PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
         JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
         for (int row=0;row<grid.length;row++){
@@ -83,9 +83,9 @@ public class SaveGame {
     }
 
     /**
-     * [[color;(0,0)true],..]
+     * [[color;(0,0)true],[color;(0,1)false]..]
      */
-    private static String getMainGridState(){
+    private static String saveMainGridState(){
         String toReturn = "[";
         JButton[][] grid = MainGrid.getMainGridButtons();
         for (int row=0;row<grid.length;row++){
