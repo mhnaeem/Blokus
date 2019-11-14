@@ -12,7 +12,6 @@ public class SaveGame {
 
     public static void createSaveFile(String filename){
 
-        //TODO: add the new function as the last argument for line, so that all the player grids are saved in the text file
         List<String> lines = Arrays.asList(SaveGame.getOptions(), saveTurnSettings(), saveMainGrid(), savePlayerGrid());
         Path file = Paths.get("./SavedGames/" + filename);
         try {
