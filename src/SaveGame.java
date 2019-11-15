@@ -96,7 +96,4 @@ public class SaveGame {
         return toReturn.substring(0,toReturn.length()-1) + "]";
     }
 
-    public static void main(String[] args) {
-        createSaveFile("hello.txt");
-    }
 }
