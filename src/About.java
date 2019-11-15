@@ -182,7 +182,6 @@ public class About extends JFrame {
 
         paragraph.addHyperlinkListener(actionEvent -> {
             if (HyperlinkEvent.EventType.ACTIVATED.equals(actionEvent.getEventType())) {
-                System.out.println(actionEvent.getURL());
                 Desktop desktop = Desktop.getDesktop();
                 try {
                     desktop.browse(actionEvent.getURL().toURI());

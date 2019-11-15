@@ -12,7 +12,6 @@ public class LoadGame {
 
     LoadGame(String filePath){
         this.path = filePath;
-        System.out.println(filePath);
         ArrayList<String> lines = new ArrayList<>();
 
 

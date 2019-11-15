@@ -171,7 +171,6 @@ public class MainGrid {
                         btn.setForeground(Color.white);
                         btn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
                         btn.setText("X");
-                        System.out.println(btn.getMargin());
                         btn.setMargin(new Insets(0, 0, 0, 0));
                     }
                     if(!hover && btn.isEnabled()){
