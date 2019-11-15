@@ -13,6 +13,7 @@ public class GameGUI extends JFrame {
 
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
     private static JLabel[] playerLabels;
+    private static GameGUI previousFrame;
 
     public GameGUI(JPanel GridPanel){
 
@@ -58,7 +59,12 @@ public class GameGUI extends JFrame {
         if(Options.isDarkMode()){
             Options.setDarkModeColour(this);
         }
-
+        if(previousFrame != null){
+            previousFrame.dispose();
+            previousFrame = null;
+            System.gc();
+        }
+        previousFrame = this;
     }
 
     private void createMenu()
