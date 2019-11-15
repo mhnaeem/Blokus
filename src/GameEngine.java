@@ -17,6 +17,8 @@ public class GameEngine {
     private static int currentTurn;
     private static int turn_index = 0;
     private static int alternateTurn = 1;
+    private static ArrayList<String> possibleEdges = new ArrayList<>();
+    private static ArrayList<String> possibleSides = new ArrayList<>();
 
 
     public GameEngine() {
@@ -31,6 +33,7 @@ public class GameEngine {
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
+        calculatePossibleSidesAndEdges(currentTurn);
 
 
         for (int[] action : Piece.getActionsList(selectedPiece)) {
@@ -45,7 +48,7 @@ public class GameEngine {
             return isOnStartingPoint(Options.getFirstTurnMap().get(currentTurn), selectedPoint);
         }
 
-        if ((isEdge(selectedPoint) && !isSide(selectedPoint)) || ((isEdge(selectedPoint) && !isSide(selectedPoint)) & (isLegalSide(selectedPoint)))) {
+        if ((isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
             return true;
         }
         else {
@@ -86,12 +89,9 @@ public class GameEngine {
         return false;
     }
 
-    private static boolean isEdge(String selectedPoint) {
+    private static boolean isSameColorEdge(String selectedPoint) {
         //System.out.println("button(0,0) currently on " + selectedPoint);
-        ArrayList<String> possibleEdges = calculateEdge(MainGrid.getMainGridButtons());
         ArrayList<String> pieceEdge = calculateSelectedPieceEdges(selectedPoint);
-        possibleEdges.forEach(button -> System.out.println("possible edge" + button));
-        pieceEdge.forEach(button -> System.out.println("piece edge" + button));
         for (String button : pieceEdge) {
             if (possibleEdges.contains(button)) {
                 return true;
@@ -100,12 +100,14 @@ public class GameEngine {
         return false;
     }
 
-    private static boolean isSide(String selectedPoint) {
-        //System.out.println("button(0,0) currently on " + selectedPoint);
-        ArrayList<String> possibleSides = calculateSide(MainGrid.getMainGridButtons());
+    private static void calculatePossibleSidesAndEdges(int player_index){
+        possibleSides = calculateBoardSide(MainGrid.getMainGridButtons(),Options.getColor(player_index));
+        possibleEdges = calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(player_index));
+    }
+
+    private static boolean isSameColorSide(String selectedPoint) {
+
         ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
-        possibleSides.forEach(button -> System.out.println("possible side" + button));
-        pieceSide.forEach(button -> System.out.println("piece side" + button));
         for (String button : pieceSide) {
             if (possibleSides.contains(button)) {
                 return true;
@@ -114,29 +116,9 @@ public class GameEngine {
         return false;
     }
 
-    private static boolean isLegalSide(String selectedPoint) {
-        //System.out.println("button(0,0) currently on " + selectedPoint);
-        ArrayList<String> IllegalSides = calculateSide(MainGrid.getMainGridButtons());
-        ArrayList<String> possibleSides = calculateLegalSide(MainGrid.getMainGridButtons());
-        ArrayList<String> pieceSide = calculateSelectedPieceSide(selectedPoint);
-        possibleSides.forEach(button -> System.out.println("possible side" + button));
-        pieceSide.forEach(button -> System.out.println("piece side" + button));
-        for (String button : pieceSide) {
-            if (IllegalSides.contains(button)) {
-                return false;
-            }
-        }
-        for (String button : pieceSide) {
-            if (possibleSides.contains(button)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    private static ArrayList<String> calculateEdge(JButton[][] grid) {
+    private static ArrayList<String> calculateBoardEdge(JButton[][] grid, Color color) {
         ArrayList<String> toReturn = new ArrayList<>();
-        Color color = Options.getColor(currentTurn);
         int row = grid[0].length;
         int col = grid[1].length;
         for (int r = 0; r < row; r++) {
@@ -210,9 +192,8 @@ public class GameEngine {
         return toReturn;
     }
 
-    private static ArrayList<String> calculateSide(JButton[][] grid) {
+    private static ArrayList<String> calculateBoardSide(JButton[][] grid, Color color) {
         ArrayList<String> toReturn = new ArrayList<>();
-        Color color = Options.getColor(currentTurn);
         int row = grid[0].length;
         int col = grid[1].length;
         for (int r = 0; r < row; r++) {
@@ -240,46 +221,6 @@ public class GameEngine {
                 }
                 if (r + 1 < row) {
                     if ((grid[r + 1][c].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r + 1) + "," + (c))))) {
-                            toReturn.add((new String((r + 1) + "," + (c))));
-                        }
-                    }
-                }
-            }
-        }
-        return toReturn;
-    }
-
-    private static ArrayList<String> calculateLegalSide(JButton[][] grid) {
-        ArrayList<String> toReturn = new ArrayList<>();
-        Color color = Options.getColor(currentTurn);
-        int row = grid[0].length;
-        int col = grid[1].length;
-        for (int r = 0; r < row; r++) {
-            for (int c = 0; c < col; c++) {
-                if (r - 1 >= 0) {
-                    if ((grid[r - 1][c].isEnabled()) && (!grid[r][c].isEnabled() && (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains(new String((r - 1) + "," + (c)))) {
-                            toReturn.add(new String((r - 1) + "," + (c)));
-                        }
-                    }
-                }
-                if (c - 1 >= 0) {
-                    if ((grid[r][c - 1].isEnabled()) && (!grid[r][c].isEnabled() && (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r) + "," + (c - 1))))) {
-                            toReturn.add((new String((r) + "," + (c - 1))));
-                        }
-                    }
-                }
-                if (c + 1 < col) {
-                    if ((grid[r][c + 1].isEnabled()) && (!grid[r][c].isEnabled() && (!grid[r][c].getBackground().equals(color)))) {
-                        if (!toReturn.contains((new String((r) + "," + (c + 1))))) {
-                            toReturn.add((new String((r) + "," + (c + 1))));
-                        }
-                    }
-                }
-                if (r + 1 < row) {
-                    if ((grid[r + 1][c].isEnabled()) && (!grid[r][c].isEnabled() && (!grid[r][c].getBackground().equals(color)))) {
                         if (!toReturn.contains((new String((r + 1) + "," + (c))))) {
                             toReturn.add((new String((r + 1) + "," + (c))));
                         }
@@ -491,5 +432,73 @@ public class GameEngine {
 
     public static int getAlternateTurn() {
         return alternateTurn;
+    }
+
+    public static boolean identifyIfAPieceCanBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
+        JButton[][] grid = MainGrid.getMainGridButtons();
+
+        Integer originalPieceIndex = GameEngine.getSelectedPiece();
+        GameEngine.setSelectedPiece(piece_index);
+
+        Boolean toReturn = false;
+
+        for (int[] action : Piece.getActionsList(piece_index)) {
+            if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
+                toReturn = false;
+            }
+        }
+        if ((isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+            toReturn = true;
+        }
+        System.out.println("Selected Point: " + selectedPoint + " Placeable: " + toReturn.toString());
+        GameEngine.setSelectedPiece(originalPieceIndex);
+        return toReturn;
+    }
+
+    public static Boolean[][] checkValidForEachPiece(int piece_index, int player_index){
+        Boolean[][] toReturn = new Boolean[20][20];
+
+        JButton[][] grid = MainGrid.getMainGridButtons();
+        for (int r = 0; r < 20; r++) {
+            for (int c = 0; c < 20; c++) {
+                if(grid[r][c].isEnabled()){
+                    toReturn[r][c] = identifyIfAPieceCanBePlaced(piece_index,grid[r][c].getName(), player_index);
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static void checkValidForEachPlayer(){
+        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer1 = new ArrayList<>();
+        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer2 = new ArrayList<>();
+        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer3 = new ArrayList<>();
+        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer4 = new ArrayList<>();
+
+        for (int pi = 1; pi <= Options.getNumberOfPlayers(); pi++) {
+            calculatePossibleSidesAndEdges(pi);
+            for (int i : Player.getPlayer(pi).getAvailablePieces()) {
+                System.out.println("Piece Number: " + i + "Player Number: " + pi + "Current Turn " + currentTurn);
+                switch (pi) {
+                    case 1:
+                        piecePlaceableListOnMainGridPlayer1.add(checkValidForEachPiece(i,pi));
+                        break;
+                    case 2:
+                        piecePlaceableListOnMainGridPlayer2.add(checkValidForEachPiece(i,pi));
+                        break;
+                    case 3:
+                        piecePlaceableListOnMainGridPlayer3.add(checkValidForEachPiece(i,pi));
+                        break;
+                    case 4:
+                        piecePlaceableListOnMainGridPlayer4.add(checkValidForEachPiece(i,pi));
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+
     }
 }
