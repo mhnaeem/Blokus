@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class LoadGame {
 
@@ -9,10 +10,7 @@ public class LoadGame {
     LoadGame(String filePath){
         this.path = filePath;
         System.out.println(filePath);
-        String optionsLine;
-        String turnLine;
-        String mainGridLine;
-        String
+        ArrayList<String> lines = new ArrayList<>();
 
 
         //TODO: read comments if any in LoadScreen, SavedState, SaveGame, and LoadGame.
@@ -22,6 +20,7 @@ public class LoadGame {
         try {
             Files.lines(Paths.get(this.path)).forEach(line -> {
                 System.out.println(line);
+                lines.add(line);
             });
         } catch (IOException e) {
             e.printStackTrace();
