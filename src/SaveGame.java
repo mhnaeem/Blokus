@@ -73,7 +73,7 @@ public class SaveGame {
     }
 
     /**
-     * PlayerNumber;isGridActive;[[(0,0)true],[(0,1)false],..]
+     * PlayerNumber:isGridActive:[[(0,0);true][(0,1);false]..]
      */
 
 
@@ -86,14 +86,14 @@ public class SaveGame {
     }
 
     private static String savePlayerGridState(int PlayerNumber){
-        String toReturn = "Player" + PlayerNumber+";"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+";"+"[";
+        String toReturn = Player.getPlayer(PlayerNumber).getPlayerName()+":"+Player.getPlayer(PlayerNumber).getPlayerGrid().isActive()+":"+"[";
         JButton[][] grid = PlayerGrid.getPlayerGridButtons(PlayerNumber);
         for (int row=0;row<grid.length;row++){
             for (int col=0;col<grid[0].length;col++){
-                toReturn += "[(" + row + "," + col + ");" + (grid[row][col].isEnabled()) + "],";
+                toReturn += "[(" + row + "," + col + ");" + (grid[row][col].isEnabled()) + "]";
             }
         }
-        return toReturn.substring(0,toReturn.length()-1) + "]";
+        return toReturn + "]";
     }
 
 }

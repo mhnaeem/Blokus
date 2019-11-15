@@ -41,8 +41,6 @@ public abstract class Options {
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
         new GameGUI(mainGridPanel);
         new GameEngine();
-
-
     }
 
     private static void setNumberOfAI(Integer number_of_computer){
@@ -164,12 +162,17 @@ public abstract class Options {
         return firstTurnMap;
     }
 
+
     public static int getTurnOrder(int index){
         return turnOrder[index];
     }
 
     public static void cornerMoveEvent() {
         firstTurnMap.remove(GameEngine.getCurrentTurn());
+    }
+
+    public static void clearFirstTurnMap(int current_turn){
+        firstTurnMap.remove(current_turn);
     }
 
     public static ArrayList<Integer> getAI_indexList(){

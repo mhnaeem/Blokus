@@ -331,6 +331,16 @@ public class GameEngine {
         return currentTurn;
     }
 
+    public static void setCurrentTurn(int turn_index){
+        currentTurn = Options.getTurnOrder(turn_index);
+        PlayerGrid.disableOtherPlayerGrids(currentTurn);
+        //TODO WHAT IF GAME WAS SAVED DURING AN AI MOVE
+    }
+
+    public static void setAlternateTurn(int alternate_turn){
+        alternateTurn = alternate_turn;
+    }
+
     //TODO: implement AI move
     public static void updateCurrentTurn() {
 
@@ -470,6 +480,7 @@ public class GameEngine {
 
         return playerScoreList;
     }
+
     public static void gameEnd(){
         new GameOver(playerScoring());
     }
