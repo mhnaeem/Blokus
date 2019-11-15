@@ -2,17 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -32,11 +23,11 @@ public class LoadScreen extends JFrame {
         SavedState.updateForLoad();
 
         //Setting layouts of all the panel
-        fullPanel=new JPanel(new BorderLayout());
+        fullPanel = new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
-        setupTopPanel();
-        setupBottomPanel();
-        setupGoBackPanel();
+        setMainLoadGameLabel();
+        setupSavedGameButtons();
+        setupTheBackButton();
         Container contentPane = getContentPane();
         contentPane.add(fullPanel);
         createMenu();
@@ -50,7 +41,6 @@ public class LoadScreen extends JFrame {
         }
     }
 
-
     /**
      * creates Menu Bor with its components
      * adds Menu to JFrame
@@ -60,19 +50,16 @@ public class LoadScreen extends JFrame {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
-        JMenuItem load = new JMenuItem("Load");
         JMenuItem deleteLoad = new JMenuItem("Delete Load State");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem howTo = new JMenuItem("How To");
         JMenuItem about = new JMenuItem("About");
 
-        file.add(load);
         file.add(deleteLoad);
         file.add(exit);
         help.add(howTo);
         help.add(about);
 
-        load.addActionListener(actionEvent -> loadEvent());
         exit.addActionListener(actionEvent -> System.exit(0));
         deleteLoad.addActionListener(actionEvent -> deleteLoadEvent());
         howTo.addActionListener(actionEvent -> new HelpDetails("load"));
@@ -85,8 +72,8 @@ public class LoadScreen extends JFrame {
 
     
     //Setting up Load Game label on top panel
-    private void setupTopPanel(){
-        topPanel=new JPanel(new FlowLayout(1));
+    private void setMainLoadGameLabel(){
+        topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel loadGame = new JLabel("Load Screen");
         topPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
 
@@ -99,23 +86,26 @@ public class LoadScreen extends JFrame {
         fullPanel.add(topPanel, BorderLayout.NORTH);
     }
 
-
     //Setting up Load Game buttons on bottom panel
-    private void setupBottomPanel(){
+    private void setupSavedGameButtons(){
 
         //Creating Load Game Buttons and adding them to bottom panel
-        ArrayList<SavedState> save= SavedState.savedstates;
-        int length=save.size();
+        ArrayList<SavedState> save = SavedState.savedstates;
 
-        bottomPanel=new JPanel(new GridLayout(length,1));
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-        for(int r=0;r<length;r++){
-                String bName=save.get(r).getName();
-                String bDate=save.get(r).getDate();
-                String bTime=save.get(r).getTime();
-                String buttonText= "<html>"+"Name: "+bName+"<br>"+"Date: "+bDate+"<br>"+"Time: "+bTime+"</html>";
-                JButton btn=new JButton(buttonText);
-                bottomPanel.add(btn);
+        for (SavedState savedState : save) {
+            String bName = savedState.getName();
+            String bDate = savedState.getDate();
+            String bTime = savedState.getTime();
+            String buttonText = "<html>" + "Name: " + bName + "<br>" + "Date: " + bDate + "<br>" + "Time: " + bTime + "</html>";
+            JButton btn = new JButton(buttonText);
+            btn.setName(savedState.getPath());
+            btn.addActionListener(actionEvent -> {
+                new LoadGame(((JButton) actionEvent.getSource()).getName());
+            });
+            bottomPanel.add(btn);
         }
     
         //Adding scrollbar to bottom panel
@@ -124,7 +114,7 @@ public class LoadScreen extends JFrame {
         fullPanel.add(scroll,BorderLayout.CENTER);
     }
 
-    private void setupGoBackPanel(){
+    private void setupTheBackButton(){
 
         goBackPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton backButton = new JButton("Back");
@@ -135,13 +125,9 @@ public class LoadScreen extends JFrame {
         backButton.addActionListener(actionEvent -> this.dispose());
     }
 
-    private void loadEvent(){
-        System.out.println("Clicked on load menu button.");
-    }
     private void deleteLoadEvent(){
         System.out.println("Clicked on delete load menu button.");
     }
-
 
 }
 

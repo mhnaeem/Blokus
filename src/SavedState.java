@@ -20,6 +20,7 @@ public class SavedState {
     private String date;
     //hh:mm:ss
     private String time;
+    private String path;
 
     SavedState(String name){
         this.name = name;
@@ -38,15 +39,18 @@ public class SavedState {
         String fileName = this.date.toString() + newBrokenTime + this.name +  ".txt";
 
         SaveGame.createSaveFile(fileName);
+
+        this.path = "./SavedGames/" + fileName;
         savedstates.add(this);
     }
 
-    SavedState(String name, String time, String date){
+    SavedState(String name, String time, String date, String path){
         savedstates.clear();
 
         this.name = name;
         this.date = date;
         this.time = time;
+        this.path = path;
 
         savedstates.add(this);
     }
@@ -63,6 +67,10 @@ public class SavedState {
         return this.time;
     }
 
+    public String getPath() {
+        return this.path;
+    }
+
     public static void updateForLoad(){
         savedstates.clear();
 
@@ -75,7 +83,7 @@ public class SavedState {
 
             time = time.substring(0,2) + ":" + time.substring(2,4) + ":" + time.substring(4,6);
 
-            new SavedState(name, time, date);
+            new SavedState(name, time, date, file);
         }
     }
 }
