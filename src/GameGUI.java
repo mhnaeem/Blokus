@@ -99,7 +99,7 @@ public class GameGUI extends JFrame {
 
         saveGame.addActionListener(actionEvent -> {
             String fileName = JOptionPane.showInputDialog(GameGUI.this, "Enter the name of the save file");
-            SaveGame.createSaveFile(fileName+".txt");
+            new SavedState(fileName);
         });
         exit.addActionListener(actionEvent -> System.exit(0));
         howTo.addActionListener(actionEvent -> new HelpDetails("game"));

@@ -8,3 +8,4 @@
 /*.class
 /src/*.class
 /SavedGames/*.txt
+!/SavedGames/14-Nov-2019211234don'tdelete.txt

@@ -29,6 +29,8 @@ public class LoadScreen extends JFrame {
 
     public LoadScreen(){
 
+        SavedState.updateForLoad();
+
         //Setting layouts of all the panel
         fullPanel=new JPanel(new BorderLayout());
         fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
