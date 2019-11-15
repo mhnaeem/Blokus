@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,6 +54,7 @@ public class CreateGame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850, 425);
         setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
         if(Options.isDarkMode()){
             Options.setDarkModeColour(this);
@@ -160,6 +162,8 @@ public class CreateGame extends JFrame {
     private void createButtons(){
         start = new JButton("Start");
         back = new JButton("Back");
+        start.setPreferredSize(new Dimension(100,50));
+        back.setPreferredSize(new Dimension(100,50));
         start.addActionListener(actionEvent -> startEvent());
         back.addActionListener(actionEvent -> backEvent());
     }
@@ -305,6 +309,7 @@ public class CreateGame extends JFrame {
     private void createBottomPanel(){
         bottom = new JPanel();
         bottom.setLayout(new FlowLayout(FlowLayout.CENTER));
+        bottom.setBorder(new EmptyBorder(10,0,10,0));
         //bottom panel
         bottom.add(start);
         bottom.add(back);

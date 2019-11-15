@@ -28,12 +28,15 @@ public class MainScreen extends JFrame{
        buttonAction();
        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
        setVisible(true);
+       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
    }
    
    public void setFrame(){
        
-       setPreferredSize(new Dimension(500,300));
-       setBounds(450, 200, 500, 300);
+//       setPreferredSize(new Dimension(500,300));
+//       setBounds(450, 200, 500, 300);
+       setSize(500,300);
+       setLocationRelativeTo(null);
        setTitle("Welcome to BLOKUS!");
        mainPanel = new JPanel();
        contentPane.add(mainPanel);

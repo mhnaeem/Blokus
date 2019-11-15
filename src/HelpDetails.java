@@ -1,11 +1,6 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 
 /**
@@ -13,93 +8,100 @@ import javax.swing.JTextArea;
  */
 public class HelpDetails extends JFrame
 {
+    private String text;
 
     public HelpDetails(String type)
     {
         super("Instructions");
         setLayout(new BorderLayout());
-        setSize(new Dimension(400,400));
+        setBounds(400, 200, 650, 550);
+//        setSize(new Dimension(400,400));
 
         // makes the jpanel
         JPanel helpPanel = new JPanel();
         this.getContentPane().add(helpPanel);
+        helpPanel.setBorder(new EmptyBorder(30, 50, 30, 40));
         helpPanel.setLayout(new BorderLayout());
 
         // makes a new jpanel in the main jpanel's south
         JPanel helpPanelSouth = new JPanel();
         helpPanelSouth.setLayout(new BorderLayout());
+        helpPanelSouth.setBorder(new EmptyBorder(30, 210, 20, 210));
         helpPanel.add(helpPanelSouth, BorderLayout.SOUTH);
 
         // makes a new jpanel in the main jpanel's centre
         JPanel helpPanelCenter = new JPanel();
         helpPanelCenter.setLayout(new BorderLayout());
+        helpPanelCenter.setBorder(new EmptyBorder(50, 20, 30, 20));
         helpPanel.add(helpPanelCenter, BorderLayout.CENTER);
 
         // sets the empty space around the text
-        helpPanel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
         JLabel contentLabel = new JLabel("");
-        String message = "";
 
 
         // called in the CreateGame
         if (type.equals("create"))
         {
-            contentLabel.setText("Starting a Game: ");
-            message += "To start a game, fill all drop-down boxes with game specifics, then press start!\n\n";
-            message += "For quickest setup, select 4 players, 4 human players, easy bot, colourblind option, basic scoring, and random colours.\n\n";
             setTitle("Setup Instructions");
+            contentLabel.setText("Starting a Game: ");
+            text = "<html><br><p style='font-size:30'>To start a game, fill all drop-down boxes with game specifics, then press start!<br>"+
+            "For quickest setup, select 4 players, 4 human players, easy bot, colourblind option, basic scoring, and random colours.</p></html>";
 
         }
 
         // called in the GameGUI
         if (type.equals("game"))
         {
-            contentLabel.setText("Playing a Piece: ");
-            message += "To play a piece, first select it from your tray. \n\n";
-            message += "You can choose to rotate or flip the piece. \n\n";
-            message += "You can also pass your turn.\n\n";
-            message += "Once the piece is oriented correctly, select a location on the game board. \n\n";
-            message += "This will play your piece. \n\n";
-            message += "The first piece must be placed in the corner closest to your colour piece tray. \n\n";
-            message += "Pieces must be placed with one corner touching another piece of the same colour, but no adjacent sides. \n\n";
             setTitle("Game Instructions");
+            contentLabel.setText("Playing a Piece: ");
+            text = "<html><br><p style='font-size:20'>To play a piece, first select it from your tray. "+
+                "You can choose to rotate or flip the piece. "+
+                "You can also pass your turn. "+
+                "Once the piece is oriented correctly, select a location on the game board. "+
+                "This will play your piece. "+
+                "The first piece must be placed in the corner closest to your colour piece tray. "+
+                "Pieces must be placed with one corner touching another piece of the same colour, but no adjacent sides. </p></html>";
         }
 
         // called on the MainScreen
         if (type.equals("blokus"))
         {
-            contentLabel.setText("Description of the Game: ");
-            message += "In Blokus, players place pieces onto a board, with the goal of having no (or the least number of) pieces at the end.\n\n";
-            message += "Each player's first move must have a piece placed in a corner of the board.\n\n";
-            message += "Pieces must be placed next to the corner of another piece of that colour, but with no two sides adjacent.\n\n";
             setTitle("Blokus Information ");
+            contentLabel.setText("Description of the Game: ");
+            text = "<html><br><p style='font-size:20'>In Blokus, players place pieces onto a board, with the goal of having no (or the least number of) pieces at the end. "+
+            "Each player's first move must have a piece placed in a corner of the board. "+
+            "Pieces must be placed next to the corner of another piece of that colour, but with no two sides adjacent. </p></html>";
         }
 
         // called on the MainScreen
         if (type.equals("load"))
         {
-            contentLabel.setText("Load Instructions: ");
-            message += "Select a saved game to load. \n\n";
             setTitle("Load Game ");
+            contentLabel.setText("Load Instructions: ");
+            text = "<html><br><p style='font-size:30'>Select a saved game to load.</p></html>";
         }
 
-        // creates the parts of the jframe
-        JTextArea howToText = new JTextArea(message);
+        contentLabel.setFont(new Font(Font.SERIF, Font.BOLD, 40));
 
-        // sets attributes of the textarea
-        howToText.setEditable(false);
-        howToText.setLineWrap(true);
-        howToText.setWrapStyleWord(true);
 
-        // adds the label and textarea to the jframe
-        helpPanel.add(contentLabel, BorderLayout.NORTH);
-        helpPanelCenter.add(howToText, BorderLayout.CENTER);
+        JEditorPane paragraph = new JEditorPane();
+        paragraph.setContentType("text/html");//set content as html
+        paragraph.setText(text);
+
+        paragraph.setEditable(false);//so its not editable
+        paragraph.setOpaque(false);//so we dont see white background
+
+
+
+        // adds the label and paragraph to the jframe
+        helpPanelCenter.add(contentLabel, BorderLayout.NORTH);
+        helpPanelCenter.add(paragraph, BorderLayout.CENTER);
 
         // makes back button
         JButton backButton = new JButton("Back");
-        backButton.setSize(new Dimension(60,40));
+        backButton.setPreferredSize(new Dimension(100,50));
         backButton.addActionListener(ev -> HelpDetails.this.dispose());
-        helpPanelSouth.add(backButton, BorderLayout.EAST);
+        helpPanelSouth.add(backButton, BorderLayout.CENTER);
 
         // sets visible
         setVisible(true);

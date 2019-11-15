@@ -1,7 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -119,6 +116,7 @@ public class LoadScreen extends JFrame {
         goBackPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton backButton = new JButton("Back");
 
+        backButton.setPreferredSize(new Dimension(100,50));
         goBackPanel.add(backButton);
         fullPanel.add(goBackPanel,BorderLayout.SOUTH);
 
