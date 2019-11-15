@@ -61,7 +61,7 @@ public class SaveGame {
      * turn_index|alternateTurn
      */
     private static String saveTurnSettings() {
-        return GameEngine.getCurrentTurn()+"|"+GameEngine.getAlternateTurn();
+        return GameEngine.getTurnIndex()+"|"+GameEngine.getAlternateTurn();
     }
 
     /**

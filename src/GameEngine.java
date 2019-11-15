@@ -481,6 +481,10 @@ public class GameEngine {
         return playerScoreList;
     }
 
+    public static int getTurnIndex(){
+        return turn_index;
+    }
+
     public static void gameEnd(){
         new GameOver(playerScoring());
     }
