@@ -78,7 +78,7 @@ public class SaveGame {
 
 
     private static String savePlayerGrid(){
-        String toReturn = null;
+        String toReturn = "";
         for (int i=1;i<5;i++){
             toReturn += savePlayerGridState(i)+"\n";
         }

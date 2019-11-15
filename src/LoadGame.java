@@ -9,6 +9,10 @@ public class LoadGame {
     LoadGame(String filePath){
         this.path = filePath;
         System.out.println(filePath);
+        String optionsLine;
+        String turnLine;
+        String mainGridLine;
+        String
 
 
         //TODO: read comments if any in LoadScreen, SavedState, SaveGame, and LoadGame.
