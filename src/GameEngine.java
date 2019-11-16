@@ -125,28 +125,28 @@ public class GameEngine {
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
                 if (c - 1 >= 0 && r - 1 >= 0) {
-                    if ((grid[r][c - 1].isEnabled() && grid[r - 1][c].isEnabled() && grid[r - 1][c - 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
+                    if ((!grid[r][c - 1].getBackground().equals(color) && !grid[r - 1][c].getBackground().equals(color) && grid[r - 1][c - 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
                         if (!toReturn.contains(new String((r - 1) + "," + (c - 1)))) {
                             toReturn.add(new String((r - 1) + "," + (c - 1)));
                         }
                     }
                 }
                 if (c + 1 < col && r - 1 >= 0) {
-                    if ((grid[r][c + 1].isEnabled() && grid[r - 1][c].isEnabled() && grid[r - 1][c + 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
+                    if ((!grid[r][c + 1].getBackground().equals(color) && !grid[r - 1][c].getBackground().equals(color) && grid[r - 1][c + 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
                         if (!toReturn.contains((new String((r - 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r - 1) + "," + (c + 1))));
                         }
                     }
                 }
                 if (c - 1 >= 0 && r + 1 < row) {
-                    if ((grid[r][c - 1].isEnabled() && grid[r + 1][c].isEnabled() && grid[r + 1][c - 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
+                    if ((!grid[r][c - 1].getBackground().equals(color) && !grid[r + 1][c].getBackground().equals(color) && grid[r + 1][c - 1].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
                         if (!toReturn.contains((new String((r + 1) + "," + (c - 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c - 1))));
                         }
                     }
                 }
                 if (c + 1 < col && r + 1 < row) {
-                    if ((grid[r][c + 1].isEnabled() && grid[r + 1][c + 1].isEnabled() && grid[r + 1][c].isEnabled()) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
+                    if ((!grid[r][c + 1].getBackground().equals(color) && grid[r + 1][c + 1].isEnabled() && !grid[r + 1][c].getBackground().equals(color)) && (!grid[r][c].isEnabled() && (grid[r][c].getBackground().equals(color)))) {
                         if (!toReturn.contains((new String((r + 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c + 1))));
                         }
