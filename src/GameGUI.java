@@ -81,11 +81,13 @@ public class GameGUI extends JFrame {
         JMenuItem howTo = new JMenuItem("How To");
         JMenuItem saveGame = new JMenuItem("Save Game");
         JMenuItem about = new JMenuItem("About");
+        JMenuItem endGame = new JMenuItem("End Current Game");
 
         menuBar.add(file);
         menuBar.add(about);
         menuBar.add(help);
 
+        file.add(endGame);
         file.add(newGame);
         file.add(saveGame);
         file.add(load);
@@ -101,6 +103,13 @@ public class GameGUI extends JFrame {
         newGame.addActionListener(actionEvent -> {
             GameGUI.this.dispose();
             new CreateGame();
+        });
+
+        endGame.addActionListener(actionEvent -> {
+            int result = JOptionPane.showConfirmDialog(GameGUI.this, "Do you want to end the current game, any unsaved progress will be lost.", "End Current Game", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if(result == JOptionPane.YES_OPTION){
+                GameEngine.setGameEnded(true);
+            }
         });
 
         saveGame.addActionListener(actionEvent -> {

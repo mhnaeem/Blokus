@@ -19,6 +19,7 @@ public class GameEngine {
     private static int alternateTurn = 1;
     private static ArrayList<String> possibleEdges = new ArrayList<>();
     private static ArrayList<String> possibleSides = new ArrayList<>();
+    private static Boolean gameEnded = false;
 
 
     public GameEngine() {
@@ -427,7 +428,9 @@ public class GameEngine {
     }
 
     public static void gameEnd(){
-        new GameOver(playerScoring());
+        if(GameEngine.getGameEnded()){
+            new GameOver(playerScoring());
+        }
     }
 
     public static int getAlternateTurn() {
@@ -441,16 +444,19 @@ public class GameEngine {
         GameEngine.setSelectedPiece(piece_index);
 
         Boolean toReturn = false;
+        boolean continueOn = true;
 
         for (int[] action : Piece.getActionsList(piece_index)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 toReturn = false;
+                continueOn = false;
+                break;
             }
         }
-        if ((isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+        if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
             toReturn = true;
         }
-        System.out.println("Selected Point: " + selectedPoint + " Placeable: " + toReturn.toString());
+        //System.out.println("Selected Point: " + selectedPoint + " Placeable: " + toReturn.toString());
         GameEngine.setSelectedPiece(originalPieceIndex);
         return toReturn;
     }
@@ -464,41 +470,72 @@ public class GameEngine {
                 if(grid[r][c].isEnabled()){
                     toReturn[r][c] = identifyIfAPieceCanBePlaced(piece_index,grid[r][c].getName(), player_index);
                 }
+                else {
+                    toReturn[r][c] = false;
+                }
             }
         }
 
         return toReturn;
     }
 
-    public static void checkValidForEachPlayer(){
-        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer1 = new ArrayList<>();
-        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer2 = new ArrayList<>();
-        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer3 = new ArrayList<>();
-        ArrayList<Boolean[][]> piecePlaceableListOnMainGridPlayer4 = new ArrayList<>();
+    public static boolean checkValidForEachPlayer(){
+        //Piece Number, Entire Boards Placeable Position
+        HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer1 = new HashMap<>();
+        HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer2 = new HashMap<>();
+        HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer3 = new HashMap<>();
+        HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer4 = new HashMap<>();
 
         for (int pi = 1; pi <= Options.getNumberOfPlayers(); pi++) {
             calculatePossibleSidesAndEdges(pi);
-            for (int i : Player.getPlayer(pi).getAvailablePieces()) {
-                System.out.println("Piece Number: " + i + "Player Number: " + pi + "Current Turn " + currentTurn);
+            for (int i = 0; i < 21; i++) {
+                //System.out.println("Piece Number: " + i + "Player Number: " + pi + "Current Turn " + currentTurn);
                 switch (pi) {
                     case 1:
-                        piecePlaceableListOnMainGridPlayer1.add(checkValidForEachPiece(i,pi));
+                        piecePlaceableListOnMainGridPlayer1.put(i, checkValidForEachPiece(i,pi));
                         break;
                     case 2:
-                        piecePlaceableListOnMainGridPlayer2.add(checkValidForEachPiece(i,pi));
+                        piecePlaceableListOnMainGridPlayer2.put(i, checkValidForEachPiece(i,pi));
                         break;
                     case 3:
-                        piecePlaceableListOnMainGridPlayer3.add(checkValidForEachPiece(i,pi));
+                        piecePlaceableListOnMainGridPlayer3.put(i, checkValidForEachPiece(i,pi));
                         break;
                     case 4:
-                        piecePlaceableListOnMainGridPlayer4.add(checkValidForEachPiece(i,pi));
+                        piecePlaceableListOnMainGridPlayer4.put(i, checkValidForEachPiece(i,pi));
                         break;
                     default:
                         break;
                 }
-
             }
         }
 
+        for(int pieceNumber = 0; pieceNumber < 21; pieceNumber++){
+            for(int r = 0; r < 20; r++){
+                for(int c = 0; c < 20; c++){
+
+                    if ( piecePlaceableListOnMainGridPlayer1.get(pieceNumber)[r][c]
+                      || piecePlaceableListOnMainGridPlayer2.get(pieceNumber)[r][c]
+                      || piecePlaceableListOnMainGridPlayer3.get(pieceNumber)[r][c]
+                      || piecePlaceableListOnMainGridPlayer4.get(pieceNumber)[r][c] ){
+                        //System.out.println("Piece CAN be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+                        return true;
+                    }
+
+                    else {
+                        //System.out.println("Piece Cannot be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Boolean getGameEnded() {
+        return gameEnded;
+    }
+
+    public static void setGameEnded(Boolean gameEnded) {
+        GameEngine.gameEnded = gameEnded;
+        gameEnd();
     }
 }
