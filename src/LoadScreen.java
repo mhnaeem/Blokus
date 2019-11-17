@@ -1,6 +1,15 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -12,7 +21,7 @@ import javax.swing.border.EmptyBorder;
  * @version (Version 1.1)
  */
 class LoadScreen extends JFrame {
-    private JPanel fullPanel, topPanel, bottomPanel, goBackPanel;
+    private JPanel mainPanel, topPanel, savedStatesPanel, goBackPanel;
 
 
     public LoadScreen(){
@@ -20,22 +29,28 @@ class LoadScreen extends JFrame {
         SavedState.updateForLoad();
 
         //Setting layouts of all the panel
-        fullPanel = new JPanel(new BorderLayout());
-        fullPanel.setBorder(new EmptyBorder(50, 150, 50, 150));
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(new EmptyBorder(30, 110, 30, 110));
+        getContentPane().add(mainPanel);
+
         setMainLoadGameLabel();
         setupSavedGameButtons();
         setupTheBackButton();
-        Container contentPane = getContentPane();
-        contentPane.add(fullPanel);
-        setJMenuBar(new MenuCreator(new String[]{"deleteLoadState","exit","howTo","about"}, "load"));
-        setBounds(400, 200, 600, 500);
-        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setVisible(true);
+        setFrameSettings();
+
         if(Options.isDarkMode()){
             Options.setDarkModeColour(this);
         }
+    }
+
+    private void setFrameSettings(){
+        setTitle("Load Game");
+        setJMenuBar(new MenuCreator(new String[]{"deleteLoadState","exit","howTo","about"}, "load"));
+        setBounds(400, 200, 600, 500);
+        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setVisible(true);
     }
 
     //Setting up Load Game label on top panel
@@ -50,17 +65,17 @@ class LoadScreen extends JFrame {
         topPanel.add(loadGame);
 
         //Adding the Top panel to the fullPanel
-        fullPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
     }
 
     //Setting up Load Game buttons on bottom panel
     private void setupSavedGameButtons(){
 
         //Creating Load Game Buttons and adding them to bottom panel
-        ArrayList<SavedState> save = SavedState.savedstates;
+        ArrayList<SavedState> save = SavedState.getSavedStates();
 
-        bottomPanel = new JPanel();
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        savedStatesPanel = new JPanel();
+        savedStatesPanel.setLayout(new BoxLayout(savedStatesPanel, BoxLayout.Y_AXIS));
 
         for (SavedState savedState : save) {
             String bName = savedState.getName();
@@ -70,13 +85,13 @@ class LoadScreen extends JFrame {
             JButton btn = new JButton(buttonText);
             btn.setName(savedState.getPath());
             btn.addActionListener(actionEvent -> new LoadGame(((JButton) actionEvent.getSource()).getName()));
-            bottomPanel.add(btn);
+            savedStatesPanel.add(btn);
         }
     
         //Adding scrollbar to bottom panel
-        JScrollPane scroll = new JScrollPane(bottomPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroll = new JScrollPane(savedStatesPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //Adding scroll to fullPanel
-        fullPanel.add(scroll,BorderLayout.CENTER);
+        mainPanel.add(scroll,BorderLayout.CENTER);
     }
 
     private void setupTheBackButton(){
@@ -86,7 +101,7 @@ class LoadScreen extends JFrame {
 
         backButton.setPreferredSize(new Dimension(100,50));
         goBackPanel.add(backButton);
-        fullPanel.add(goBackPanel,BorderLayout.SOUTH);
+        mainPanel.add(goBackPanel,BorderLayout.SOUTH);
 
         backButton.addActionListener(actionEvent -> this.dispose());
     }

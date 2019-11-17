@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,39 +15,52 @@ import java.util.Arrays;
 
 class SavedState {
 
-    public static ArrayList<SavedState> savedstates = new ArrayList<>(Arrays.asList());
+    public static ArrayList<SavedState> savedstates = new ArrayList<>();
     private String name;
     // DD-MMY-YYYY
     private String date;
     //hh:mm:ss
     private String time;
     private String path;
+    private final static ArrayList<Character> FORBIDDEN_LETTERS = new ArrayList<>(Arrays.asList('/', '\\', ':', '*', '?', '"', '<', '>', '|', '.'));
 
     SavedState(String name){
-        this.name = name;
+        boolean continueSaving = true;
 
-        LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
-        this.date = myDateObj.format(myFormatObj);
-
-        this.time = myDateObj.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-        String newBrokenTime = "";
-        for (String s : this.time.split(":")) {
-            newBrokenTime += s;
+        for (int i = 0; i < name.length(); i++){
+            char letter = name.charAt(i);
+            if (FORBIDDEN_LETTERS.contains(letter)){
+                continueSaving = false;
+            }
         }
 
-        String fileName = this.date.toString() + newBrokenTime + this.name +  ".txt";
+        if(continueSaving) {
+            this.name = name;
 
-        SaveGame.createSaveFile(fileName);
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+            this.date = myDateObj.format(myFormatObj);
 
-        this.path = "./SavedGames/" + fileName;
-        savedstates.add(this);
+            this.time = myDateObj.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+            String newBrokenTime = "";
+            for (String s : this.time.split(":")) {
+                newBrokenTime += s;
+            }
+
+            String fileName = this.date.toString() + newBrokenTime + this.name + ".txt";
+
+            SaveGame.createSaveFile(fileName);
+
+            this.path = "./SavedGames/" + fileName;
+            savedstates.add(this);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Name of the save file cannot contain the following characters  / . \\ : * ? \" < > |   Try Again!", "Save Name Error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     SavedState(String name, String time, String date, String path){
-        savedstates.clear();
-
         this.name = name;
         this.date = date;
         this.time = time;
@@ -85,5 +99,9 @@ class SavedState {
 
             new SavedState(name, time, date, file);
         }
+    }
+
+    public static ArrayList<SavedState> getSavedStates() {
+        return savedstates;
     }
 }
