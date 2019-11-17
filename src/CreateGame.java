@@ -5,9 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -47,7 +44,7 @@ public class CreateGame extends JFrame {
 
     public CreateGame() {
         super("Blokus Game");
-        createMenu();
+        setJMenuBar(new MenuCreator(new String[]{"resetProperties","load","exit", "howTo","about"},this, "create"));
         createComponents();
         s="";
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
@@ -59,40 +56,6 @@ public class CreateGame extends JFrame {
         if(Options.isDarkMode()){
             Options.setDarkModeColour(this);
         }
-    }
-
-    /**
-     * creates Menu Bor with its components
-     * adds Menu to JFrame
-     */
-    private void createMenu()
-    {
-        JMenuBar menu = new JMenuBar();
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
-        JMenuItem reset = new JMenuItem("Reset");
-        JMenuItem load = new JMenuItem("Load");
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem howTo = new JMenuItem("How To");
-        JMenuItem about = new JMenuItem("About");
-
-        menu.add(file);
-        menu.add(help);
-
-        file.add(reset);
-        file.add(load);
-        file.add(exit);
-
-        help.add(howTo);
-        help.add(about);
-
-        about.addActionListener(actionEvent -> new About());
-        reset.addActionListener(actionEvent -> resetEvent());
-        load.addActionListener(actionEvent -> loadEvent());
-        exit.addActionListener(actionEvent -> exitEvent());
-        howTo.addActionListener(actionEvent -> howToEvent());
-
-        setJMenuBar(menu);
     }
 
     /**
@@ -535,31 +498,10 @@ public class CreateGame extends JFrame {
      * when reset button in file menu is pressed
      * resets all selected parameters
      */
-    private void resetEvent(){
+    public void resetEvent(){
         boxList.forEach(box -> box.setSelectedItem(null));
         playerBoxList.forEach(box -> box.removeAllItems());
         playerNumberEventBoxList.forEach(box -> box.removeAllItems());
-    }
-
-    /**
-     * when load button in file menu is pressed
-     * opens load game screen
-     */
-    private void loadEvent(){
-        new LoadScreen();
-    }
-
-    /**
-     * when exit button in file menu is pressed
-     * exits
-     */
-    private void exitEvent(){
-        System.exit(0);
-    }
-
-    private void howToEvent()
-    {
-        new HelpDetails("create");
     }
 
     /**

@@ -9,9 +9,21 @@ public class MenuCreator extends JMenuBar {
     private MainScreen mainScreen;
     private GameGUI gameGUI;
     private String howToType;
+    private CreateGame createGame;
 
     MenuCreator(String[] menuItems, String howToType){
         this.howToType = howToType;
+
+        this.initialiseMenus();
+        this.initialiseMenuItems(menuItems);
+
+        add(file);
+        add(help);
+    }
+
+    MenuCreator(String[] menuItems, CreateGame createGame, String howToType){
+        this.howToType = howToType;
+        this.createGame = createGame;
 
         this.initialiseMenus();
         this.initialiseMenuItems(menuItems);
@@ -153,7 +165,7 @@ public class MenuCreator extends JMenuBar {
                 //Reset game
             }
             if(e.getSource() == resetProperties){
-                //Reset properties
+                createGame.resetEvent();
             }
             if(e.getSource() == load){
                 new LoadScreen();
