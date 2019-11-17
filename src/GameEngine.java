@@ -510,24 +510,25 @@ public class GameEngine {
             }
         }
 
-        for(int pieceNumber = 0; pieceNumber < 21; pieceNumber++){
-            for(int r = 0; r < 20; r++){
-                for(int c = 0; c < 20; c++){
 
-                    if ( piecePlaceableListOnMainGridPlayer1.get(pieceNumber)[r][c]
-                      || piecePlaceableListOnMainGridPlayer2.get(pieceNumber)[r][c]
-                      || piecePlaceableListOnMainGridPlayer3.get(pieceNumber)[r][c]
-                      || piecePlaceableListOnMainGridPlayer4.get(pieceNumber)[r][c] ){
-                        //System.out.println("Piece CAN be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
-                        return true;
-                    }
-
-                    else {
-                        //System.out.println("Piece Cannot be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+        for(int r = 0; r < 20; r++){
+            for(int c = 0; c < 20; c++){
+                for (int player = 1; player <= Options.getNumberOfPlayers(); player++) {
+                    for (int pieceNumber : Player.getPlayer(player).getAvailablePieces()) {
+                        if (piecePlaceableListOnMainGridPlayer1.get(pieceNumber)[r][c]
+                                || piecePlaceableListOnMainGridPlayer2.get(pieceNumber)[r][c]
+                                || piecePlaceableListOnMainGridPlayer3.get(pieceNumber)[r][c]
+                                || piecePlaceableListOnMainGridPlayer4.get(pieceNumber)[r][c]) {
+                            //System.out.println("Piece CAN be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+                            return true;
+                        } else {
+                            //System.out.println("Piece Cannot be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+                        }
                     }
                 }
             }
         }
+        setGameEnded(true);
         return false;
     }
 
