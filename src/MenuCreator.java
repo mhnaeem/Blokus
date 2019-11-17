@@ -159,7 +159,7 @@ public class MenuCreator extends JMenuBar {
                 new About();
             }
             if(e.getSource() == deleteLoadState){
-                //Delete load state stuff
+                System.out.println("Delete Load State Button Pressed");
             }
             if(e.getSource() == resetGame){
                 //Reset game

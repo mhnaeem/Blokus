@@ -27,7 +27,7 @@ public class LoadScreen extends JFrame {
         setupTheBackButton();
         Container contentPane = getContentPane();
         contentPane.add(fullPanel);
-        createMenu();
+        setJMenuBar(new MenuCreator(new String[]{"deleteLoadState","exit","howTo","about"}, "load"));
         setBounds(400, 200, 600, 500);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,36 +38,6 @@ public class LoadScreen extends JFrame {
         }
     }
 
-    /**
-     * creates Menu Bor with its components
-     * adds Menu to JFrame
-     */
-    private void createMenu()
-    {
-        JMenuBar menu = new JMenuBar();
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
-        JMenuItem deleteLoad = new JMenuItem("Delete Load State");
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem howTo = new JMenuItem("How To");
-        JMenuItem about = new JMenuItem("About");
-
-        file.add(deleteLoad);
-        file.add(exit);
-        help.add(howTo);
-        help.add(about);
-
-        exit.addActionListener(actionEvent -> System.exit(0));
-        deleteLoad.addActionListener(actionEvent -> deleteLoadEvent());
-        howTo.addActionListener(actionEvent -> new HelpDetails("load"));
-        about.addActionListener(actionEvent -> new About());
-
-        menu.add(file);
-        menu.add(help);
-        setJMenuBar(menu);
-    }
-
-    
     //Setting up Load Game label on top panel
     private void setMainLoadGameLabel(){
         topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -121,10 +91,6 @@ public class LoadScreen extends JFrame {
         fullPanel.add(goBackPanel,BorderLayout.SOUTH);
 
         backButton.addActionListener(actionEvent -> this.dispose());
-    }
-
-    private void deleteLoadEvent(){
-        System.out.println("Clicked on delete load menu button.");
     }
 
 }
