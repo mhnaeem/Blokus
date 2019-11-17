@@ -21,7 +21,7 @@ public class MainScreen extends JFrame{
    
    public MainScreen(){
        setFrame();
-       createMenu();
+       setJMenuBar(new MenuCreator(new String[]{"darkMode","exit","howTo","about"}, this, "blokus"));
        createLabel();
        createButtons();
        addDetails();
@@ -43,44 +43,6 @@ public class MainScreen extends JFrame{
        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
        setResizable(false);
    }
-
-    private void createMenu()
-    {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
-
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem howTo = new JMenuItem("How To");
-        JMenuItem about = new JMenuItem("About");
-
-        JMenuItem darkMode = new JMenuItem("Dark Mode");
-
-        menuBar.add(file);
-        menuBar.add(help);
-
-        file.add(darkMode);
-        file.add(exit);
-        help.add(howTo);
-        help.add(about);
-
-
-        darkMode.addActionListener(actionEvent -> {
-            int dialogResult = JOptionPane.showConfirmDialog (null, "Changing to dark mode is permanent, you will have to exit the window to change it back? Do you still want to continue with dark mode?","Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if(dialogResult == JOptionPane.YES_OPTION) {
-                Options.switchDarkMode();
-            }
-            if(Options.isDarkMode()){
-                Options.setDarkModeColour(MainScreen.this);
-            }
-        });
-
-        exit.addActionListener(actionEvent -> System.exit(0));
-        howTo.addActionListener(actionEvent -> new HelpDetails("blokus"));
-        about.addActionListener(actionEvent -> new About());
-        setJMenuBar(menuBar);
-    }
    
    public void createLabel(){
        String text="<html><span style='color: #4285f4'>B</span>" +  //BLUE
