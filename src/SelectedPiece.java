@@ -69,9 +69,6 @@ class SelectedPiece{
         if(Options.isDarkMode()){
             Options.setDarkModeColour(frm);
         }
-
-        //TODO: this will need to be changed later, just for testing purposes.
-        System.out.println(GameEngine.checkValidForEachPlayer());
     }
 
     private void createButtons(){

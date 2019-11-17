@@ -335,6 +335,8 @@ public class GameEngine {
                 alternateTurn = 1;
             }
         }
+        //TODO: this checks whether the game has ended or not.
+        checkValidForEachPlayer();
     }
 
 
