@@ -273,7 +273,8 @@ public class GameEngine {
         return currentTurn;
     }
 
-    public static void setCurrentTurn(int turn_index){
+    public static void setCurrentTurn(int saved_turn_index){
+        turn_index=saved_turn_index;
         currentTurn = Options.getTurnOrder(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         //TODO WHAT IF GAME WAS SAVED DURING AN AI MOVE
