@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class SaveGame {
+class SaveGame {
 
     public static void createSaveFile(String filename){
 

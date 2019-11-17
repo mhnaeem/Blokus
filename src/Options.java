@@ -3,7 +3,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class Options {
+abstract class Options {
     private static Boolean isColorblind = null;
     private static String difficulty = null;
     private static String scoringType = null;

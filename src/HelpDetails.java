@@ -6,7 +6,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * Help details displays the information to assist users in playing the Blokus game
  */
-public class HelpDetails extends JFrame
+class HelpDetails extends JFrame
 {
     private String text;
 

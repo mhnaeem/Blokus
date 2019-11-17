@@ -12,9 +12,9 @@ import java.util.Arrays;
  * @version (Version 1.0)
  */
 
-public class SavedState {
+class SavedState {
 
-    public static ArrayList<SavedState> savedstates = new ArrayList<SavedState>( Arrays.asList() );
+    public static ArrayList<SavedState> savedstates = new ArrayList<>(Arrays.asList());
     private String name;
     // DD-MMY-YYYY
     private String date;

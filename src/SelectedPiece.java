@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @version (Version 1.0)
  */
 
-public class SelectedPiece{
+class SelectedPiece{
 
     private JPanel piece, main;
     private static JFrame frm;
@@ -223,7 +223,7 @@ public class SelectedPiece{
         frm.dispose();
     }
 
-    public static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
+    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionList.forEach(action -> toReturn.add(new int[]{-action[1], action[0]}));
         return toReturn;
@@ -231,17 +231,13 @@ public class SelectedPiece{
 
     private static ArrayList<int[]> flipUp(ArrayList<int[]> actionsList){
         ArrayList<int[]> toReturn = new ArrayList<>();
-        actionsList.forEach(action -> {
-            toReturn.add(new int[]{action[0], action[1] * -1});
-        });
+        actionsList.forEach(action -> toReturn.add(new int[]{action[0], action[1] * -1}));
         return toReturn;
     }
 
     private static ArrayList<int[]> flipRight(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
-        actionList.forEach(action -> {
-            toReturn.add(new int[]{action[0] * -1, action[1]});
-        });
+        actionList.forEach(action -> toReturn.add(new int[]{action[0] * -1, action[1]}));
         return toReturn;
     }
 }

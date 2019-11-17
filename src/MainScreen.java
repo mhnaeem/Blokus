@@ -99,9 +99,7 @@ public class MainScreen extends JFrame{
    }
    
    private void buttonAction(){
-        exitButton.addActionListener((ActionEvent ev) -> {
-            System.exit(0);
-        });
+        exitButton.addActionListener((ActionEvent ev) -> System.exit(0));
         loadButton.addActionListener((ActionEvent ev) -> {
             new LoadScreen();// This button will load saved files
         });

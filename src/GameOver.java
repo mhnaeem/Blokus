@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
  * @version (Version 1.2)
  */
 
-public class GameOver extends JFrame{
+class GameOver extends JFrame{
 
     private JPanel fullPanel, gameOverPanel, playerScoresPanel, buttonPanel;
     private JLabel gameOver;

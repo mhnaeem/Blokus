@@ -5,7 +5,7 @@ import java.util.Map;
 import static java.util.Map.entry;
 
 
-public abstract class Piece {
+abstract class Piece {
 
     private static HashMap<String,Integer> PIECE_MAP = createPieceMap(); //button coordinates to piece number
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number

@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
  * @author (Abdur Rahman Abul Hossain)
  * @version (Version 1.1)
  */
-public class LoadScreen extends JFrame {
+class LoadScreen extends JFrame {
     private JPanel fullPanel, topPanel, bottomPanel, goBackPanel;
 
 
@@ -69,9 +69,7 @@ public class LoadScreen extends JFrame {
             String buttonText = "<html>" + "Name: " + bName + "<br>" + "Date: " + bDate + "<br>" + "Time: " + bTime + "</html>";
             JButton btn = new JButton(buttonText);
             btn.setName(savedState.getPath());
-            btn.addActionListener(actionEvent -> {
-                new LoadGame(((JButton) actionEvent.getSource()).getName());
-            });
+            btn.addActionListener(actionEvent -> new LoadGame(((JButton) actionEvent.getSource()).getName()));
             bottomPanel.add(btn);
         }
     

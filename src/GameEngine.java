@@ -359,12 +359,12 @@ public class GameEngine {
     }
 
 
-    public static void setSelectedPiece(Integer piece_index) {
+    static void setSelectedPiece(Integer piece_index) {
         selectedPiece = piece_index;
     }
 
 
-    public static HashMap<Integer, Integer> playerScoring() {
+    private static HashMap<Integer, Integer> playerScoring() {
         int numPlayers = Options.getNumberOfPlayers();
 
         HashMap<Integer, Integer> playerScoreList = new HashMap<>();
@@ -428,7 +428,7 @@ public class GameEngine {
         return turn_index;
     }
 
-    public static void gameEnd(){
+    private static void gameEnd(){
         if(GameEngine.getGameEnded()){
             new GameOver(playerScoring());
         }
@@ -438,13 +438,13 @@ public class GameEngine {
         return alternateTurn;
     }
 
-    public static boolean identifyIfAPieceCanBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
+    private static boolean identifyIfAPieceCanBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
         JButton[][] grid = MainGrid.getMainGridButtons();
 
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
 
-        Boolean toReturn = false;
+        boolean toReturn = false;
         boolean continueOn = true;
 
         for (int[] action : Piece.getActionsList(piece_index)) {
@@ -462,7 +462,7 @@ public class GameEngine {
         return toReturn;
     }
 
-    public static Boolean[][] checkValidForEachPiece(int piece_index, int player_index){
+    private static Boolean[][] checkValidForEachPiece(int piece_index, int player_index){
         Boolean[][] toReturn = new Boolean[20][20];
 
         JButton[][] grid = MainGrid.getMainGridButtons();
@@ -532,7 +532,7 @@ public class GameEngine {
         return false;
     }
 
-    public static Boolean getGameEnded() {
+    private static Boolean getGameEnded() {
         return gameEnded;
     }
 

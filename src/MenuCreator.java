@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuCreator extends JMenuBar {
+class MenuCreator extends JMenuBar {
 
     private JMenu file, help;
     private JMenuItem darkMode, exit, howTo, about, deleteLoadState, resetGame, load, endCurrentGame, newGame, saveGame, resetProperties;

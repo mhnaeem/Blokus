@@ -9,7 +9,7 @@ import java.awt.*;
  * @version (Version 1.0)
  */
 
-public class GameGUI extends JFrame {
+class GameGUI extends JFrame {
 
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
     private static JLabel[] playerLabels;

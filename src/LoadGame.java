@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LoadGame {
-    String path;
+class LoadGame {
+    private String path;
     private static HashMap<String,Integer> color_to_index_map; //this map is used to draw shapes on objects
 
     LoadGame(String filePath){
@@ -67,16 +67,16 @@ public class LoadGame {
         //Add loading main grid part here
         String[] mainGridState = line.replace("[","").split("]");
         JButton[][] mainGridButtons = MainGrid.getMainGridButtons();
-        for (int i= 0 ; i< mainGridState.length; i++){
-            String[] button_state = mainGridState[i].split(";");
-            String[]  button_coordinate = button_state[0].replace("(","").replace(")","").split(",");
+        for (String s : mainGridState) {
+            String[] button_state = s.split(";");
+            String[] button_coordinate = button_state[0].replace("(", "").replace(")", "").split(",");
             int button_row = Integer.parseInt(button_coordinate[0]);
             int button_col = Integer.parseInt(button_coordinate[1]);
             boolean isEnabled = Boolean.parseBoolean(button_state[1]);
             String color = button_state[2];
-            if (!isEnabled){
+            if (!isEnabled) {
                 int turn = color_to_index_map.get(color);
-                if (Options.getFirstTurnMap().containsKey(turn)){
+                if (Options.getFirstTurnMap().containsKey(turn)) {
                     Options.clearFirstTurnMap(turn);
                 }
                 JButton btn = mainGridButtons[button_row][button_col];
@@ -112,25 +112,25 @@ public class LoadGame {
             String[] playerGridState = playerState[2].replace("[","").split("]");
             Color color = Options.getColor(i+1);
             JButton[][] playerGridButtons = PlayerGrid.getPlayerGridButtons(i+1);
-            for (int x= 0 ; x< playerGridState.length; x++){
-                String[] button_state = playerGridState[x].split(";");
-                String button_name = button_state[0].replace("(","").replace(")","");
-                String[]  button_coordinate = button_name.split(",");
+            for (String s : playerGridState) {
+                String[] button_state = s.split(";");
+                String button_name = button_state[0].replace("(", "").replace(")", "");
+                String[] button_coordinate = button_name.split(",");
                 int button_row = Integer.parseInt(button_coordinate[0]);
                 int button_col = Integer.parseInt(button_coordinate[1]);
                 boolean isEnabled = Boolean.parseBoolean(button_state[1]);
-                if (!isEnabled){
+                if (!isEnabled) {
                     assert playerGridButtons != null;
-                    if (Piece.getPieceMap().containsKey(button_name)){
-                        Player.getPlayer(i+1).pieceUsed(Piece.getPieceMap().get(button_name));
+                    if (Piece.getPieceMap().containsKey(button_name)) {
+                        Player.getPlayer(i + 1).pieceUsed(Piece.getPieceMap().get(button_name));
                     }
                     JButton btn = playerGridButtons[button_row][button_col];
                     btn.setBackground(Color.white);
                     btn.setIcon(null);
                     btn.setDisabledIcon(null);
                     btn.setEnabled(false);
-                    }
                 }
+            }
         }
         GameGUI.updateLabels();
     }
@@ -151,7 +151,4 @@ public class LoadGame {
         }
         return Color.WHITE;
     }
-
-
-
 }

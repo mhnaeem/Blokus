@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MainGrid {
+class MainGrid {
     private static JPanel mainGridPanel;
     private static JButton[][] mainGridButtons;
 
@@ -75,7 +75,7 @@ public class MainGrid {
         return buttons;
     }
 
-    private class MainGridListener implements ActionListener {
+    private static class MainGridListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
