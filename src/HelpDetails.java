@@ -15,7 +15,7 @@ class HelpDetails extends JFrame
         super("Instructions");
         setLayout(new BorderLayout());
         setBounds(400, 200, 650, 550);
-//        setSize(new Dimension(400,400));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         // makes the jpanel
         JPanel helpPanel = new JPanel();

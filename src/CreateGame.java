@@ -48,7 +48,7 @@ public class CreateGame extends JFrame {
         createComponents();
         s="";
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(850, 425);
         setResizable(false);
         setLocationRelativeTo(null);

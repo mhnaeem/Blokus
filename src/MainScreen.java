@@ -28,7 +28,7 @@ public class MainScreen extends JFrame{
        buttonAction();
        this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
        setVisible(true);
-       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+       setDefaultCloseOperation(EXIT_ON_CLOSE);
    }
    
    public void setFrame(){
