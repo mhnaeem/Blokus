@@ -62,7 +62,7 @@ class GameOver extends JFrame{
 
         //Setting layout of the fullPanel
         fullPanel = new JPanel(new BorderLayout());
-        fullPanel.setBorder(new EmptyBorder(50, 150, 40, 150));
+        fullPanel.setBorder(new EmptyBorder(50, 100, 40, 100));
 
         //Setting layout of the gameOverPanel
         gameOverPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -143,12 +143,17 @@ class GameOver extends JFrame{
      * adds Player numbers and scores to String variable text
      */
     private void sortPlayerScores(){
-        text="<html>";
+        text = "<html>";
+        boolean winner = true;
         for (int i = 1; i <= Options.getNumberOfPlayers(); i++){
             if(Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey() != null){
-                Integer pl = Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
+                Integer pl = Collections.min(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
                 if(pl != null && playerScores.containsKey(pl)){
-                    text += "<p>Player " + pl + " Scored : " + playerScores.get(pl) + " points </p></br>";
+                    if(winner){
+                        text += "<h1>Winner is: Player " + pl + "</h1>";
+                        winner = false;
+                    }
+                    text += "<p>Player " + pl + " Scored : " + playerScores.get(pl) + " squares left </p></br>";
                     playerScores.remove(pl);
                 }
             }
