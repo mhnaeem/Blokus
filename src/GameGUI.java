@@ -34,8 +34,6 @@ public class GameGUI extends JFrame {
         //Used to make the grid centered in the window
         mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
 
-        createMenu();
-
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(leftPiecesPanel, BorderLayout.WEST);
@@ -48,8 +46,6 @@ public class GameGUI extends JFrame {
 
         //Create the player pieces on the left and right
         createPlayingPieces();
-        createMenu();
-
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH); //Ensures that the JFrame opens in fullscreen
         setResizable(false);
@@ -65,60 +61,8 @@ public class GameGUI extends JFrame {
             System.gc();
         }
         previousFrame = this;
-    }
 
-    private void createMenu()
-    {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
-
-        JMenuItem reset = new JMenuItem("Reset");
-        JMenuItem load = new JMenuItem("Load");
-        JMenuItem newGame = new JMenuItem("New Game");
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem howTo = new JMenuItem("How To");
-        JMenuItem saveGame = new JMenuItem("Save Game");
-        JMenuItem about = new JMenuItem("About");
-        JMenuItem endGame = new JMenuItem("End Current Game");
-
-        menuBar.add(file);
-        menuBar.add(about);
-        menuBar.add(help);
-
-        file.add(endGame);
-        file.add(newGame);
-        file.add(saveGame);
-        file.add(load);
-        file.add(reset);
-        file.add(exit);
-        help.add(howTo);
-        help.add(about);
-
-        load.addActionListener(actionEvent -> new LoadScreen());
-
-        about.addActionListener(actionEvent -> new About());
-
-        newGame.addActionListener(actionEvent -> {
-            GameGUI.this.dispose();
-            new CreateGame();
-        });
-
-        endGame.addActionListener(actionEvent -> {
-            int result = JOptionPane.showConfirmDialog(GameGUI.this, "Do you want to end the current game, any unsaved progress will be lost.", "End Current Game", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if(result == JOptionPane.YES_OPTION){
-                GameEngine.setGameEnded(true);
-            }
-        });
-
-        saveGame.addActionListener(actionEvent -> {
-            String fileName = JOptionPane.showInputDialog(GameGUI.this, "Enter the name of the save file");
-            new SavedState(fileName);
-        });
-        exit.addActionListener(actionEvent -> System.exit(0));
-        howTo.addActionListener(actionEvent -> new HelpDetails("game"));
-        setJMenuBar(menuBar);
+        setJMenuBar(new MenuCreator(new String[]{"endGame","newGame","saveGame","load","resetGame","exit","howTo","about"}, this, "game"));
     }
 
     private void createPlayingPieces() {

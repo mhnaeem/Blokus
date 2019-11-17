@@ -1,4 +1,7 @@
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -162,7 +165,7 @@ public class MenuCreator extends JMenuBar {
                 System.out.println("Delete Load State Button Pressed");
             }
             if(e.getSource() == resetGame){
-                //Reset game
+                System.out.println("Reset Game Option Selected");
             }
             if(e.getSource() == resetProperties){
                 createGame.resetEvent();
@@ -173,7 +176,7 @@ public class MenuCreator extends JMenuBar {
 
             if(e.getSource() == endCurrentGame){
                 String message = "Do you want to end the current game, any unsaved progress will be lost.";
-                int result = JOptionPane.showConfirmDialog(null, message, "End Current Game", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                int result = JOptionPane.showConfirmDialog(gameGUI, message, "End Current Game", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
                     GameEngine.setGameEnded(true);
                 }
@@ -185,7 +188,7 @@ public class MenuCreator extends JMenuBar {
             }
 
             if(e.getSource() == saveGame){
-                String fileName = JOptionPane.showInputDialog(null, "Enter the name of the save file");
+                String fileName = JOptionPane.showInputDialog(gameGUI, "Enter the name of the save file");
                 new SavedState(fileName);
             }
 
