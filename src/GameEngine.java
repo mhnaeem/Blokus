@@ -481,6 +481,12 @@ public class GameEngine {
     }
 
     public static boolean checkValidForEachPlayer(){
+
+        //Error checking to make sure the first turn has been played by all players
+        if(Options.getFirstTurnMap().size() > 0){
+            return true;
+        }
+
         //Piece Number, Entire Boards Placeable Position
         HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer1 = new HashMap<>();
         HashMap<Integer, Boolean[][]> piecePlaceableListOnMainGridPlayer2 = new HashMap<>();
@@ -519,7 +525,7 @@ public class GameEngine {
                                 || piecePlaceableListOnMainGridPlayer2.get(pieceNumber)[r][c]
                                 || piecePlaceableListOnMainGridPlayer3.get(pieceNumber)[r][c]
                                 || piecePlaceableListOnMainGridPlayer4.get(pieceNumber)[r][c]) {
-                            //System.out.println("Piece CAN be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
+                            System.out.println("Piece CAN be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
                             return true;
                         } else {
                             //System.out.println("Piece Cannot be placed here: " + r + "," + c + " Piece Number " + pieceNumber);
