@@ -304,7 +304,7 @@ public class GameEngine {
         selectedPiece = null;
 
         //IF AI TURN
-        if (Options.getAI_player_index_List().contains(currentTurn)) {
+        if (isAITurn(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
             PlayerGrid.disableAllPlayerGrids();
@@ -319,7 +319,7 @@ public class GameEngine {
             GameGUI.updateLabels();
 
             //if AI turn to play alternate player
-            if (Options.getAI_player_index_List().contains(alternateTurn)) {
+            if (isAITurn(alternateTurn)) {
                 //TODO: here AI function to play alternate turn here
                 PlayerGrid.disableAllPlayerGrids();
                 //AI should play using the current turn
@@ -634,6 +634,9 @@ public class GameEngine {
         return toReturn;
     }
 
+    public static boolean isAITurn(int turnIndex){
+        return Options.getAI_player_index_List().contains(turnIndex);
+    }
 
     private static Boolean getGameEnded() {
         return gameEnded;
