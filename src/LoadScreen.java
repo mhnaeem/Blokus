@@ -84,7 +84,10 @@ class LoadScreen extends JFrame {
             String buttonText = "<html>" + "Name: " + bName + "<br>" + "Date: " + bDate + "<br>" + "Time: " + bTime + "</html>";
             JButton btn = new JButton(buttonText);
             btn.setName(savedState.getPath());
-            btn.addActionListener(actionEvent -> new LoadGame(((JButton) actionEvent.getSource()).getName()));
+            btn.addActionListener(actionEvent -> {
+                this.dispose();
+                new LoadGame(((JButton) actionEvent.getSource()).getName());
+            });
             savedStatesPanel.add(btn);
         }
     
