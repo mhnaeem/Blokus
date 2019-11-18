@@ -220,19 +220,19 @@ class SelectedPiece{
         frm.dispose();
     }
 
-    private static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
+    public static ArrayList<int[]> rotateCounterClock(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionList.forEach(action -> toReturn.add(new int[]{-action[1], action[0]}));
         return toReturn;
     }
 
-    private static ArrayList<int[]> flipUp(ArrayList<int[]> actionsList){
+    public static ArrayList<int[]> flipUp(ArrayList<int[]> actionsList){
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionsList.forEach(action -> toReturn.add(new int[]{action[0], action[1] * -1}));
         return toReturn;
     }
 
-    private static ArrayList<int[]> flipRight(ArrayList<int[]> actionList){
+    public static ArrayList<int[]> flipRight(ArrayList<int[]> actionList){
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionList.forEach(action -> toReturn.add(new int[]{action[0] * -1, action[1]}));
         return toReturn;

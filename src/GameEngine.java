@@ -449,6 +449,36 @@ public class GameEngine {
         boolean toReturn = false;
         boolean continueOn = true;
 
+        //TODO COMMENT THIS OUT TO TEST FLIP ROTATE VALID MOVES AND COMMENT OLD CODE
+        /*
+       outerloop:
+       for (int rotate= 0;rotate<3;rotate++){
+           for (int flipRight= 0;flipRight<2;flipRight++){
+               SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
+               for (int flipUp =0;flipUp<2;flipUp++){
+                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
+                   for (int[] action : Piece.getActionsList(piece_index)) {
+                       if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
+                           toReturn = false;
+                           continueOn = false;
+                           break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
+                       }
+                   }
+                   if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+                       toReturn = true;
+                       break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
+                   }
+                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips piece to original position (flipUp=0),(flipUp=1)
+               }
+               SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips piece to original position
+           }
+           SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index));//rotate piece three times
+       }
+       GameEngine.setSelectedPiece(originalPieceIndex);
+       return toReturn;
+       */
+
+
         for (int[] action : Piece.getActionsList(piece_index)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 toReturn = false;
