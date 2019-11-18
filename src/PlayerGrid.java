@@ -95,13 +95,19 @@ public class PlayerGrid {
 
     //Only to be called from the game engine class
     public static void disableOtherPlayerGrids(int player_index){
-        for(int i=1;i<5;i++){
+        for(int i=1;i<=4;i++){
             if (i!=player_index){
                 Player.getPlayer(i).getPlayerGrid().setActive(false);
             }
             else {
                 Player.getPlayer(i).getPlayerGrid().setActive(true);
             }
+        }
+    }
+
+    public static void disableAllPlayerGrids(){
+        for(int i=1;i<=4;i++){
+            Player.getPlayer(i).getPlayerGrid().setActive(false);
         }
     }
 
