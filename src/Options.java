@@ -15,6 +15,7 @@ abstract class Options {
     private static int[] turn_order_according_to_color;
     private static HashMap<Integer, int[]> isFirstTurnMap = new HashMap<>();
     private static boolean darkMode = false;
+    private static GameGUI gameGUIObject;
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
         AI_player_index_List = new ArrayList<>();
@@ -39,7 +40,7 @@ abstract class Options {
 
 
         JPanel mainGridPanel = new MainGrid().getMainGridPanel();
-        new GameGUI(mainGridPanel);
+        gameGUIObject = new GameGUI(mainGridPanel);
         new GameEngine();
     }
 
