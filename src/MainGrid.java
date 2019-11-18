@@ -104,7 +104,7 @@ class MainGrid {
             int brow = Integer.parseInt(b[0]);
             int bcol = Integer.parseInt(b[1]);
 
-            Piece.getActionsList(selectedPiece).forEach(actions -> {
+            Piece.getActionsList(selectedPiece,GameEngine.getCurrentTurn()).forEach(actions -> {
                 JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
                 btn.setBackground(Options.getColor(turn));
                 btn.setEnabled(false);
@@ -127,7 +127,7 @@ class MainGrid {
 
         if (GameEngine.isLegal(buttonName)){
 
-            Piece.getActionsList(selectedPieceIndex).forEach( actions -> {
+            Piece.getActionsList(selectedPieceIndex,GameEngine.getCurrentTurn()).forEach( actions -> {
 
                 JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
 
@@ -162,7 +162,7 @@ class MainGrid {
             });
         }
         else{
-            Piece.getActionsList(selectedPieceIndex).forEach( actions -> {
+            Piece.getActionsList(selectedPieceIndex,GameEngine.getCurrentTurn()).forEach( actions -> {
                 if ((brow +actions[1]<20)&&(brow +actions[1]>=0)&&(bcol + actions[0]<20)&&(bcol + actions[0]>=0)){
                     JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
 

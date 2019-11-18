@@ -186,8 +186,7 @@ abstract class Piece {
         return toReturn;
     }
 
-    public static ArrayList<int[]> getActionsList(int piece_index){
-        int currentPlayer = GameEngine.getCurrentTurn();
+    public static ArrayList<int[]> getActionsList(int piece_index,int currentPlayer){
 
         if(playerPieceActionList.containsKey(currentPlayer)){
             if(playerPieceActionList.get(currentPlayer).containsKey(piece_index)){
@@ -348,8 +347,7 @@ abstract class Piece {
         return toReturn;
     }
 
-    public static void setActionList(ArrayList<int[]> ar){
-        int currentPlayer = GameEngine.getCurrentTurn();
+    public static void setActionList(ArrayList<int[]> ar,int currentPlayer){
 
         if(playerPieceActionList.containsKey(currentPlayer)){
             if(playerPieceActionList.get(currentPlayer).containsKey(GameEngine.getSelectedPiece())){

@@ -38,7 +38,7 @@ public class GameEngine {
         calculatePossibleSidesAndEdges(currentTurn);
 
 
-        for (int[] action : Piece.getActionsList(selectedPiece)) {
+        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
                 System.out.println("Not a legal move");
@@ -79,7 +79,7 @@ public class GameEngine {
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
-        for (int[] action : Piece.getActionsList(selectedPiece)) {
+        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
             int newC = c + action[0];
             int newR = r + action[1];
             if (isWithinGrid(point, action, grid)) {
@@ -164,7 +164,7 @@ public class GameEngine {
         int c = Integer.parseInt(strArr[1]);
         ArrayList<String> toReturn = new ArrayList<>();
         ArrayList<int[]> actions = new ArrayList<>();
-        for (int[] action : Piece.getActionsList(selectedPiece)) {
+        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
             actions.add(new int[]{r + action[1], c + action[0]});
         }
         actions.forEach(array -> {
@@ -239,7 +239,7 @@ public class GameEngine {
         int c = Integer.parseInt(strArr[1]);
         ArrayList<String> toReturn = new ArrayList<>();
         ArrayList<int[]> actions = new ArrayList<>();
-        for (int[] action : Piece.getActionsList(selectedPiece)) {
+        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
             actions.add(new int[]{r + action[1], c + action[0]});
         }
         actions.forEach(array -> {
@@ -345,7 +345,7 @@ public class GameEngine {
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
-        for (int[] action : Piece.getActionsList(selectedPiece)) {
+        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
             if (((r + action[1]) == array[0]) && ((c + action[0]) == array[1])) {
                 return true;
             }
@@ -455,10 +455,10 @@ public class GameEngine {
        outerloop:
        for (int rotate= 0;rotate<3;rotate++){
            for (int flipRight= 0;flipRight<2;flipRight++){
-               SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
+               SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
                for (int flipUp =0;flipUp<2;flipUp++){
-                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
-                   for (int[] action : Piece.getActionsList(piece_index)) {
+                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
+                   for (int[] action : Piece.getActionsList(piece_index,player_index)) {
                        if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                            toReturn = false;
                            continueOn = false;
@@ -469,11 +469,11 @@ public class GameEngine {
                        toReturn = true;
                        break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
                    }
-                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips piece to original position (flipUp=0),(flipUp=1)
+                   SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)));//flips piece to original position (flipUp=0),(flipUp=1)
                }
-               SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips piece to original position
+               SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index));//flips piece to original position
            }
-           SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index));//rotate piece three times
+           SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index));//rotate piece three times
        }
        Piece.resetActionList();
        GameEngine.setSelectedPiece(originalPieceIndex);
@@ -481,7 +481,7 @@ public class GameEngine {
        */
 
 
-        for (int[] action : Piece.getActionsList(piece_index)) {
+        for (int[] action : Piece.getActionsList(piece_index,player_index)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 toReturn = false;
                 continueOn = false;
@@ -589,10 +589,10 @@ public class GameEngine {
                 String selectedPoint = "(" +row+","+col+")";
                 for (int rotate = 0; rotate < 3; rotate++) {
                     for (int flipRight = 0; flipRight < 2; flipRight++) {
-                        SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
+                        SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
                         for (int flipUp = 0; flipUp < 2; flipUp++) {
-                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
-                            for (int[] action : Piece.getActionsList(piece_index)) {
+                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
+                            for (int[] action : Piece.getActionsList(piece_index,player_index)) {
                                 if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                                     continueOn = false;
                                     break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
@@ -602,11 +602,11 @@ public class GameEngine {
                                 toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
                                 //found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, adds to arrayList of possibleMoves
                             }
-                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips piece to original position (flipUp=0),(flipUp=1)
+                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)));//flips piece to original position (flipUp=0),(flipUp=1)
                         }
-                        SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips piece to original position
+                        SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index));//flips piece to original position
                     }
-                    SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index));//rotate piece three times
+                    SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index));//rotate piece three times
                 }
             }
         }
