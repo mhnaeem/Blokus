@@ -452,6 +452,7 @@ public class GameEngine {
 
         //TODO COMMENT THIS OUT TO TEST FLIP ROTATE VALID MOVES AND COMMENT OLD CODE IF THIS CODE DOES NOT WORK THEN AI CODE DOES NOT WORK EITHER
         /*
+       Piece.resetActionList();
        outerloop:
        for (int rotate= 0;rotate<3;rotate++){
            for (int flipRight= 0;flipRight<2;flipRight++){
@@ -475,7 +476,6 @@ public class GameEngine {
            }
            SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index));//rotate piece three times
        }
-       Piece.resetActionList();
        GameEngine.setSelectedPiece(originalPieceIndex);
        return toReturn;
        */
@@ -584,6 +584,7 @@ public class GameEngine {
         GameEngine.setSelectedPiece(piece_index);
 
         boolean continueOn = true;
+        Piece.resetActionList();
         for(int row=0;row<20;row++){
             for(int col=0;col<20;col++){
                 String selectedPoint = "(" +row+","+col+")";
