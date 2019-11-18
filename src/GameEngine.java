@@ -24,7 +24,7 @@ public class GameEngine {
 
     public GameEngine() {
         turn_index = 0;
-        currentTurn = Options.getTurnOrder(turn_index);
+        currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
     }
@@ -45,8 +45,8 @@ public class GameEngine {
             }
         }
 
-        if (Options.getFirstTurnMap().containsKey(currentTurn)) {
-            return isOnStartingPoint(Options.getFirstTurnMap().get(currentTurn), selectedPoint);
+        if (Options.getIsFirstTurnMap().containsKey(currentTurn)) {
+            return isOnCorner(Options.getIsFirstTurnMap().get(currentTurn), selectedPoint);
         }
 
         if ((isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
@@ -275,7 +275,7 @@ public class GameEngine {
 
     public static void setCurrentTurn(int saved_turn_index){
         turn_index=saved_turn_index;
-        currentTurn = Options.getTurnOrder(turn_index);
+        currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         //TODO WHAT IF GAME WAS SAVED DURING AN AI MOVE
     }
@@ -298,12 +298,12 @@ public class GameEngine {
             turn_index = 0;
         }
 
-        currentTurn = Options.getTurnOrder(turn_index);
+        currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         selectedPiece = null;
 
         //IF AI TURN
-        if (Options.getAI_indexList().contains(currentTurn)) {
+        if (Options.getAI_player_index_List().contains(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
             //DISABLE ALL GRIDS WHILE AI IS PLAYING
@@ -318,7 +318,7 @@ public class GameEngine {
             GameGUI.updateLabels();
 
             //if AI turn to play alternate player
-            if (Options.getAI_indexList().contains(alternateTurn)) {
+            if (Options.getAI_player_index_List().contains(alternateTurn)) {
                 //TODO: here AI function to play alternate turn here
                 //AI should play using the current turn
                 //DISABLE ALL GRIDS WHILE AI IS PLAYING
@@ -340,7 +340,7 @@ public class GameEngine {
     }
 
 
-    private static boolean isOnStartingPoint(int[] array, String selectedPoint) {
+    private static boolean isOnCorner(int[] array, String selectedPoint) {
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
@@ -485,7 +485,7 @@ public class GameEngine {
     public static boolean checkValidForEachPlayer(){
 
         //Error checking to make sure the first turn has been played by all players
-        if(Options.getFirstTurnMap().size() > 0){
+        if(Options.getIsFirstTurnMap().size() > 0){
             return true;
         }
 

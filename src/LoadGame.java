@@ -76,8 +76,8 @@ class LoadGame {
             String color = button_state[2];
             if (!isEnabled) {
                 int turn = color_to_index_map.get(color);
-                if (Options.getFirstTurnMap().containsKey(turn)) {
-                    Options.clearFirstTurnMap(turn);
+                if (Options.getIsFirstTurnMap().containsKey(turn)) {
+                    Options.clearIsFirstTurnMap(turn);
                 }
                 JButton btn = mainGridButtons[button_row][button_col];
                 btn.setBackground(stringToColor(color));

@@ -11,13 +11,13 @@ abstract class Options {
     private static Integer numberOfPlayers = null;
     private static Integer numberOfAI= null;
     private static Boolean hasAlternatePlayer = false;
-    private static ArrayList<Integer> AI_indexList = new ArrayList<>();
-    private static int[] turnOrder;
-    private static HashMap<Integer, int[]> firstTurnMap = new HashMap<>();
+    private static ArrayList<Integer> AI_player_index_List = new ArrayList<>();
+    private static int[] turn_order_according_to_color;
+    private static HashMap<Integer, int[]> isFirstTurnMap = new HashMap<>();
     private static boolean darkMode = false;
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
-        AI_indexList = new ArrayList<>();
+        AI_player_index_List = new ArrayList<>();
         setColorblind(isColorblind);
         setDifficulty(difficulty);
         setScoringType(scoringType);
@@ -31,10 +31,10 @@ abstract class Options {
         if (numberOfPlayers==3){
             hasAlternatePlayer = true;
         }
-        setAIPlayer();
+        setAIPlayerOptions();
         setPlayerNames();
-        setAlternatePlayer();
-        calculateTurnOrder();
+        setNameOfAlternatePlayer();
+        calculateTurnOrderAccordingToColors();
 
 
 
@@ -83,16 +83,27 @@ abstract class Options {
         return mapOfColors.get(key);
     }
 
+    /**
+     * returns the number of players in the game
+     * @return int number_of players
+     */
     public static Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    private static void setAlternatePlayer(){
+    /**
+     * this function sets the name of the alternate player from player_number to alternate player
+     * if there is an alternate player in the game
+     */
+    private static void setNameOfAlternatePlayer(){
         if (hasAlternatePlayer()){
             Player.getPlayer(4).setName("Alternate");
         }
     }
 
+    /**
+     * this function sets the player names on top of their selected colors
+     */
     private static void setPlayerNames(){
         if (numberOfPlayers==2){
             Player.getPlayer(3).setName("Player 1");
@@ -100,44 +111,49 @@ abstract class Options {
         }
     }
 
-    private static void setAIPlayer(){
-        AI_indexList.clear();
+    /**
+     * this function sets the name of AI players
+     * and also has an AI_indexList which has the player index of the AI players
+     */
+    private static void setAIPlayerOptions(){
+        AI_player_index_List.clear();
         if (Options.hasAlternatePlayer()){
             if (numberOfAI==2){
                 Player.getPlayer(2).setName("AI Player 1");
-                AI_indexList.add(2);
+                AI_player_index_List.add(2);
                 Player.getPlayer(3).setName("AI Player 2");
-                AI_indexList.add(3);
+                AI_player_index_List.add(3);
             }
             else if (numberOfAI==1){
-                AI_indexList.add(3);
+                AI_player_index_List.add(3);
                 Player.getPlayer(3).setName("AI Player");
             }
         }
         else{
             if (numberOfAI==3){
                 Player.getPlayer(1).setName("AI Player 1");
-                AI_indexList.add(1);
+                AI_player_index_List.add(1);
                 Player.getPlayer(2).setName("AI Player 2");
-                AI_indexList.add(2);
+                AI_player_index_List.add(2);
                 Player.getPlayer(3).setName("AI Player 3");
-                AI_indexList.add(3);
+                AI_player_index_List.add(3);
             }
             if (numberOfAI==2){
                 Player.getPlayer(3).setName("AI Player 1");
-                AI_indexList.add(3);
+                AI_player_index_List.add(3);
                 Player.getPlayer(4).setName("AI Player 2");
-                AI_indexList.add(4);
+                AI_player_index_List.add(4);
             }
             else if (numberOfAI==1){
                 Player.getPlayer(4).setName("AI Player");
-                AI_indexList.add(4);
+                AI_player_index_List.add(4);
             }
         }
-
+        //TODO set AI DIFFICULTY HERE
     }
 
-    private static void calculateTurnOrder() {
+
+    private static void calculateTurnOrderAccordingToColors() {
         int first = 0, second = 0, third = 0, forth = 0;
         for (int i = 1; i < 5; i++) {
             Color color = Options.getColor(i);
@@ -151,32 +167,32 @@ abstract class Options {
                 forth = i;
             }
         }
-        firstTurnMap.put(first, (new int[]{0, 19}));
-        firstTurnMap.put(second, (new int[]{19, 19}));
-        firstTurnMap.put(third, (new int[]{19, 0}));
-        firstTurnMap.put(forth, (new int[]{0, 0}));
-        turnOrder =  (new int[]{first, second, third, forth});
+        isFirstTurnMap.put(first, (new int[]{0, 19}));
+        isFirstTurnMap.put(second, (new int[]{19, 19}));
+        isFirstTurnMap.put(third, (new int[]{19, 0}));
+        isFirstTurnMap.put(forth, (new int[]{0, 0}));
+        turn_order_according_to_color =  (new int[]{first, second, third, forth});
     }
 
-    public static HashMap<Integer,int[]> getFirstTurnMap(){
-        return firstTurnMap;
+    public static HashMap<Integer,int[]> getIsFirstTurnMap(){
+        return isFirstTurnMap;
     }
 
 
-    public static int getTurnOrder(int index){
-        return turnOrder[index];
+    public static int getTurnOrderAccordingToColors(int index){
+        return turn_order_according_to_color[index];
     }
 
-    public static void cornerMoveEvent() {
-        firstTurnMap.remove(GameEngine.getCurrentTurn());
+    public static void firstTurnCornerMoveEvent() {
+        isFirstTurnMap.remove(GameEngine.getCurrentTurn());
     }
 
-    public static void clearFirstTurnMap(int current_turn){
-        firstTurnMap.remove(current_turn);
+    public static void clearIsFirstTurnMap(int current_turn){
+        isFirstTurnMap.remove(current_turn);
     }
 
-    public static ArrayList<Integer> getAI_indexList(){
-        return AI_indexList;
+    public static ArrayList<Integer> getAI_player_index_List(){
+        return AI_player_index_List;
     }
 
     public static boolean hasAlternatePlayer(){
