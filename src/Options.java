@@ -103,6 +103,7 @@ abstract class Options {
 
     /**
      * this function sets the player names on top of their selected colors
+     * by default players are name 1,2,3,4 regardless of the amount of players playing
      */
     private static void setPlayerNames(){
         if (numberOfPlayers==2){
