@@ -25,6 +25,13 @@ abstract class AI {
         Player.getPlayer(currentTurn).getAvailablePieces().forEach(piece-> {
             possibleMoves.put(piece,GameEngine.getPossibleMoves(piece,currentTurn));
         });
+        int longestPiece;
+        for (int piece:longestPieceList){
+            if (possibleMoves.containsKey(piece)){
+                longestPiece = piece;
+                break;
+            }
+        }
         //possible moves key is piece number, value is ArrayList Of String[]
         //String[] - [selectedPoint_On_Main_Grid,rotations,flipRights,flipLefts]
         //TODO please do a function that allows the AI to place a piece, function in MainGrid that takes the selected Piece and selectedPoint as parameters
