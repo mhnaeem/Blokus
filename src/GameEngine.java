@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -306,7 +307,7 @@ public class GameEngine {
         if (Options.getAI_player_index_List().contains(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
-            //DISABLE ALL GRIDS WHILE AI IS PLAYING
+            PlayerGrid.disableAllPlayerGrids();
             //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
 
@@ -320,8 +321,8 @@ public class GameEngine {
             //if AI turn to play alternate player
             if (Options.getAI_player_index_List().contains(alternateTurn)) {
                 //TODO: here AI function to play alternate turn here
+                PlayerGrid.disableAllPlayerGrids();
                 //AI should play using the current turn
-                //DISABLE ALL GRIDS WHILE AI IS PLAYING
                 //turn over when updateCurrentTurn() is called again
             }
             else {
@@ -449,7 +450,7 @@ public class GameEngine {
         boolean toReturn = false;
         boolean continueOn = true;
 
-        //TODO COMMENT THIS OUT TO TEST FLIP ROTATE VALID MOVES AND COMMENT OLD CODE
+        //TODO COMMENT THIS OUT TO TEST FLIP ROTATE VALID MOVES AND COMMENT OLD CODE IF THIS CODE DOES NOT WORK THEN AI CODE DOES NOT WORK EITHER
         /*
        outerloop:
        for (int rotate= 0;rotate<3;rotate++){
@@ -474,6 +475,7 @@ public class GameEngine {
            }
            SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index));//rotate piece three times
        }
+       Piece.resetActionList();
        GameEngine.setSelectedPiece(originalPieceIndex);
        return toReturn;
        */
@@ -569,6 +571,69 @@ public class GameEngine {
         setGameEnded(true);
         return false;
     }
+
+    //FOR AI
+    public static ArrayList<String[]> getPossibleMoves(int piece_index,int player_index) {
+        possibleSides = calculateBoardSide(MainGrid.getMainGridButtons(),Options.getColor(player_index));
+        possibleEdges = calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(player_index));
+
+        ArrayList<String[]> toReturn = new ArrayList<>();//(selected point,rotations,fliprights,flipups)
+        JButton[][] grid = MainGrid.getMainGridButtons();
+
+        Integer originalPieceIndex = GameEngine.getSelectedPiece();
+        GameEngine.setSelectedPiece(piece_index);
+
+        boolean continueOn = true;
+        for(int row=0;row<20;row++){
+            for(int col=0;col<20;col++){
+                String selectedPoint = "(" +row+","+col+")";
+                for (int rotate = 0; rotate < 3; rotate++) {
+                    for (int flipRight = 0; flipRight < 2; flipRight++) {
+                        SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips right once(flipRight = 0), flips left once(flipRight=1)
+                        for (int flipUp = 0; flipUp < 2; flipUp++) {
+                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips up once(flipUp=0), flips down once(flipUp=1)
+                            for (int[] action : Piece.getActionsList(piece_index)) {
+                                if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
+                                    continueOn = false;
+                                    break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
+                                }
+                            }
+                            if (continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+                                toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
+                                //found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, adds to arrayList of possibleMoves
+                            }
+                            SelectedPiece.flipUp(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));//flips piece to original position (flipUp=0),(flipUp=1)
+                        }
+                        SelectedPiece.flipRight(Piece.getActionsList(piece_index));//flips piece to original position
+                    }
+                    SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index));//rotate piece three times
+                }
+            }
+        }
+        Piece.resetActionList();
+        GameEngine.setSelectedPiece(originalPieceIndex);
+        return toReturn;
+    }
+
+    //FOR AI
+    public static HashMap<Integer,ArrayList<String[]>> moveThatBlockOtherPlayerEdges(ArrayList<Integer> available_pieces ,HashMap<Integer,ArrayList<String[]>> map,int turn){
+        HashMap<Integer,ArrayList<String[]>> toReturn= new HashMap<>();
+        ArrayList<Integer> turn_list = new ArrayList<>(Arrays.asList(1,2,3,4));
+        turn_list.remove(turn);
+        ArrayList<String> OtherPlayerEdges = new ArrayList<>();
+        turn_list.forEach(index->OtherPlayerEdges.addAll(calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(index))));
+        available_pieces.forEach(piece->{
+            if (map.containsKey(piece)){
+                map.get(piece).forEach(strings -> {
+                    if(OtherPlayerEdges.contains(strings[0])){
+                        toReturn.put(piece,map.get(piece));
+                    }
+                });
+            }
+        });
+        return toReturn;
+    }
+
 
     private static Boolean getGameEnded() {
         return gameEnded;

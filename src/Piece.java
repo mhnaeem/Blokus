@@ -360,6 +360,10 @@ abstract class Piece {
         System.out.println("Error in setActionsList, piece index, current player error not found");
     }
 
+    public static void resetActionList(){
+        playerPieceActionList = createActionsListMap();
+    }
+
 }
 
 
