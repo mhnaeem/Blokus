@@ -30,43 +30,55 @@ abstract class AI {
             possibleMoves.put(piece,GameEngine.getPossibleMoves(piece,currentTurn));
         });
         possibleMoves.entrySet().forEach(entry->{
-            System.out.println(entry.getKey() + " " );
-            entry.getValue().forEach(v->{
-                System.out.print(v);
-            });
+                System.out.println(entry.getKey() + " " );
+                entry.getValue().forEach(v->{
+                    System.out.println("selectedPoint"+v[0]);
+                    System.out.println("rotation"+v[1]);
+                    System.out.println("flipUp"+v[2]);
+                    System.out.println("flipRight"+v[3]);
+                });
         });
         int longestPiece = 0;
         for (int piece:longestPieceList){
             if (possibleMoves.containsKey(piece)){
                 longestPiece = piece;
+                System.out.println("longestPiece"+longestPiece);
                 break;
             }
         }
-        //index = 0;
+        int index = (int) (Math.random()*possibleMoves.get(longestPiece).size());
         String [] move = possibleMoves.get(longestPiece).get(0);
         String selectedPoint = move[0];
         int rotation = Integer.parseInt(move[1]);
-        int flipRight = Integer.parseInt(move[2]);
-        int flipUp = Integer.parseInt(move[3]);
+        int flipUp = Integer.parseInt(move[2]);
+        int flipRight = Integer.parseInt(move[3]);
         Color color = Player.getPlayer(currentTurn).getColor();
-        for (int i=0;i<rotation;i++){
-            SelectedPiece.rotateCounterClock(Piece.getActionsList(longestPiece,currentTurn));
+        GameEngine.setSelectedPiece(longestPiece);
+        Piece.resetActionList();
+        for (int i=0;i<flipUp;i++){
+            System.out.println("flipup");
+            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
         }
         for (int i=0;i<flipRight;i++){
-            SelectedPiece.flipRight(Piece.getActionsList(longestPiece,currentTurn));
+            System.out.println("flipright");
+            Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
         }
-        for (int i=0;i<flipUp;i++){
-            SelectedPiece.flipUp(Piece.getActionsList(longestPiece,currentTurn));
+        for (int i=0;i<rotation;i++){
+            System.out.println("rotation");
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
         }
+
+
+        String[] b = selectedPoint.split(",");
+        int brow = Integer.parseInt(b[0]);
+        int bcol = Integer.parseInt(b[1]);
+        System.out.println(brow+""+bcol);
+        System.out.println("Selected piece"+GameEngine.getSelectedPiece()+"br,bcol"+brow+","+bcol);
+        Piece.getActionsList(longestPiece,GameEngine.getCurrentTurn()).forEach(actions -> {
+            System.out.println("row"+(brow+actions[1])+",col"+(bcol+actions[0]));
+        });
         //TODO MAKE MOVE WITH THESE
-        GameEngine.setSelectedPiece(longestPiece);
-        Player.getPlayer(currentTurn).pieceUsed(longestPiece);
-        PlayerGrid.removePieceEvent(longestPiece);
-        //Options.firstTurnCornerMoveEvent();
-        GameEngine.updateCurrentTurn();
-        //possible moves key is piece number, value is ArrayList Of String[]
-        //String[] - [selectedPoint_On_Main_Grid,rotations,flipRights,flipUps]
-        //TODO please do a function that allows the AI to place a piece, function in MainGrid that takes the selected Piece and selectedPoint as parameters
+        MainGrid.AI_Placing_Piece(selectedPoint);
     }
 
     private static void mediumMove(){

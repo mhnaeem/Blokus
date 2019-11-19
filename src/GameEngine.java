@@ -307,8 +307,8 @@ public class GameEngine {
         if (isAITurn(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
-           //PlayerGrid.disableAllPlayerGrids();
-           //AI.makeMove(currentTurn);
+           PlayerGrid.disableAllPlayerGrids();
+           AI.makeMove(currentTurn);
             //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
 
@@ -455,12 +455,13 @@ public class GameEngine {
         /*
        Piece.resetActionList();
        outerloop:
-       for (int rotate= 0;rotate<3;rotate++){
-           for (int flipRight= 0;flipRight<2;flipRight++){
-               Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);;//flips right once(flipRight = 0), flips left once(flipRight=1)
-               for (int flipUp =0;flipUp<2;flipUp++){
-                   Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);;//flips up once(flipUp=0), flips down once(flipUp=1)
-                   for (int[] action : Piece.getActionsList(piece_index,player_index)) {
+       for (int rotate = 1; rotate <= 4; rotate++) {
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index)),player_index);
+            for (int flipRight = 1; flipRight <= 2; flipRight++) {
+                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);
+                for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);
+                    for (int[] action : Piece.getActionsList(piece_index,player_index)) {
                        if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                            toReturn = false;
                            continueOn = false;
@@ -477,11 +478,8 @@ public class GameEngine {
                        break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
                    }
                    continueOn = true;
-                   Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position (flipUp=0),(flipUp=1)
                }
-               Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position
            }
-           Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index)),player_index);//rotate piece three times
        }
        GameEngine.setSelectedPiece(originalPieceIndex);
        return toReturn;
@@ -594,11 +592,12 @@ public class GameEngine {
         for(int row=0;row<20;row++){
             for(int col=0;col<20;col++){
                 String selectedPoint = row+","+col;
-                for (int rotate = 0; rotate < 3; rotate++) {
-                    for (int flipRight = 0; flipRight < 2; flipRight++) {
-                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);//flips right once(flipRight = 0), flips left once(flipRight=1)
-                        for (int flipUp = 0; flipUp < 2; flipUp++) {
-                            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);//flips up once(flipUp=0), flips down once(flipUp=1)
+                for (int rotate = 1; rotate <= 4; rotate++) {
+                    Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index)),player_index);
+                    for (int flipRight = 1; flipRight <= 2; flipRight++) {
+                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);
+                        for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);
                             for (int[] action : Piece.getActionsList(piece_index,player_index)) {
                                 if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                                     continueOn = false;
@@ -606,22 +605,18 @@ public class GameEngine {
                                 }
                             }
                             if (continueOn && Options.getIsFirstTurnMap().containsKey(player_index)) {
-                                if (!isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
-                                    continueOn = false;
+                                if (isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
+                                    toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
+                                    //System.out.println("Selected Piece"+piece_index+"Rotate"+rotate+"FlipRight"+flipRight+"flipUp"+flipUp);
                                 }
-                                toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
-                                //System.out.println("Selected Piece"+piece_index+"Rotate"+rotate+"FlipRight"+flipRight+"flipUp"+flipUp);
+
                             }
                             else if (continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
                                 toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
-                                //found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, adds to arrayList of possibleMoves
                             }
                             continueOn = true;
-                            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position (flipUp=0),(flipUp=1)
                         }
-                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position
                     }
-                    Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index)),player_index);//rotate piece three times
                 }
             }
         }
