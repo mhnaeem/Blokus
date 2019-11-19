@@ -204,7 +204,7 @@ abstract class Piece {
         System.out.println("Error in getPieceDisplayCoordinates, piece index not found");
         return null;
     }
-    
+
     private static HashMap<String, Integer> createPieceMap(){
         HashMap<String, Integer> toReturn = new HashMap<>();
         for (int i = 0; i < 21; i++) {

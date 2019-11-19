@@ -57,15 +57,15 @@ abstract class AI {
         Piece.resetActionList();
         for (int i=0;i<flipUp;i++){
             System.out.println("flipup");
-            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
+            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(longestPiece)));
         }
         for (int i=0;i<flipRight;i++){
             System.out.println("flipright");
-            Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
+            Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(longestPiece)));
         }
         for (int i=0;i<rotation;i++){
             System.out.println("rotation");
-            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(longestPiece,currentTurn)),currentTurn);
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(longestPiece)));
         }
 
 
@@ -74,7 +74,7 @@ abstract class AI {
         int bcol = Integer.parseInt(b[1]);
         System.out.println(brow+""+bcol);
         System.out.println("Selected piece"+GameEngine.getSelectedPiece()+"br,bcol"+brow+","+bcol);
-        Piece.getActionsList(longestPiece,GameEngine.getCurrentTurn()).forEach(actions -> {
+        Piece.getActionsList(longestPiece).forEach(actions -> {
             System.out.println("row"+(brow+actions[1])+",col"+(bcol+actions[0]));
         });
         //TODO MAKE MOVE WITH THESE

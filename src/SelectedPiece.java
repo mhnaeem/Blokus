@@ -84,7 +84,7 @@ class SelectedPiece{
         //Set the actionListeners for each button
         rotate = new JButton(rotateIcon);
         rotate.addActionListener(ev -> {
-            Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece(),playerIndex)),playerIndex);
+            Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
 
@@ -97,13 +97,13 @@ class SelectedPiece{
 
         flipUp = new JButton(flipUpIcon);
         flipUp.addActionListener(ev -> {
-            Piece.setActionList(flipUp(Piece.getActionsList(GameEngine.getSelectedPiece(),playerIndex)),playerIndex);
+            Piece.setActionList(flipUp(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
 
         flipRight = new JButton(flipRightIcon);
         flipRight.addActionListener(ev -> {
-            Piece.setActionList(flipRight(Piece.getActionsList(GameEngine.getSelectedPiece(),playerIndex)),playerIndex);
+            Piece.setActionList(flipRight(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
         });
 
@@ -185,7 +185,7 @@ class SelectedPiece{
         Color color = Options.getColor(this.playerIndex);
         if (Piece.getPieceMap().containsKey(this.selectedButtonName)) {
             int key = Piece.getPieceMap().get(this.selectedButtonName);
-            (Piece.getActionsList(key,playerIndex)).forEach(action -> {
+            (Piece.getActionsList(key)).forEach(action -> {
                 selectedButtonGrid[x + action[0]][y + action[1]].setBackground(color);
                 if (Options.getIsColorblind()) {
                     ImageIcon icon = Player.getPlayerIcon(this.playerIndex);

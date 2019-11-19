@@ -38,7 +38,7 @@ public class GameEngine {
         calculatePossibleSidesAndEdges(currentTurn);
 
 
-        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
+        for (int[] action : Piece.getActionsList(selectedPiece)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 //JOptionPane.showMessageDialog(null, "Not a legal move", "Illegal move!",JOptionPane.ERROR_MESSAGE);
                 System.out.println("Not a legal move");
@@ -79,7 +79,7 @@ public class GameEngine {
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
-        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
+        for (int[] action : Piece.getActionsList(selectedPiece)) {
             int newC = c + action[0];
             int newR = r + action[1];
             if (isWithinGrid(point, action, grid)) {
@@ -164,7 +164,7 @@ public class GameEngine {
         int c = Integer.parseInt(strArr[1]);
         ArrayList<String> toReturn = new ArrayList<>();
         ArrayList<int[]> actions = new ArrayList<>();
-        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
+        for (int[] action : Piece.getActionsList(selectedPiece)) {
             actions.add(new int[]{r + action[1], c + action[0]});
         }
         actions.forEach(array -> {
@@ -239,7 +239,7 @@ public class GameEngine {
         int c = Integer.parseInt(strArr[1]);
         ArrayList<String> toReturn = new ArrayList<>();
         ArrayList<int[]> actions = new ArrayList<>();
-        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
+        for (int[] action : Piece.getActionsList(selectedPiece)) {
             actions.add(new int[]{r + action[1], c + action[0]});
         }
         actions.forEach(array -> {
@@ -346,7 +346,7 @@ public class GameEngine {
         String[] strArr = selectedPoint.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
-        for (int[] action : Piece.getActionsList(selectedPiece,currentTurn)) {
+        for (int[] action : Piece.getActionsList(selectedPiece)) {
             if (((r + action[1]) == array[0]) && ((c + action[0]) == array[1])) {
                 return true;
             }
@@ -486,7 +486,7 @@ public class GameEngine {
        */
 
 
-        for (int[] action : Piece.getActionsList(piece_index,player_index)) {
+        for (int[] action : Piece.getActionsList(piece_index)) {
             if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                 toReturn = false;
                 continueOn = false;
@@ -593,12 +593,12 @@ public class GameEngine {
             for(int col=0;col<20;col++){
                 String selectedPoint = row+","+col;
                 for (int rotate = 1; rotate <= 4; rotate++) {
-                    Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index,player_index)),player_index);
+                    Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
                     for (int flipRight = 1; flipRight <= 2; flipRight++) {
-                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);
+                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
                         for (int flipUp = 1; flipUp <= 2; flipUp++) {
-                            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);
-                            for (int[] action : Piece.getActionsList(piece_index,player_index)) {
+                            Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                            for (int[] action : Piece.getActionsList(piece_index)) {
                                 if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                                     continueOn = false;
                                     break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
