@@ -8,7 +8,7 @@ import java.util.HashMap;
 //TODO restructure and move code to appropriate class
 abstract class AI {
     private static int currentTurn = -1;
-    private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20));//in order of longest piece
+    private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(1,2,4,5,6,7,9,10,11,12,13,18,0,3,8,14,16,15,19,20,17));//in order of longest piece
 
     public static void makeMove(int current_turn){
         currentTurn = current_turn;
