@@ -75,37 +75,12 @@ class MainGrid {
         return buttons;
     }
 
-    public static void AI_Placing_Piece(String button){
-    String[] b = button.split(",");
-    int brow = Integer.parseInt(b[0]);
-    int bcol = Integer.parseInt(b[1]);
-    int turn = GameEngine.getCurrentTurn();
-    int selectedPiece = GameEngine.getSelectedPiece();
-
-    Piece.getActionsList(selectedPiece).forEach(actions -> {
-        JButton btn = mainGridButtons[brow + actions[1]][bcol + actions[0]];
-        btn.setBackground(Options.getColor(turn));
-        btn.setEnabled(false);
-
-        if (Options.getIsColorblind()) {
-            btn.setDisabledIcon(Player.getPlayerIcon(turn));
-            btn.setIcon(Player.getPlayerIcon(turn));
-        }
-
-    });
-    Player.getPlayer(turn).pieceUsed(selectedPiece);
-    PlayerGrid.removePieceEvent(selectedPiece);
-    Options.firstTurnCornerMoveEvent();
-    GameEngine.updateCurrentTurn();
-    }
-
     private static class MainGridListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             String selectedPoint = ((JButton) e.getSource()).getName();
             Integer selectedPiece = GameEngine.getSelectedPiece();
-            if (!GameEngine.isAITurn(GameEngine.getCurrentTurn())){
                 if (selectedPiece != null) {
                     if(GameEngine.isLegal(selectedPoint)) {
                         int turn = GameEngine.getCurrentTurn();
@@ -117,7 +92,6 @@ class MainGrid {
                         //TODO should make a check if game is over here before updating turn
                         GameEngine.updateCurrentTurn();
                     }
-                }
                 else {
                     JOptionPane.showMessageDialog(null, "Error, No piece was selected. MainGridListener", "Illegal move!",JOptionPane.ERROR_MESSAGE);
                 }
@@ -227,14 +201,14 @@ class MainGrid {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if (GameEngine.getSelectedPiece() != null && !GameEngine.isAITurn(GameEngine.getCurrentTurn())) {
+            if (GameEngine.getSelectedPiece() != null) {
                 mouseHoverDisplay(((JButton) e.getSource()).getName(), true);
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if (GameEngine.getSelectedPiece() != null && !GameEngine.isAITurn(GameEngine.getCurrentTurn())) {
+            if (GameEngine.getSelectedPiece() != null) {
                 mouseHoverDisplay(((JButton) e.getSource()).getName(), false);
             }
         }
