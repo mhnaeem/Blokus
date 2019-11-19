@@ -28,6 +28,10 @@ public class GameEngine {
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
+        if (isAITurn(currentTurn)){
+            PlayerGrid.disableAllPlayerGrids();
+            AI.makeMove(currentTurn);
+        }
     }
 
     public static boolean isLegal(String selectedPoint) {
