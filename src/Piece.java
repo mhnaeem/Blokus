@@ -355,7 +355,7 @@ abstract class Piece {
             }
         }
         //JOptionPane.showMessageDialog(null, "Error in getActionsList, piece index not found");
-        System.out.println("Error in setActionsList, piece index, current player error not found");
+        //System.out.println("Error in setActionsList, piece index, current player error not found");
     }
 
     public static void resetActionList(){

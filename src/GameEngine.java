@@ -307,8 +307,8 @@ public class GameEngine {
         if (isAITurn(currentTurn)) {
             //AI turn here
             //TODO: AI should make move using current turn
-            PlayerGrid.disableAllPlayerGrids();
-            //AI.makeMove(currentTurn);
+           //PlayerGrid.disableAllPlayerGrids();
+           //AI.makeMove(currentTurn);
             //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
 
@@ -467,10 +467,16 @@ public class GameEngine {
                            break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
                        }
                    }
-                   if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+                   if (continueOn && Options.getIsFirstTurnMap().containsKey(player_index)) {
+                       if (!isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
+                           continueOn = false;
+                       }
+                   }
+                   else if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
                        toReturn = true;
                        break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
                    }
+                   continueOn = true;
                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position (flipUp=0),(flipUp=1)
                }
                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index,player_index)),player_index);//flips piece to original position
@@ -599,13 +605,14 @@ public class GameEngine {
                                     break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
                                 }
                             }
-                            if (Options.getIsFirstTurnMap().containsKey(currentTurn)) {
-                                if (!isOnCorner(Options.getIsFirstTurnMap().get(currentTurn), selectedPoint)){
+                            if (continueOn && Options.getIsFirstTurnMap().containsKey(player_index)) {
+                                if (!isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
                                     continueOn = false;
                                 }
+                                toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
+                                //System.out.println("Selected Piece"+piece_index+"Rotate"+rotate+"FlipRight"+flipRight+"flipUp"+flipUp);
                             }
                             else if (continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
-                                System.out.println("testing");
                                 toReturn.add(new String[]{selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)});
                                 //found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, adds to arrayList of possibleMoves
                             }

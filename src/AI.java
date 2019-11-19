@@ -30,7 +30,10 @@ abstract class AI {
             possibleMoves.put(piece,GameEngine.getPossibleMoves(piece,currentTurn));
         });
         possibleMoves.entrySet().forEach(entry->{
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            System.out.println(entry.getKey() + " " );
+            entry.getValue().forEach(v->{
+                System.out.print(v);
+            });
         });
         int longestPiece = 0;
         for (int piece:longestPieceList){
@@ -59,8 +62,7 @@ abstract class AI {
         GameEngine.setSelectedPiece(longestPiece);
         Player.getPlayer(currentTurn).pieceUsed(longestPiece);
         PlayerGrid.removePieceEvent(longestPiece);
-        MainGrid.AIPlacingPiece(currentTurn,longestPiece,selectedPoint);
-        Options.firstTurnCornerMoveEvent();
+        //Options.firstTurnCornerMoveEvent();
         GameEngine.updateCurrentTurn();
         //possible moves key is piece number, value is ArrayList Of String[]
         //String[] - [selectedPoint_On_Main_Grid,rotations,flipRights,flipUps]
