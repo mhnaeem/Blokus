@@ -1,3 +1,6 @@
+import com.sun.jdi.Value;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,7 +11,7 @@ abstract class Piece {
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number
     private static HashMap<Integer, ArrayList<String>> pieceNumberToStringMap = createPieceNumberToStringMap();
     private static HashMap<Integer, ArrayList<int[]>> actionList = createActionsListMap();
-
+    private static  HashMap<Integer,HashMap<String, ArrayList<int[]>>> rotateFlipUpFlipRight = createRotateFlipUpFlipRightMap();
 
     private static HashMap<Integer, ArrayList<int[]>> createActionsListMap(){
         HashMap<Integer, ArrayList<int[]>> toReturn = new HashMap<>();
@@ -343,6 +346,37 @@ abstract class Piece {
 
     public static void resetActionList(){
         actionList = createActionsListMap();
+    }
+
+    public static HashMap<Integer, HashMap<String, ArrayList<int[]>>> createRotateFlipUpFlipRightMap(){
+        HashMap<Integer,HashMap<String, ArrayList<int[]>>> toReturnMaster = new HashMap<>();
+        for (int piece_index=0;piece_index<21;piece_index++){
+            Piece.resetActionList();
+            HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
+            for (int rotate=0;rotate<=3;rotate++){
+                for (int flipUp=0;flipUp<=1;flipUp++){
+                    for (int flipRight=0;flipRight<=1;flipRight++){
+                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight)),Piece.getActionsList(piece_index));
+                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+                    }
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                }
+                Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+            }
+            toReturnMaster.put(piece_index,toReturn);
+        }
+        return toReturnMaster;
+    }
+
+    public static ArrayList<int[]> getRotateFlipUpFlipRightActionList(int piece_index,int rotate,int flipUp,int flipRight) {
+        String key = String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight);
+        ArrayList<int[]> toReturn = new ArrayList<>();
+        if (rotateFlipUpFlipRight.containsKey(piece_index)){
+            if (rotateFlipUpFlipRight.get(piece_index).containsKey(key)){
+                toReturn = rotateFlipUpFlipRight.get(piece_index).get(key);
+            }
+        }
+        return toReturn;
     }
 }
 

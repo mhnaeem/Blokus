@@ -458,17 +458,20 @@ public class GameEngine {
         doesPlayerHasMove.put(2,false);
         doesPlayerHasMove.put(3,false);
         doesPlayerHasMove.put(4,false);
+        JButton[][] grid = MainGrid.getMainGridButtons();
         for (int player_index = 1;player_index<=4;player_index++){
-            calculatePossibleSidesAndEdges(player_index);
+            //calculatePossibleSidesAndEdges(player_index);
             outerloop:
             for (int row=0;row<20;row++){
                 for (int col=0;col<20;col++){
-                    String selectedPoint = row + "," + col;
-                    ArrayList<Integer> availablePieces = Player.getPlayer(player_index).getAvailablePieces();
-                    for (int piece_index:availablePieces){
-                        if (canAPieceBePlaced(piece_index,selectedPoint,player_index)){
-                            doesPlayerHasMove.put(player_index,true);
-                            break outerloop;
+                    if (grid[row][col].isEnabled()){
+                        String selectedPoint = row + "," + col;
+                        ArrayList<Integer> availablePieces = Player.getPlayer(player_index).getAvailablePieces();
+                        for (int piece_index:availablePieces){
+                            if (canAPieceBePlaced(piece_index,selectedPoint,player_index)){
+                                doesPlayerHasMove.put(player_index,true);
+                                break outerloop;
+                            }
                         }
                     }
                 }
@@ -483,6 +486,8 @@ public class GameEngine {
 
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
+        int saveturn = currentTurn;
+        currentTurn = player_index;
 
         boolean toReturn = false;
         boolean continueOn = true;
@@ -495,7 +500,13 @@ public class GameEngine {
                 Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
                 for (int flipUp = 1; flipUp <= 2; flipUp++) {
                     Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                    for (int[] action : Piece.getActionsList(piece_index)) {
+                    if (isLegal(selectedPoint)){
+                        toReturn = true;
+                        System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
+                        break outerloop;
+                    }
+                    toReturn = false;
+                    /*for (int[] action : Piece.getActionsList(piece_index)) {
                         if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                             toReturn = false;
                             continueOn = false;
@@ -514,11 +525,12 @@ public class GameEngine {
                         System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
                         break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
                     }
-                    continueOn = true;
+                    continueOn = true;*/
                 }
             }
         }
         GameEngine.setSelectedPiece(originalPieceIndex);
+        currentTurn = saveturn;
         return toReturn;
 
     }
