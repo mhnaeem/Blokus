@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 
@@ -11,9 +12,12 @@ import java.awt.*;
 
 class GameGUI extends JFrame {
 
-    private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel;
+    private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel, playerTurnPanel;
     private static JLabel[] playerLabels;
     private static GameGUI previousFrame;
+    public static int currentTurn;
+    private static String text;
+    private static JEditorPane paragraph = new JEditorPane();
 
     public GameGUI(JPanel GridPanel){
 
@@ -29,7 +33,15 @@ class GameGUI extends JFrame {
         topPanel = new JPanel();
         bottomPanel = new JPanel();
         mainGridPanel = new JPanel();
+        playerTurnPanel = new JPanel();
+        mainGridPanel.add(playerTurnPanel);
         mainGridPanel.add(GridPanel);
+
+        TitledBorder title = BorderFactory.createTitledBorder("Turn");
+        title.setTitleFont(new Font(Font.SANS_SERIF, Font.PLAIN,25));
+        title.setTitleJustification(TitledBorder.CENTER);
+        playerTurnPanel.setBorder(title);
+        playerTurnPanel.setSize(100,50);
 
         //Used to make the grid centered in the window
         mainGridPanel.setLayout(new BoxLayout(mainGridPanel, BoxLayout.Y_AXIS));
@@ -43,6 +55,8 @@ class GameGUI extends JFrame {
         contentPane.add(mainGridPanel, BorderLayout.CENTER);
 
         setTitle("Blokus");
+
+        setPlayerTurnTopPanel(currentTurn);
 
         //Create the player pieces on the left and right
         createPlayingPieces();
@@ -63,6 +77,32 @@ class GameGUI extends JFrame {
         previousFrame = this;
 
         setJMenuBar(new MenuCreator(new String[]{"endGame","newGame","saveGame","load","resetGame","exit","howTo","about"}, this, "game"));
+    }
+
+    public static void setPlayerTurnTopPanel(int currentTurn){
+
+        if(currentTurn == 0){
+            for (int player = 0; player < Options.getNumberOfPlayers(); player++) {
+                if(Options.getColor(player) == Color.BLUE){
+                    currentTurn = player;
+                }
+            }
+        }
+
+        text = "<html><p style='font-size:40px'>Player " + currentTurn +
+                "</p></html>";
+
+
+
+        paragraph.setContentType("text/html");//set content as html
+        paragraph.setText(text);
+
+        paragraph.setEditable(false);//so its not editable
+        paragraph.setOpaque(false);//so we dont see whit background
+
+        playerTurnPanel.add(paragraph);
+//        System.out.println("Player "+ currentTurn +"'s turn.");
+
     }
 
     private void createPlayingPieces() {

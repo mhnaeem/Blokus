@@ -353,6 +353,11 @@ public class GameEngine {
             SelectedPiece.setIsForceTurnEnabled(false);
         }
         Piece.resetActionList();
+
+        // current turn to use it in GameGUI class
+        currentTurn = getCurrentTurn();
+        GameGUI.setPlayerTurnTopPanel(currentTurn);
+//        GameGUI.setPlayerTurnTopPanel(currentTurn);
     }
 
 
