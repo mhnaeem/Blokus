@@ -352,6 +352,7 @@ abstract class Piece {
     //    HashMap<Integer,HashMap<String, ArrayList<int[]>>> toReturnMaster = new HashMap<>();
     //    for (int piece_index=0;piece_index<21;piece_index++){
     //        Piece.resetActionList();
+    //        GameEngine.setSelectedPiece(piece_index);
     //        HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
     //        for (int rotate=1;rotate<=4;rotate++){
     //            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
@@ -366,6 +367,7 @@ abstract class Piece {
     //        toReturnMaster.put(piece_index,toReturn);
     //    }
     //    Piece.resetActionList();
+    //    GameEngine.setSelectedPiece(null);
     //    return toReturnMaster;
     //}
 

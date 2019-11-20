@@ -557,7 +557,7 @@ public class GameEngine {
     private static String calculatedSelectedPoint(int piece_index){
         String toReturn = null;
         outerloop:
-        for(String edge:possibleBottomLeftEdges) {
+        for(String edge:possibleBottomRightEdges) {
             String[] button = edge.split(",");
             int brow = Integer.parseInt(button[0]);
             int bcol = Integer.parseInt(button[1]);
@@ -571,7 +571,7 @@ public class GameEngine {
                 }
             }
         }
-        for(String edge:possibleBottomRightEdges) {
+        for(String edge:possibleBottomLeftEdges) {
             String[] button = edge.split(",");
             int brow = Integer.parseInt(button[0]);
             int bcol = Integer.parseInt(button[1]);
@@ -585,7 +585,7 @@ public class GameEngine {
                 }
             }
         }
-        for(String edge:possibleTopRightEdges) {
+        for(String edge:possibleTopLeftEdges) {
             String[] button = edge.split(",");
             int brow = Integer.parseInt(button[0]);
             int bcol = Integer.parseInt(button[1]);
@@ -599,7 +599,7 @@ public class GameEngine {
                 }
             }
         }
-        for(String edge:possibleTopLeftEdges) {
+        for(String edge:possibleTopRightEdges) {
             String[] button = edge.split(",");
             int brow = Integer.parseInt(button[0]);
             int bcol = Integer.parseInt(button[1]);
