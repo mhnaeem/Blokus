@@ -25,19 +25,13 @@ public class GameEngine {
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
 
-    public static int AIPiece;
-    public static String AIPoint;
-    public static int AIrotate;
-
-
-
     public GameEngine() {
         turn_index = 0;
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
         if (isAITurn(currentTurn)){
-            AI.makeMove(currentTurn);
+            AI.makeMove();
         }
     }
 
@@ -314,7 +308,7 @@ public class GameEngine {
 
         if (isAITurn(currentTurn)) {
            PlayerGrid.disableAllPlayerGrids();
-           AI.makeMove(currentTurn);
+           AI.makeMove();
            return;
         }
         //if game has alternate player & alternate player turn
@@ -332,7 +326,7 @@ public class GameEngine {
                     alternateTurn = 1;
                 }
                 PlayerGrid.disableAllPlayerGrids();
-                AI.makeMove(currentTurn);
+                AI.makeMove();
                 return;
             }
             else {
@@ -578,63 +572,10 @@ public class GameEngine {
         gameEnd();
     }
 
-    public static boolean gameEndedYes(){
-
-        if(Options.getIsFirstTurnMap().size() > 0){
-            System.out.println("Fk The System.");
-            return false;
-        }
-
-        JButton[][] grid = MainGrid.getMainGridButtons();
-
-        for(int pieceIndex : Player.getPlayer(currentTurn).getAvailablePieces()){
-            setSelectedPiece(pieceIndex);
-            for (int r = 0; r < 20; r++) {
-                for (int c = 0; c < 20; c++) {
-                    for (int rotate = 0; rotate < 4; rotate++) {
-                        Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(pieceIndex)));
-                        if(isLegal(grid[r][c].getName())){
-                            System.out.println("Player " + currentTurn + " (" + r + "," + c + ") Piece Number " + pieceIndex + " " + isLegal(grid[r][c].getName()));
-                            AIrotate = rotate;
-                            AIPoint = grid[r][c].getName();
-                            AIPiece = pieceIndex;
-                            setSelectedPiece(AIPiece);
-                            return false;
-                        }
-                    }
-
-                }
-            }
-        }
-        setSelectedPiece(null);
-
-        return true;
-    }
-
-    public static void makeAIMove(){
-        JButton[][] grid = MainGrid.getMainGridButtons();
-        String[] strArr = AIPoint.split(",");
-        int r = Integer.parseInt(strArr[0]);
-        int c = Integer.parseInt(strArr[1]);
-
-        for (int i = 1; i <= AIrotate; i++) {
-            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(AIPiece)));
-        }
-
-        setSelectedPiece(AIPiece);
-        MainGrid.getMainGridPanel().updateUI();
-        grid[r][c].doClick();
-        MainGrid.getMainGridPanel().updateUI();
-        //setSelectedPiece(null);
-        Piece.resetActionList();
-    }
-
-    public static ArrayList<String[]> getPossibleAIMoves(int piece_index,int turn_index){
+    public static ArrayList<String[]> getPossibleAIMoves(int piece_index){
         ArrayList<String[]> toReturn = new ArrayList<>();
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
-        int saveturn = currentTurn;//saves turn for testing only
-        currentTurn = turn_index;
         calculatedEnabledButtonCoordinates();
         Piece.resetActionList();
         outerloop:
@@ -654,7 +595,6 @@ public class GameEngine {
         }
         Piece.resetActionList();
         GameEngine.setSelectedPiece(originalPieceIndex);
-        currentTurn = saveturn;
         return toReturn;
     }
 }

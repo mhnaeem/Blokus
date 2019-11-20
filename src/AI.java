@@ -1,16 +1,15 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 //TODO restructure and move code to appropriate class
 abstract class AI {
-    private static int currentTurn = -1;
+    private static int currentTurn;
     private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20));//in order of longest piece
 
-    public static void makeMove(int current_turn){
+    public static void makeMove(){
         PlayerGrid.disableAllPlayerGrids();
-        currentTurn = current_turn;
+        currentTurn = GameEngine.getCurrentTurn();
         switch (Options.getDifficulty()){
             case "Easy":
                 AI.easyMove();
@@ -26,7 +25,7 @@ abstract class AI {
       ArrayList<String[]> possibleMoves = new ArrayList<>();
       ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
       int random_piece = availablePieces.get((int)Math.random()*availablePieces.size());
-      possibleMoves = GameEngine.getPossibleAIMoves(random_piece,currentTurn);
+      possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
       if (possibleMoves.size()==0){
           GameEngine.hasGameEndedEvent();
           GameEngine.updateCurrentTurn();
@@ -64,7 +63,7 @@ abstract class AI {
         HashMap<Integer,ArrayList<String[]>> possibleMoves = new HashMap<>();
         Player.getPlayer(currentTurn).getAvailablePieces().forEach(piece-> {
             GameEngine.setSelectedPiece(piece);
-            possibleMoves.put(piece,GameEngine.getPossibleAIMoves(piece,currentTurn));
+            possibleMoves.put(piece,GameEngine.getPossibleAIMoves(piece));
         });
         int longestPiece = 0;
         for (int piece:longestPieceList){
