@@ -355,11 +355,11 @@ abstract class Piece {
             HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
             for (int rotate=1;rotate<=4;rotate++){
                 Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
-                for (int flipUp=1;flipUp<=2;flipUp++){
+                for (int flipRight=1;flipRight<=2;flipRight++){
                     Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                    for (int flipRight=1;flipRight<=2;flipRight++){
+                    for (int flipUp=1;flipUp<=2;flipUp++){
                         Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
-                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight)),Piece.getActionsList(piece_index));
+                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp)),Piece.getActionsList(piece_index));
                     }
                 }
             }
@@ -368,8 +368,8 @@ abstract class Piece {
         return toReturnMaster;
     }
 
-    public static ArrayList<int[]> getRotateFlipUpFlipRightActionList(int piece_index,int rotate,int flipUp,int flipRight) {
-        String key = String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight);
+    public static ArrayList<int[]> getRotateFlipUpFlipRightActionList(int piece_index,int rotate,int flipRight,int flipUp) {
+        String key = String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp);
         ArrayList<int[]> toReturn = new ArrayList<>();
         if (rotateFlipUpFlipRight.containsKey(piece_index)){
             if (rotateFlipUpFlipRight.get(piece_index).containsKey(key)){
