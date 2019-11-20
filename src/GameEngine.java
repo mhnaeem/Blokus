@@ -154,7 +154,7 @@ public class GameEngine {
                             toReturn.add((new String((r - 1) + "," + (c + 1))));
                         }
                         //if (!possibleBottomLeftEdges.contains((new String((r - 1) + "," + (c + 1))))) {
-                        //    possibleBottomLeftEdges.add((new String((r - 1) + "," + (c + 1))));
+                        //   possibleBottomLeftEdges.add((new String((r - 1) + "," + (c + 1))));
                         //}
                     }
                 }
@@ -174,7 +174,7 @@ public class GameEngine {
                             toReturn.add((new String((r + 1) + "," + (c + 1))));
                         }
                         //if (!possibleBottomRightEdges.contains((new String((r + 1) + "," + (c + 1))))) {
-                        //   possibleBottomRightEdges.add((new String((r + 1) + "," + (c + 1))));
+                         //  possibleBottomRightEdges.add((new String((r + 1) + "," + (c + 1))));
                         //}
                     }
                 }
@@ -365,6 +365,7 @@ public class GameEngine {
         //TODO: this checks whether the game has ended or not.
         //checkValidForEachPlayer();
         hasGameEnded();
+        Piece.resetActionList();
     }
 
 
