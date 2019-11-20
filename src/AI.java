@@ -80,7 +80,7 @@ abstract class AI {
                     break;
                 }
             }
-            if (longestPiece==-1){
+            if (longestPiece==-1 ||possibleMoves.get(longestPiece).size()==0){
                     GameEngine.hasGameEndedEvent();
                     GameEngine.updateCurrentTurn();
             }
