@@ -460,28 +460,22 @@ public class GameEngine {
         doesPlayerHasMove.put(4,false);
         JButton[][] grid = MainGrid.getMainGridButtons();
         for (int player_index = 1;player_index<=4;player_index++){
-            //calculatePossibleSidesAndEdges(player_index);
+            calculatePossibleSidesAndEdges(player_index);
+            ArrayList<Integer> availablePieces = Player.getPlayer(player_index).getAvailablePieces();
             outerloop:
-            for (int row=0;row<20;row++){
-                for (int col=0;col<20;col++){
-                    if (grid[row][col].isEnabled()){
-                        String selectedPoint = row + "," + col;
-                        ArrayList<Integer> availablePieces = Player.getPlayer(player_index).getAvailablePieces();
-                        for (int piece_index:availablePieces){
-                            if (canAPieceBePlaced(piece_index,selectedPoint,player_index)){
-                                doesPlayerHasMove.put(player_index,true);
-                                break outerloop;
-                            }
-                        }
-                    }
+            for (int piece_index:availablePieces) {
+                if (canAPieceBePlaced(piece_index, player_index)) {
+                    doesPlayerHasMove.put(player_index, true);
+                    break outerloop;
                 }
             }
+
         }
         if (!doesPlayerHasMove.get(1)&&!doesPlayerHasMove.get(2)&&!doesPlayerHasMove.get(3)&&!doesPlayerHasMove.get(4)){
             setGameEnded(true);
         }
     }
-    private static boolean canAPieceBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
+    private static boolean canAPieceBePlaced(Integer piece_index, Integer player_index){
         JButton[][] grid = MainGrid.getMainGridButtons();
 
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
@@ -500,12 +494,16 @@ public class GameEngine {
                 Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
                 for (int flipUp = 1; flipUp <= 2; flipUp++) {
                     Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                    if (isLegal(selectedPoint)){
+                    //Piece.setActionList(Piece.getRotateFlipUpFlipRightActionList(piece_index,rotate,flipRight,flipUp));
+                    String selectedPoint = calculatedSelectedPoint(piece_index);
+                    if (selectedPoint == null){
+                        toReturn = false;
+                    }
+                    else {
                         toReturn = true;
                         System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
                         break outerloop;
                     }
-                    toReturn = false;
                     /*for (int[] action : Piece.getActionsList(piece_index)) {
                         if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
                             toReturn = false;
@@ -529,10 +527,61 @@ public class GameEngine {
                 }
             }
         }
+        Piece.resetActionList();
         GameEngine.setSelectedPiece(originalPieceIndex);
         currentTurn = saveturn;
         return toReturn;
 
+    }
+
+    private static String calculatedSelectedPoint(int piece_index){
+        String toReturn = null;
+        outerloop:
+        for(String edge:possibleEdges){
+            String[] button = edge.split(",");
+            int brow = Integer.parseInt(button[0]);
+            int bcol = Integer.parseInt(button[1]);
+            for (int row=0;row<5;row++){
+                for (int col=0;col<5;col++){
+                    String selectedPoint = (brow+row)+","+(bcol+col);
+                    if (isLegal(selectedPoint)){
+                        toReturn = selectedPoint;
+                        return toReturn;
+                    }
+                }
+            }
+            for (int row=0;row<5;row++){
+                for (int col=0;col<5;col++){
+                    String selectedPoint = (brow+row)+","+(bcol-col);
+                    if (isLegal(selectedPoint)){
+                        toReturn = selectedPoint;
+                        return toReturn;
+                    }
+                }
+
+            }
+            for (int row=0;row<5;row++){
+                for (int col=0;col<5;col++){
+                    String selectedPoint = (brow-row)+","+(bcol+col);
+                    if (isLegal(selectedPoint)){
+                        toReturn = selectedPoint;
+                        return toReturn;
+                    }
+                }
+
+            }
+            for (int row=0;row<5;row++){
+                for (int col=0;col<5;col++){
+                    String selectedPoint = (brow-row)+","+(bcol-col);
+                    if (isLegal(selectedPoint)){
+                        toReturn = selectedPoint;
+                        return toReturn;
+                    }
+                }
+
+            }
+        }
+        return toReturn;
     }
 
     private static boolean identifyIfAPieceCanBePlaced(Integer piece_index, String selectedPoint, Integer player_index){

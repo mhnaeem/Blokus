@@ -11,7 +11,7 @@ abstract class Piece {
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number
     private static HashMap<Integer, ArrayList<String>> pieceNumberToStringMap = createPieceNumberToStringMap();
     private static HashMap<Integer, ArrayList<int[]>> actionList = createActionsListMap();
-    private static final HashMap<Integer,HashMap<String, ArrayList<int[]>>> rotateFlipUpFlipRight = createRotateFlipUpFlipRightMap();
+    //private static final HashMap<Integer,HashMap<String, ArrayList<int[]>>> rotateFlipUpFlipRight = createRotateFlipUpFlipRightMap();
 
     private static HashMap<Integer, ArrayList<int[]>> createActionsListMap(){
         HashMap<Integer, ArrayList<int[]>> toReturn = new HashMap<>();
@@ -348,36 +348,37 @@ abstract class Piece {
         actionList = createActionsListMap();
     }
 
-    public static HashMap<Integer, HashMap<String, ArrayList<int[]>>> createRotateFlipUpFlipRightMap(){
-        HashMap<Integer,HashMap<String, ArrayList<int[]>>> toReturnMaster = new HashMap<>();
-        for (int piece_index=0;piece_index<21;piece_index++){
-            Piece.resetActionList();
-            HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
-            for (int rotate=1;rotate<=4;rotate++){
-                Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
-                for (int flipRight=1;flipRight<=2;flipRight++){
-                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                    for (int flipUp=1;flipUp<=2;flipUp++){
-                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
-                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp)),Piece.getActionsList(piece_index));
-                    }
-                }
-            }
-            toReturnMaster.put(piece_index,toReturn);
-        }
-        return toReturnMaster;
-    }
+    //public static HashMap<Integer, HashMap<String, ArrayList<int[]>>> createRotateFlipUpFlipRightMap(){
+    //    HashMap<Integer,HashMap<String, ArrayList<int[]>>> toReturnMaster = new HashMap<>();
+    //    for (int piece_index=0;piece_index<21;piece_index++){
+    //        Piece.resetActionList();
+    //        HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
+    //        for (int rotate=1;rotate<=4;rotate++){
+    //            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+    //            for (int flipRight=1;flipRight<=2;flipRight++){
+    //                Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+    //                for (int flipUp=1;flipUp<=2;flipUp++){
+    //                    Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+    //                    toReturn.put((String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp)),Piece.getActionsList(piece_index));
+    //                }
+    //            }
+    //        }
+    //        toReturnMaster.put(piece_index,toReturn);
+    //    }
+    //    Piece.resetActionList();
+    //    return toReturnMaster;
+    //}
 
-    public static ArrayList<int[]> getRotateFlipUpFlipRightActionList(int piece_index,int rotate,int flipRight,int flipUp) {
-        String key = String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp);
-        ArrayList<int[]> toReturn = new ArrayList<>();
-        if (rotateFlipUpFlipRight.containsKey(piece_index)){
-            if (rotateFlipUpFlipRight.get(piece_index).containsKey(key)){
-                toReturn = rotateFlipUpFlipRight.get(piece_index).get(key);
-            }
-        }
-        return toReturn;
-    }
+    //public static ArrayList<int[]> getRotateFlipUpFlipRightActionList(int piece_index,int rotate,int flipRight,int flipUp) {
+    //    String key = String.valueOf(rotate)+String.valueOf(flipRight)+String.valueOf(flipUp);
+    //    ArrayList<int[]> toReturn = new ArrayList<>();
+    //    if (rotateFlipUpFlipRight.containsKey(piece_index)){
+    //        if (rotateFlipUpFlipRight.get(piece_index).containsKey(key)){
+    //            toReturn = rotateFlipUpFlipRight.get(piece_index).get(key);
+    //        }
+    //    }
+    //    return toReturn;
+    //}
 }
 
 
