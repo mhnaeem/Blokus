@@ -1,9 +1,6 @@
-import com.sun.tools.javac.Main;
-
-import javax.swing.JButton;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +23,7 @@ public class GameEngine {
     private static ArrayList<String> possibleTopRightEdges = new ArrayList<>();
     private static ArrayList<String> possibleBottomLeftEdges = new ArrayList<>();
     private static ArrayList<String> possibleBottomRightEdges = new ArrayList<>();
+    private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
 
@@ -473,7 +471,20 @@ public class GameEngine {
         return alternateTurn;
     }
 
+    private static ArrayList<String> calculatedEnabledButtonCoordinates(){
+        JButton[][] grid = MainGrid.getMainGridButtons();
+        ArrayList<String> toReturn = new ArrayList<>();
+        for (int row = 0; row < 20; row++) {
+            for (int col = 0; col < 20; col++) {
+                if (grid[row][col].isEnabled()){
+                    toReturn.add(row+","+col);
+                }
+            }
+        }
+        return toReturn;
+    }
     private static void hasGameEnded(){
+        enabledButtonCoordinates = calculatedEnabledButtonCoordinates();
         doesPlayerHasMove.put(1,false);
         doesPlayerHasMove.put(2,false);
         doesPlayerHasMove.put(3,false);
@@ -556,61 +567,9 @@ public class GameEngine {
 
     private static String calculatedSelectedPoint(int piece_index){
         String toReturn = null;
-        outerloop:
-        for(String edge:possibleBottomRightEdges) {
-            String[] button = edge.split(",");
-            int brow = Integer.parseInt(button[0]);
-            int bcol = Integer.parseInt(button[1]);
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 5; col++) {
-                    String selectedPoint = (brow + row) + "," + (bcol + col);
-                    if (isLegal(selectedPoint)) {
-                        toReturn = selectedPoint;
-                        return toReturn;
-                    }
-                }
-            }
-        }
-        for(String edge:possibleBottomLeftEdges) {
-            String[] button = edge.split(",");
-            int brow = Integer.parseInt(button[0]);
-            int bcol = Integer.parseInt(button[1]);
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 5; col++) {
-                    String selectedPoint = (brow + row) + "," + (bcol - col);
-                    if (isLegal(selectedPoint)) {
-                        toReturn = selectedPoint;
-                        return toReturn;
-                    }
-                }
-            }
-        }
-        for(String edge:possibleTopLeftEdges) {
-            String[] button = edge.split(",");
-            int brow = Integer.parseInt(button[0]);
-            int bcol = Integer.parseInt(button[1]);
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 5; col++) {
-                    String selectedPoint = (brow - row) + "," + (bcol - col);
-                    if (isLegal(selectedPoint)) {
-                        toReturn = selectedPoint;
-                        return toReturn;
-                    }
-                }
-            }
-        }
-        for(String edge:possibleTopRightEdges) {
-            String[] button = edge.split(",");
-            int brow = Integer.parseInt(button[0]);
-            int bcol = Integer.parseInt(button[1]);
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 5; col++) {
-                    String selectedPoint = (brow - row) + "," + (bcol + col);
-                    if (isLegal(selectedPoint)) {
-                        toReturn = selectedPoint;
-                        return toReturn;
-                    }
-                }
+        for(String selectedPoint:enabledButtonCoordinates){
+            if(isLegal(selectedPoint)){
+                return selectedPoint;
             }
         }
         return toReturn;
@@ -716,6 +675,7 @@ public class GameEngine {
 
         return toReturn;
     }
+
 
     public static boolean checkValidForEachPlayer(){
 
