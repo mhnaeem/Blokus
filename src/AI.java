@@ -66,6 +66,7 @@ abstract class AI {
     }
 
     private static void mediumMove(){
+        Random rand = new Random();
         HashMap<Integer,ArrayList<String[]>> possibleMoves = new HashMap<>();
         Player.getPlayer(currentTurn).getAvailablePieces().forEach(piece-> {
             GameEngine.setSelectedPiece(piece);
@@ -79,7 +80,7 @@ abstract class AI {
                 break;
             }
         }
-        int index = (int) (Math.random()*possibleMoves.get(longestPiece).size());
+        int index = rand.nextInt(possibleMoves.get(longestPiece).size());
         String [] move = possibleMoves.get(longestPiece).get(index);
         String[] selectedPoint = move[0].split(",");
         int r = Integer.parseInt(selectedPoint[0]);
