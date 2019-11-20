@@ -346,6 +346,7 @@ public class GameEngine {
         }
         //TODO: this checks whether the game has ended or not.
         //checkValidForEachPlayer();
+        hasGameEnded();
         Piece.resetActionList();
     }
 
@@ -463,7 +464,8 @@ public class GameEngine {
             for (int row=0;row<20;row++){
                 for (int col=0;col<20;col++){
                     String selectedPoint = row + "," + col;
-                    for (int piece_index=0;piece_index<21;piece_index++){
+                    ArrayList<Integer> availablePieces = Player.getPlayer(player_index).getAvailablePieces();
+                    for (int piece_index:availablePieces){
                         if (canAPieceBePlaced(piece_index,selectedPoint,player_index)){
                             doesPlayerHasMove.put(player_index,true);
                             break outerloop;
@@ -472,7 +474,6 @@ public class GameEngine {
                 }
             }
         }
-
         if (!doesPlayerHasMove.get(1)&&!doesPlayerHasMove.get(2)&&!doesPlayerHasMove.get(3)&&!doesPlayerHasMove.get(4)){
             setGameEnded(true);
         }
@@ -503,12 +504,14 @@ public class GameEngine {
                     }
                     if (continueOn && Options.getIsFirstTurnMap().containsKey(player_index)) {
                         if (isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
+                            System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
                             toReturn = true;
                             break outerloop;
                         }
                     }
                     else if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
                         toReturn = true;
+                        System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
                         break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
                     }
                     continueOn = true;
