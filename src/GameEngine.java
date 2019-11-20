@@ -1,3 +1,5 @@
+import javax.swing.JButton;
+import java.awt.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,25 +21,20 @@ public class GameEngine {
     private static int alternateTurn = 1;
     private static ArrayList<String> possibleEdges = new ArrayList<>();
     private static ArrayList<String> possibleSides = new ArrayList<>();
-    //private static ArrayList<String> possibleTopLeftEdges = new ArrayList<>();
-    //private static ArrayList<String> possibleTopRightEdges = new ArrayList<>();
-    //private static ArrayList<String> possibleBottomLeftEdges = new ArrayList<>();
-    //private static ArrayList<String> possibleBottomRightEdges = new ArrayList<>();
     private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
 
+    public static int AIPiece;
+    public static String AIPoint;
+    public static int AIrotate;
+
 
     public GameEngine() {
         turn_index = 0;
-
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
-        if (isAITurn(currentTurn)){
-            PlayerGrid.disableAllPlayerGrids();
-            //AI.makeMove(currentTurn);
-        }
     }
 
     public static boolean isLegal(String selectedPoint) {
@@ -131,10 +128,6 @@ public class GameEngine {
 
     private static ArrayList<String> calculateBoardEdge(JButton[][] grid, Color color) {
         ArrayList<String> toReturn = new ArrayList<>();
-       //possibleTopLeftEdges = new ArrayList<>();
-       //possibleBottomLeftEdges = new ArrayList<>();
-       //possibleTopRightEdges = new ArrayList<>();
-       //possibleBottomRightEdges = new ArrayList<>();
         int row = grid[0].length;
         int col = grid[1].length;
         for (int r = 0; r < row; r++) {
@@ -144,9 +137,6 @@ public class GameEngine {
                         if (!toReturn.contains(new String((r - 1) + "," + (c - 1)))) {
                             toReturn.add(new String((r - 1) + "," + (c - 1)));
                         }
-                        //if (!possibleTopLeftEdges.contains(new String((r - 1) + "," + (c - 1)))) {
-                        //    possibleTopLeftEdges.add(new String((r - 1) + "," + (c - 1)));
-                        //}
                     }
                 }
                 if (c + 1 < col && r - 1 >= 0) {
@@ -154,9 +144,6 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r - 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r - 1) + "," + (c + 1))));
                         }
-                        //if (!possibleBottomLeftEdges.contains((new String((r - 1) + "," + (c + 1))))) {
-                        //   possibleBottomLeftEdges.add((new String((r - 1) + "," + (c + 1))));
-                        //}
                     }
                 }
                 if (c - 1 >= 0 && r + 1 < row) {
@@ -164,9 +151,6 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r + 1) + "," + (c - 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c - 1))));
                         }
-                        //if (!possibleTopRightEdges.contains((new String((r + 1) + "," + (c - 1))))) {
-                        //   possibleTopRightEdges.add((new String((r + 1) + "," + (c - 1))));
-                        //}
                     }
                 }
                 if (c + 1 < col && r + 1 < row) {
@@ -174,9 +158,6 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r + 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c + 1))));
                         }
-                        //if (!possibleBottomRightEdges.contains((new String((r + 1) + "," + (c + 1))))) {
-                         //  possibleBottomRightEdges.add((new String((r + 1) + "," + (c + 1))));
-                        //}
                     }
                 }
             }
@@ -366,6 +347,7 @@ public class GameEngine {
         //TODO: this checks whether the game has ended or not.
         //checkValidForEachPlayer();
         hasGameEnded();
+        gameEndedYes();
         Piece.resetActionList();
     }
 
@@ -484,6 +466,7 @@ public class GameEngine {
         }
         return toReturn;
     }
+
     private static void hasGameEnded(){
         enabledButtonCoordinates = calculatedEnabledButtonCoordinates();
         doesPlayerHasMove.put(1,false);
@@ -586,5 +569,56 @@ public class GameEngine {
     public static void setGameEnded(Boolean gameEnded) {
         GameEngine.gameEnded = gameEnded;
         gameEnd();
+    }
+
+    public static boolean gameEndedYes(){
+
+        if(Options.getIsFirstTurnMap().size() > 0){
+            System.out.println("Fk The System.");
+            return false;
+        }
+
+        JButton[][] grid = MainGrid.getMainGridButtons();
+
+        for(int pieceIndex : Player.getPlayer(currentTurn).getAvailablePieces()){
+            setSelectedPiece(pieceIndex);
+            for (int r = 0; r < 20; r++) {
+                for (int c = 0; c < 20; c++) {
+                    for (int rotate = 0; rotate < 4; rotate++) {
+                        Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(pieceIndex)));
+                        if(isLegal(grid[r][c].getName())){
+                            System.out.println("Player " + currentTurn + " (" + r + "," + c + ") Piece Number " + pieceIndex + " " + isLegal(grid[r][c].getName()));
+                            AIrotate = rotate;
+                            AIPoint = grid[r][c].getName();
+                            AIPiece = pieceIndex;
+                            setSelectedPiece(AIPiece);
+                            return false;
+                        }
+                    }
+
+                }
+            }
+        }
+        setSelectedPiece(null);
+
+        return true;
+    }
+
+    public static void makeAIMove(){
+        JButton[][] grid = MainGrid.getMainGridButtons();
+        String[] strArr = AIPoint.split(",");
+        int r = Integer.parseInt(strArr[0]);
+        int c = Integer.parseInt(strArr[1]);
+
+        for (int i = 0; i <= AIrotate; i++) {
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(AIPiece)));
+        }
+
+        setSelectedPiece(AIPiece);
+        MainGrid.getMainGridPanel().updateUI();
+        grid[r][c].doClick();
+        MainGrid.getMainGridPanel().updateUI();
+        //setSelectedPiece(null);
+        Piece.resetActionList();
     }
 }
