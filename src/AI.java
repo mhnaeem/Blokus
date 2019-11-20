@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 //TODO restructure and move code to appropriate class
 abstract class AI {
@@ -23,9 +24,10 @@ abstract class AI {
     }
 
     private static void easyMove(){
+        Random rand = new Random();
       ArrayList<String[]> possibleMoves;
       ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
-      int random_piece = availablePieces.get((int)Math.random()*availablePieces.size());
+      int random_piece = availablePieces.get(rand.nextInt(availablePieces.size()));
       System.out.println(random_piece);
       possibleMoves = GameEngine.getPossibleAIMoves(random_piece,currentTurn);
       if (possibleMoves.size()==0){
@@ -33,7 +35,7 @@ abstract class AI {
           GameEngine.updateCurrentTurn();
       }
       else {
-          int index = (int) (Math.random() * possibleMoves.size());
+          int index = rand.nextInt(possibleMoves.size());
           String[] move = possibleMoves.get(index);
           String[] selectedPoint = move[0].split(",");
           int r = Integer.parseInt(selectedPoint[0]);
