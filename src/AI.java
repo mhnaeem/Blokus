@@ -23,9 +23,10 @@ abstract class AI {
     }
 
     private static void easyMove(){
-      ArrayList<String[]> possibleMoves = new ArrayList<>();
+      ArrayList<String[]> possibleMoves;
       ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
       int random_piece = availablePieces.get((int)Math.random()*availablePieces.size());
+      System.out.println(random_piece);
       possibleMoves = GameEngine.getPossibleAIMoves(random_piece,currentTurn);
       if (possibleMoves.size()==0){
           GameEngine.hasGameEndedEvent();
