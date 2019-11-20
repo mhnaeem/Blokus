@@ -212,14 +212,14 @@ class MainGrid {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if (GameEngine.getSelectedPiece() != null && !GameEngine.isAITurn(GameEngine.getCurrentTurn())) {
+            if (GameEngine.getSelectedPiece() != null && !GameEngine.isAITurn(GameEngine.savedTurn)) {
                 mouseHoverDisplay(((JButton) e.getSource()).getName(), true);
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if (GameEngine.getSelectedPiece() != null &&!GameEngine.isAITurn(GameEngine.getCurrentTurn())) {
+            if (GameEngine.getSelectedPiece() != null &&!GameEngine.isAITurn(GameEngine.savedTurn)) {
                 mouseHoverDisplay(((JButton) e.getSource()).getName(), false);
             }
         }

@@ -19,6 +19,7 @@ public class GameEngine {
     private static int currentTurn;
     private static int turn_index = 0;
     private static int alternateTurn = 1;
+    public static int savedTurn= -1;
     private static ArrayList<String> possibleEdges = new ArrayList<>();
     private static ArrayList<String> possibleSides = new ArrayList<>();
     private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
@@ -26,11 +27,14 @@ public class GameEngine {
     private static Boolean gameEnded = false;
 
     public GameEngine() {
+        selectedPiece = null;
         turn_index = 0;
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
+        savedTurn = currentTurn;
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
         if (isAITurn(currentTurn)){
+            PlayerGrid.disableAllPlayerGrids();
             AI.makeMove();
         }
     }
@@ -304,6 +308,7 @@ public class GameEngine {
         }
 
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
+        savedTurn = currentTurn;
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
 
         if (isAITurn(currentTurn)) {
@@ -504,7 +509,7 @@ public class GameEngine {
     private static boolean canAPieceBePlaced(Integer piece_index, Integer player_index){
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
-        int saveturn = currentTurn;
+        savedTurn = currentTurn;
         currentTurn = player_index;
 
         boolean toReturn = false;
@@ -532,7 +537,7 @@ public class GameEngine {
         }
         Piece.resetActionList();
         GameEngine.setSelectedPiece(originalPieceIndex);
-        currentTurn = saveturn;
+        currentTurn = savedTurn;
         return toReturn;
 
     }
