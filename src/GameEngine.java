@@ -557,48 +557,60 @@ public class GameEngine {
     private static String calculatedSelectedPoint(int piece_index){
         String toReturn = null;
         outerloop:
-        for(String edge:possibleEdges){
+        for(String edge:possibleBottomLeftEdges) {
             String[] button = edge.split(",");
             int brow = Integer.parseInt(button[0]);
             int bcol = Integer.parseInt(button[1]);
-            for (int row=0;row<5;row++){
-                for (int col=0;col<5;col++){
-                    String selectedPoint = (brow+row)+","+(bcol+col);
-                    if (isLegal(selectedPoint)){
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 5; col++) {
+                    String selectedPoint = (brow + row) + "," + (bcol + col);
+                    if (isLegal(selectedPoint)) {
                         toReturn = selectedPoint;
                         return toReturn;
                     }
                 }
             }
-            for (int row=0;row<5;row++){
-                for (int col=0;col<5;col++){
-                    String selectedPoint = (brow+row)+","+(bcol-col);
-                    if (isLegal(selectedPoint)){
+        }
+        for(String edge:possibleBottomRightEdges) {
+            String[] button = edge.split(",");
+            int brow = Integer.parseInt(button[0]);
+            int bcol = Integer.parseInt(button[1]);
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 5; col++) {
+                    String selectedPoint = (brow + row) + "," + (bcol - col);
+                    if (isLegal(selectedPoint)) {
                         toReturn = selectedPoint;
                         return toReturn;
                     }
                 }
-
             }
-            for (int row=0;row<5;row++){
-                for (int col=0;col<5;col++){
-                    String selectedPoint = (brow-row)+","+(bcol+col);
-                    if (isLegal(selectedPoint)){
+        }
+        for(String edge:possibleTopRightEdges) {
+            String[] button = edge.split(",");
+            int brow = Integer.parseInt(button[0]);
+            int bcol = Integer.parseInt(button[1]);
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 5; col++) {
+                    String selectedPoint = (brow - row) + "," + (bcol - col);
+                    if (isLegal(selectedPoint)) {
                         toReturn = selectedPoint;
                         return toReturn;
                     }
                 }
-
             }
-            for (int row=0;row<5;row++){
-                for (int col=0;col<5;col++){
-                    String selectedPoint = (brow-row)+","+(bcol-col);
-                    if (isLegal(selectedPoint)){
+        }
+        for(String edge:possibleTopLeftEdges) {
+            String[] button = edge.split(",");
+            int brow = Integer.parseInt(button[0]);
+            int bcol = Integer.parseInt(button[1]);
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 5; col++) {
+                    String selectedPoint = (brow - row) + "," + (bcol + col);
+                    if (isLegal(selectedPoint)) {
                         toReturn = selectedPoint;
                         return toReturn;
                     }
                 }
-
             }
         }
         return toReturn;
