@@ -366,6 +366,14 @@ public class GameEngine {
         //TODO: this checks whether the game has ended or not.
         //checkValidForEachPlayer();
         hasGameEnded();
+        if(!doesPlayerHasMove.get(currentTurn)){
+            if (Player.getPlayer(currentTurn).getAvailablePieces().isEmpty()){
+                updateCurrentTurn();
+            }
+            else {
+                SelectedPiece.setIsForceTurnEnabled(true);
+            }
+        }
         Piece.resetActionList();
     }
 

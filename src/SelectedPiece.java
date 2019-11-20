@@ -27,6 +27,8 @@ class SelectedPiece{
     private String selectedButtonName;
     private int playerIndex;
     private JButton[][] selectedButtonGrid;
+    private static JButton pass, rotate, flipUp, flipRight, back;
+    private static boolean isForceTurnEnabled = false;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
@@ -55,6 +57,18 @@ class SelectedPiece{
         main.add(this.piece);
 
         createButtons();
+        if (isForceTurnEnabled){
+            flipUp.setEnabled(false);
+            flipRight.setEnabled(false);
+            rotate.setEnabled(false);
+            back.setEnabled(false);
+        }
+        else {
+            flipUp.setEnabled(true);
+            flipRight.setEnabled(true);
+            rotate.setEnabled(true);
+            back.setEnabled(true);
+        }
 
         frm.add(main);
 
@@ -72,7 +86,6 @@ class SelectedPiece{
     }
 
     private void createButtons(){
-        JButton pass, rotate, flipUp, flipRight, back;
 
         //Set the icons for each button
         ImageIcon flipUpIcon = new ImageIcon("./Assets/Icons/iconfinder_multimedia-26_2849810.png");
@@ -91,6 +104,7 @@ class SelectedPiece{
         pass = new JButton(passIcon);
         pass.addActionListener(ev -> {
             GameEngine.setSelectedPiece(null);
+            isForceTurnEnabled = false;
             GameEngine.updateCurrentTurn();
             frm.dispose();
         });
@@ -237,6 +251,10 @@ class SelectedPiece{
         ArrayList<int[]> toReturn = new ArrayList<>();
         actionList.forEach(action -> toReturn.add(new int[]{action[0] * -1, action[1]}));
         return toReturn;
+    }
+
+    public static void setIsForceTurnEnabled(boolean isEnable){
+        isForceTurnEnabled = isEnable;
     }
 }
 
