@@ -4,6 +4,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
 
 class MenuCreator extends JMenuBar {
 
@@ -13,9 +15,21 @@ class MenuCreator extends JMenuBar {
     private GameGUI gameGUI;
     private String howToType;
     private CreateGame createGame;
+    private LoadScreen loadScreen;
 
     MenuCreator(String[] menuItems, String howToType){
         this.howToType = howToType;
+
+        this.initialiseMenus();
+        this.initialiseMenuItems(menuItems);
+
+        add(file);
+        add(help);
+    }
+
+    MenuCreator(String[] menuItems, LoadScreen loadScreen, String howToType){
+        this.howToType = howToType;
+        this.loadScreen = loadScreen;
 
         this.initialiseMenus();
         this.initialiseMenuItems(menuItems);
@@ -163,6 +177,21 @@ class MenuCreator extends JMenuBar {
             }
             if(e.getSource() == deleteLoadState){
                 System.out.println("Delete Load State Button Pressed");
+                ArrayList<SavedState> save = SavedState.getSavedStates();
+
+                String fileName = JOptionPane.showInputDialog(null, "Enter the name of the file you want to delete");
+
+                save.removeIf(savedGame -> {
+                    if(savedGame.getName().equals(fileName)){
+                        File toRemove = new File(savedGame.getPath());
+                        toRemove.delete();
+                        return true;
+                    }
+                    return false;
+                });
+                loadScreen.dispose();
+                new LoadScreen();
+
             }
             if(e.getSource() == resetGame){
                 System.out.println("Reset Game Option Selected");

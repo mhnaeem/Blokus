@@ -45,7 +45,7 @@ class LoadScreen extends JFrame {
 
     private void setFrameSettings(){
         setTitle("Load Game");
-        setJMenuBar(new MenuCreator(new String[]{"deleteLoadState","exit","howTo","about"}, "load"));
+        setJMenuBar(new MenuCreator(new String[]{"deleteLoadState","exit","howTo","about"}, this, "load"));
         setBounds(400, 200, 600, 500);
         this.setIconImage(new ImageIcon("./Assets/Icons/tetris.png").getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
