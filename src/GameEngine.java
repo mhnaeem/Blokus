@@ -22,6 +22,7 @@ public class GameEngine {
     private static int alternateTurn = 1;
     private static ArrayList<String> possibleEdges = new ArrayList<>();
     private static ArrayList<String> possibleSides = new ArrayList<>();
+    private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
 
 
@@ -344,7 +345,7 @@ public class GameEngine {
             }
         }
         //TODO: this checks whether the game has ended or not.
-        checkValidForEachPlayer();
+        //checkValidForEachPlayer();
         Piece.resetActionList();
     }
 
@@ -449,6 +450,74 @@ public class GameEngine {
 
     public static int getAlternateTurn() {
         return alternateTurn;
+    }
+
+    private static void hasGameEnded(){
+        doesPlayerHasMove.put(1,false);
+        doesPlayerHasMove.put(2,false);
+        doesPlayerHasMove.put(3,false);
+        doesPlayerHasMove.put(4,false);
+        for (int player_index = 1;player_index<=4;player_index++){
+            calculatePossibleSidesAndEdges(player_index);
+            outerloop:
+            for (int row=0;row<20;row++){
+                for (int col=0;col<20;col++){
+                    String selectedPoint = row + "," + col;
+                    for (int piece_index=0;piece_index<21;piece_index++){
+                        if (canAPieceBePlaced(piece_index,selectedPoint,player_index)){
+                            doesPlayerHasMove.put(player_index,true);
+                            break outerloop;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!doesPlayerHasMove.get(1)&&!doesPlayerHasMove.get(2)&&!doesPlayerHasMove.get(3)&&!doesPlayerHasMove.get(4)){
+            setGameEnded(true);
+        }
+    }
+    private static boolean canAPieceBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
+        JButton[][] grid = MainGrid.getMainGridButtons();
+
+        Integer originalPieceIndex = GameEngine.getSelectedPiece();
+        GameEngine.setSelectedPiece(piece_index);
+
+        boolean toReturn = false;
+        boolean continueOn = true;
+
+        Piece.resetActionList();
+        outerloop:
+        for (int rotate = 1; rotate <= 4; rotate++) {
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+            for (int flipRight = 1; flipRight <= 2; flipRight++) {
+                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+                for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                    for (int[] action : Piece.getActionsList(piece_index)) {
+                        if (!isWithinGrid(selectedPoint, action, grid) || isOccupied(selectedPoint, grid)) {
+                            toReturn = false;
+                            continueOn = false;
+                            break;//break loop this piece with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, try other ROTATION/FLIPS
+                        }
+                    }
+                    if (continueOn && Options.getIsFirstTurnMap().containsKey(player_index)) {
+                        if (isOnCorner(Options.getIsFirstTurnMap().get(player_index), selectedPoint)){
+                            toReturn = true;
+                            break outerloop;
+                        }
+                    }
+                    else if ( continueOn && (isSameColorEdge(selectedPoint) && !isSameColorSide(selectedPoint))) {
+                        toReturn = true;
+                        break outerloop;//found valid move found with rotate ROTATIONS, flipRight FLIPS, flipUp FLIPS is not valid, no need to try other ROTATION/FLIPS
+                    }
+                    continueOn = true;
+                }
+            }
+        }
+        GameEngine.setSelectedPiece(originalPieceIndex);
+        return toReturn;
+
     }
 
     private static boolean identifyIfAPieceCanBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
