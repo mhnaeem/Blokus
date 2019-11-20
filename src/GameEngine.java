@@ -19,10 +19,10 @@ public class GameEngine {
     private static int alternateTurn = 1;
     private static ArrayList<String> possibleEdges = new ArrayList<>();
     private static ArrayList<String> possibleSides = new ArrayList<>();
-    private static ArrayList<String> possibleTopLeftEdges = new ArrayList<>();
-    private static ArrayList<String> possibleTopRightEdges = new ArrayList<>();
-    private static ArrayList<String> possibleBottomLeftEdges = new ArrayList<>();
-    private static ArrayList<String> possibleBottomRightEdges = new ArrayList<>();
+    //private static ArrayList<String> possibleTopLeftEdges = new ArrayList<>();
+    //private static ArrayList<String> possibleTopRightEdges = new ArrayList<>();
+    //private static ArrayList<String> possibleBottomLeftEdges = new ArrayList<>();
+    //private static ArrayList<String> possibleBottomRightEdges = new ArrayList<>();
     private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
@@ -130,10 +130,10 @@ public class GameEngine {
 
     private static ArrayList<String> calculateBoardEdge(JButton[][] grid, Color color) {
         ArrayList<String> toReturn = new ArrayList<>();
-        possibleTopLeftEdges = new ArrayList<>();
-        possibleBottomLeftEdges = new ArrayList<>();
-        possibleTopRightEdges = new ArrayList<>();
-        possibleBottomRightEdges = new ArrayList<>();
+       //possibleTopLeftEdges = new ArrayList<>();
+       //possibleBottomLeftEdges = new ArrayList<>();
+       //possibleTopRightEdges = new ArrayList<>();
+       //possibleBottomRightEdges = new ArrayList<>();
         int row = grid[0].length;
         int col = grid[1].length;
         for (int r = 0; r < row; r++) {
@@ -143,9 +143,9 @@ public class GameEngine {
                         if (!toReturn.contains(new String((r - 1) + "," + (c - 1)))) {
                             toReturn.add(new String((r - 1) + "," + (c - 1)));
                         }
-                        if (!possibleTopLeftEdges.contains(new String((r - 1) + "," + (c - 1)))) {
-                            possibleTopLeftEdges.add(new String((r - 1) + "," + (c - 1)));
-                        }
+                        //if (!possibleTopLeftEdges.contains(new String((r - 1) + "," + (c - 1)))) {
+                        //    possibleTopLeftEdges.add(new String((r - 1) + "," + (c - 1)));
+                        //}
                     }
                 }
                 if (c + 1 < col && r - 1 >= 0) {
@@ -153,9 +153,9 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r - 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r - 1) + "," + (c + 1))));
                         }
-                        if (!possibleBottomLeftEdges.contains((new String((r - 1) + "," + (c + 1))))) {
-                            possibleBottomLeftEdges.add((new String((r - 1) + "," + (c + 1))));
-                        }
+                        //if (!possibleBottomLeftEdges.contains((new String((r - 1) + "," + (c + 1))))) {
+                        //    possibleBottomLeftEdges.add((new String((r - 1) + "," + (c + 1))));
+                        //}
                     }
                 }
                 if (c - 1 >= 0 && r + 1 < row) {
@@ -163,9 +163,9 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r + 1) + "," + (c - 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c - 1))));
                         }
-                        if (!possibleTopRightEdges.contains((new String((r + 1) + "," + (c - 1))))) {
-                            possibleTopRightEdges.add((new String((r + 1) + "," + (c - 1))));
-                        }
+                        //if (!possibleTopRightEdges.contains((new String((r + 1) + "," + (c - 1))))) {
+                        //   possibleTopRightEdges.add((new String((r + 1) + "," + (c - 1))));
+                        //}
                     }
                 }
                 if (c + 1 < col && r + 1 < row) {
@@ -173,9 +173,9 @@ public class GameEngine {
                         if (!toReturn.contains((new String((r + 1) + "," + (c + 1))))) {
                             toReturn.add((new String((r + 1) + "," + (c + 1))));
                         }
-                        if (!possibleBottomRightEdges.contains((new String((r + 1) + "," + (c + 1))))) {
-                            possibleBottomRightEdges.add((new String((r + 1) + "," + (c + 1))));
-                        }
+                        //if (!possibleBottomRightEdges.contains((new String((r + 1) + "," + (c + 1))))) {
+                        //   possibleBottomRightEdges.add((new String((r + 1) + "," + (c + 1))));
+                        //}
                     }
                 }
             }
@@ -365,7 +365,6 @@ public class GameEngine {
         //TODO: this checks whether the game has ended or not.
         //checkValidForEachPlayer();
         hasGameEnded();
-        Piece.resetActionList();
     }
 
 
@@ -506,16 +505,15 @@ public class GameEngine {
             setGameEnded(true);
         }
     }
-    private static boolean canAPieceBePlaced(Integer piece_index, Integer player_index){
-        JButton[][] grid = MainGrid.getMainGridButtons();
 
+
+    private static boolean canAPieceBePlaced(Integer piece_index, Integer player_index){
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
         int saveturn = currentTurn;
         currentTurn = player_index;
 
         boolean toReturn = false;
-        boolean continueOn = true;
 
         Piece.resetActionList();
         outerloop:
