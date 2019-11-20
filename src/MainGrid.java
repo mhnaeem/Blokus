@@ -86,7 +86,9 @@ class MainGrid {
                         int turn = GameEngine.getCurrentTurn();
                         placingPiece(turn, selectedPiece, selectedPoint);
                         Player.getPlayer(turn).pieceUsed(selectedPiece);
-                        SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow
+                        if (!GameEngine.isAITurn(turn)) {
+                            SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow
+                        }
                         PlayerGrid.removePieceEvent(selectedPiece); //this should remove piece from PlayerGrid for the current player
                         Options.firstTurnCornerMoveEvent();
                         GameEngine.hasGameEndedEvent();
