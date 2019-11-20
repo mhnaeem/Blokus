@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.concurrent.TimeUnit;
 
 class MainGrid {
     private static JPanel mainGridPanel;
@@ -85,6 +86,13 @@ class MainGrid {
                     if(GameEngine.isLegal(selectedPoint)) {
                         int turn = GameEngine.getCurrentTurn();
                         placingPiece(turn, selectedPiece, selectedPoint);
+                        /*if(GameEngine.isAITurn(turn)){
+                            try {
+                                TimeUnit.SECONDS.sleep(2);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }*/
                         Player.getPlayer(turn).pieceUsed(selectedPiece);
                         if (!GameEngine.isAITurn(turn)) {
                             SelectedPiece.pieceHasBeenPlacedEvent(); //this closes selectedPieceWindow

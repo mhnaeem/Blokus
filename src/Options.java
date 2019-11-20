@@ -121,24 +121,24 @@ abstract class Options {
         AI_player_index_List.clear();
         if (Options.hasAlternatePlayer()){
             if (numberOfAI==2){
-                Player.getPlayer(2).setName("AI Player 1");
-                AI_player_index_List.add(2);
-                Player.getPlayer(3).setName("AI Player 2");
+                Player.getPlayer(3).setName("AI Player 1");
                 AI_player_index_List.add(3);
+                Player.getPlayer(4).setName("AI Player 2");
+                AI_player_index_List.add(4);
             }
             else if (numberOfAI==1){
-                AI_player_index_List.add(3);
-                Player.getPlayer(3).setName("AI Player");
+                AI_player_index_List.add(4);
+                Player.getPlayer(4).setName("AI Player");
             }
         }
         else{
             if (numberOfAI==3){
-                Player.getPlayer(1).setName("AI Player 1");
-                AI_player_index_List.add(1);
-                Player.getPlayer(2).setName("AI Player 2");
+                Player.getPlayer(2).setName("AI Player 1");
                 AI_player_index_List.add(2);
-                Player.getPlayer(3).setName("AI Player 3");
+                Player.getPlayer(3).setName("AI Player 2");
                 AI_player_index_List.add(3);
+                Player.getPlayer(4).setName("AI Player 3");
+                AI_player_index_List.add(4);
             }
             if (numberOfAI==2){
                 Player.getPlayer(3).setName("AI Player 1");
