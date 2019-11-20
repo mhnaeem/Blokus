@@ -105,6 +105,7 @@ class SelectedPiece{
         pass.addActionListener(ev -> {
             GameEngine.setSelectedPiece(null);
             isForceTurnEnabled = false;
+            GameEngine.hasGameEndedEvent();
             GameEngine.updateCurrentTurn();
             frm.dispose();
         });

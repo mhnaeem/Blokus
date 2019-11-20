@@ -37,8 +37,7 @@ public class GameEngine {
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
         if (isAITurn(currentTurn)){
-            PlayerGrid.disableAllPlayerGrids();
-            //AI.makeMove(currentTurn);
+            AI.makeMove(currentTurn);
         }
     }
 
@@ -290,14 +289,13 @@ public class GameEngine {
         turn_index=saved_turn_index;
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
-        //TODO WHAT IF GAME WAS SAVED DURING AN AI MOVE
     }
 
     public static void setAlternateTurn(int alternate_turn){
         alternateTurn = alternate_turn;
     }
 
-    //TODO: implement AI move
+
     public static void updateCurrentTurn() {
 
         //if alternate player update ALTERNATE PLAYER LABEL
@@ -313,19 +311,12 @@ public class GameEngine {
 
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
-        selectedPiece = null;
-        //AI.makeMove(currentTurn);
 
-        //IF AI TURN
         if (isAITurn(currentTurn)) {
-            //AI turn here
-            //TODO: AI should make move using current turn
            PlayerGrid.disableAllPlayerGrids();
            AI.makeMove(currentTurn);
            return;
-            //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
-
         //if game has alternate player & alternate player turn
         else if (Options.hasAlternatePlayer() && currentTurn == 4) {
 
@@ -336,23 +327,25 @@ public class GameEngine {
             //if AI turn to play alternate player
             if (isAITurn(alternateTurn)) {
                 //TODO: here AI function to play alternate turn here
+                alternateTurn++;
+                if (alternateTurn >= 4) {
+                    alternateTurn = 1;
+                }
                 PlayerGrid.disableAllPlayerGrids();
-                //AI should play using the current turn
-                //turn over when updateCurrentTurn() is called again
+                AI.makeMove(currentTurn);
+                return;
             }
             else {
-                //alternate turn is played by a human
-                //turn over when updateCurrentTurn() is called again
-            }
-
-            alternateTurn++;
-            //alternate turn is played by player index 1,2,3. It cannot be played by index 4 which is itself
-            if (alternateTurn >= 4) {
-                alternateTurn = 1;
+                //AI turn played by human
+                alternateTurn++;
+                if (alternateTurn >= 4) {
+                    alternateTurn = 1;
+                }
             }
         }
-        //TODO: this checks whether the game has ended or not.
-        //checkValidForEachPlayer();
+    }
+
+    public static void hasGameEndedEvent(){
         hasGameEnded();
         if(!doesPlayerHasMove.get(currentTurn)){
             if (Player.getPlayer(currentTurn).getAvailablePieces().isEmpty()){
@@ -362,7 +355,6 @@ public class GameEngine {
                 SelectedPiece.setIsForceTurnEnabled(true);
             }
         }
-        gameEndedYes();
         Piece.resetActionList();
     }
 

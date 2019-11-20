@@ -543,7 +543,7 @@ public class CreateGame extends JFrame {
         map.put(2,Color.BLUE);
         map.put(3,Color.YELLOW);
         map.put(4,Color.GREEN);
-        Options.setOptions(true,"Easy","Basic",map,4,0);
+        Options.setOptions(true,"Easy","Basic",map,4,1);
         //new LoadGame("SavedGames/16-Nov-2019195115broken1.txt");
     }
 }
