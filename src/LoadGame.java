@@ -21,7 +21,6 @@ class LoadGame {
         //This thing can read the files, the line will return every line in the file, look at the output to see more.
         try {
             Files.lines(Paths.get(this.path)).forEach(line -> {
-                System.out.println(line);
                 lines.add(line);
             });
         } catch (IOException e) {
