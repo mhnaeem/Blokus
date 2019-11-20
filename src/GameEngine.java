@@ -355,6 +355,9 @@ public class GameEngine {
                 SelectedPiece.setIsForceTurnEnabled(true);
             }
         }
+        else {
+            SelectedPiece.setIsForceTurnEnabled(false);
+        }
         Piece.resetActionList();
     }
 
