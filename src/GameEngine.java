@@ -30,6 +30,7 @@ public class GameEngine {
     public static int AIrotate;
 
 
+
     public GameEngine() {
         turn_index = 0;
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
@@ -320,6 +321,8 @@ public class GameEngine {
             //AI turn here
             //TODO: AI should make move using current turn
            PlayerGrid.disableAllPlayerGrids();
+           AI.makeMove(currentTurn);
+           return;
             //AI TURN IS OVER WHEN updateCurrentTurn() is called again
         }
 
@@ -622,7 +625,7 @@ public class GameEngine {
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);
 
-        for (int i = 0; i <= AIrotate; i++) {
+        for (int i = 1; i <= AIrotate; i++) {
             Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(AIPiece)));
         }
 
@@ -632,5 +635,34 @@ public class GameEngine {
         MainGrid.getMainGridPanel().updateUI();
         //setSelectedPiece(null);
         Piece.resetActionList();
+    }
+
+    public static ArrayList<String[]> getPossibleAIMoves(int piece_index,int turn_index){
+        ArrayList<String[]> toReturn = new ArrayList<>();
+        Integer originalPieceIndex = GameEngine.getSelectedPiece();
+        GameEngine.setSelectedPiece(piece_index);
+        int saveturn = currentTurn;//saves turn for testing only
+        currentTurn = turn_index;
+        calculatedEnabledButtonCoordinates();
+        Piece.resetActionList();
+        outerloop:
+        for (int rotate = 1; rotate <= 4; rotate++) {
+            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+            for (int flipRight = 1; flipRight <= 2; flipRight++) {
+                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+                for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                    for(String selectedPoint:enabledButtonCoordinates){
+                        if(isLegal(selectedPoint)){
+                            toReturn.add(new String[]{selectedPoint, String.valueOf(rotate), String.valueOf(flipRight), String.valueOf(flipUp)});
+                        }
+                    }
+                }
+            }
+        }
+        Piece.resetActionList();
+        GameEngine.setSelectedPiece(originalPieceIndex);
+        currentTurn = saveturn;
+        return toReturn;
     }
 }
