@@ -494,9 +494,9 @@ public class GameEngine {
 
         Piece.resetActionList();
         outerloop:
-        for (int rotate = 0; rotate <= 4; rotate++) {
-            for (int flipUp = 0; flipUp <= 1; flipUp++) {
-                for (int flipRight = 0; flipRight <= 1; flipRight++) {
+        for (int rotate = 1; rotate <= 4; rotate++) {
+            for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                for (int flipRight = 1; flipRight <= 2; flipRight++) {
                     Piece.setActionList(Piece.getRotateFlipUpFlipRightActionList(piece_index,rotate,flipRight,flipUp));
                     if (isLegal(selectedPoint)){
                         toReturn = true;

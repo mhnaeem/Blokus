@@ -353,15 +353,15 @@ abstract class Piece {
         for (int piece_index=0;piece_index<21;piece_index++){
             Piece.resetActionList();
             HashMap<String, ArrayList<int[]>> toReturn = new HashMap<>();
-            for (int rotate=0;rotate<=3;rotate++){
-                for (int flipUp=0;flipUp<=1;flipUp++){
-                    for (int flipRight=0;flipRight<=1;flipRight++){
-                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight)),Piece.getActionsList(piece_index));
-                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
-                    }
-                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                }
+            for (int rotate=1;rotate<=4;rotate++){
                 Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+                for (int flipUp=1;flipUp<=2;flipUp++){
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                    for (int flipRight=1;flipRight<=2;flipRight++){
+                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+                        toReturn.put((String.valueOf(rotate)+String.valueOf(flipUp)+String.valueOf(flipRight)),Piece.getActionsList(piece_index));
+                    }
+                }
             }
             toReturnMaster.put(piece_index,toReturn);
         }
