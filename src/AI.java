@@ -7,7 +7,7 @@ import java.util.Random;
 //TODO restructure and move code to appropriate class
 abstract class AI {
     private static int currentTurn;
-    private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20));//in order of longest piece
+    private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(18,10,4,12,5,7,9,6,1,2,11,13,0,3,8,16,14,15,19,20,17));//in order of longest piece
 
     public static void makeMove(){
         PlayerGrid.disableAllPlayerGrids();
