@@ -589,7 +589,7 @@ public class GameEngine {
         ArrayList<String[]> toReturn = new ArrayList<>();
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
-        calculatedEnabledButtonCoordinates();
+        enabledButtonCoordinates = calculatedEnabledButtonCoordinates();
         Piece.resetActionList();
         outerloop:
         for (int rotate = 1; rotate <= 4; rotate++) {
