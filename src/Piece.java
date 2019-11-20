@@ -11,7 +11,7 @@ abstract class Piece {
     private static ArrayList<Integer> PIECE_LIST = createPieceList(); //piece number
     private static HashMap<Integer, ArrayList<String>> pieceNumberToStringMap = createPieceNumberToStringMap();
     private static HashMap<Integer, ArrayList<int[]>> actionList = createActionsListMap();
-    private static  HashMap<Integer,HashMap<String, ArrayList<int[]>>> rotateFlipUpFlipRight = createRotateFlipUpFlipRightMap();
+    private static final HashMap<Integer,HashMap<String, ArrayList<int[]>>> rotateFlipUpFlipRight = createRotateFlipUpFlipRightMap();
 
     private static HashMap<Integer, ArrayList<int[]>> createActionsListMap(){
         HashMap<Integer, ArrayList<int[]>> toReturn = new HashMap<>();

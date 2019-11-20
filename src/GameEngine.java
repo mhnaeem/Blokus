@@ -484,22 +484,20 @@ public class GameEngine {
     private static boolean canAPieceBePlaced(Integer piece_index, String selectedPoint, Integer player_index){
         JButton[][] grid = MainGrid.getMainGridButtons();
 
-        Integer originalPieceIndex = GameEngine.getSelectedPiece();
-        GameEngine.setSelectedPiece(piece_index);
         int saveturn = currentTurn;
         currentTurn = player_index;
+        Integer originalPieceIndex = GameEngine.getSelectedPiece();
+        GameEngine.setSelectedPiece(piece_index);
+
 
         boolean toReturn = false;
-        boolean continueOn = true;
 
         Piece.resetActionList();
         outerloop:
-        for (int rotate = 1; rotate <= 4; rotate++) {
-            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
-            for (int flipRight = 1; flipRight <= 2; flipRight++) {
-                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
-                for (int flipUp = 1; flipUp <= 2; flipUp++) {
-                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+        for (int rotate = 0; rotate <= 4; rotate++) {
+            for (int flipUp = 0; flipUp <= 1; flipUp++) {
+                for (int flipRight = 0; flipRight <= 1; flipRight++) {
+                    Piece.setActionList(Piece.getRotateFlipUpFlipRightActionList(piece_index,rotate,flipRight,flipUp));
                     if (isLegal(selectedPoint)){
                         toReturn = true;
                         System.out.println("Player " + player_index+" Piece "+piece_index+" SelectedPoint "+selectedPoint+" Rotate "+rotate+" flipRight "+flipRight+" flipUp "+flipUp);
