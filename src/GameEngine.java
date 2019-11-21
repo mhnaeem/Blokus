@@ -72,7 +72,7 @@ public class GameEngine {
         }
     }
 
-    private static boolean isWithinGrid(String point, int[] action, JButton[][] grid) {
+    public static boolean isWithinGrid(String point, int[] action, JButton[][] grid) {
         int maxWidth = grid[1].length;
         int maxHeight = grid[0].length;
 
@@ -89,7 +89,7 @@ public class GameEngine {
         return true;
     }
 
-    private static boolean isOccupied(String point, JButton[][] grid) {
+    public static boolean isOccupied(String point, JButton[][] grid) {
         String[] strArr = point.split(",");
         int r = Integer.parseInt(strArr[0]);
         int c = Integer.parseInt(strArr[1]);

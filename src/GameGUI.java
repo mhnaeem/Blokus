@@ -14,7 +14,7 @@ class GameGUI extends JFrame {
 
     private static JPanel mainGridPanel, leftPiecesPanel, rightPiecesPanel, topPanel, bottomPanel, playerTurnPanel;
     private static JLabel[] playerLabels;
-    private static GameGUI previousFrame;
+    public static GameGUI previousFrame;
     public static int currentTurn;
     private static String text;
     private static JEditorPane paragraph = new JEditorPane();
