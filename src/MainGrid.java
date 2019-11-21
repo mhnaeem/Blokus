@@ -79,6 +79,7 @@ class MainGrid {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            SelectedPiece.removeBorderFromPreviousHintLocation();
             String selectedPoint = ((JButton) e.getSource()).getName();
             Integer selectedPiece = GameEngine.getSelectedPiece();
                 if (selectedPiece != null) {

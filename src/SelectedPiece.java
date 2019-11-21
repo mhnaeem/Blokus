@@ -1,10 +1,7 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +21,7 @@ class SelectedPiece{
     private JButton[][] selectedButtonGrid;
     public static JButton pass;
     private static JButton rotate, flipUp, flipRight, back, hint;
+    public static int[] previousHintLocation = new int[]{0,0};
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
@@ -83,6 +81,12 @@ class SelectedPiece{
         }
     }
 
+    public static void removeBorderFromPreviousHintLocation(){
+        JButton[][] grid = MainGrid.getMainGridButtons();
+        grid[previousHintLocation[0]][previousHintLocation[1]].setBorder(UIManager.getBorder("Button.border"));
+        grid[previousHintLocation[0]][previousHintLocation[1]].setIcon(null);
+    }
+
     private void createButtons(){
 
         //Set the icons for each button
@@ -98,11 +102,13 @@ class SelectedPiece{
         rotate.addActionListener(ev -> {
             Piece.setActionList(rotateCounterClock(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
+            removeBorderFromPreviousHintLocation();
         });
 
         pass = new JButton(passIcon);
         pass.addActionListener(ev -> {
             GameEngine.setSelectedPiece(null);
+            removeBorderFromPreviousHintLocation();
             frm.dispose();
             GameEngine.updateCurrentTurn();
         });
@@ -111,17 +117,20 @@ class SelectedPiece{
         flipUp.addActionListener(ev -> {
             Piece.setActionList(flipUp(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
+            removeBorderFromPreviousHintLocation();
         });
 
         flipRight = new JButton(flipRightIcon);
         flipRight.addActionListener(ev -> {
             Piece.setActionList(flipRight(Piece.getActionsList(GameEngine.getSelectedPiece())));
             displayPiece();
+            removeBorderFromPreviousHintLocation();
         });
 
         back = new JButton(closeIcon);
         back.addActionListener(ev -> {
             GameEngine.setSelectedPiece(null);
+            removeBorderFromPreviousHintLocation();
             frm.dispose();
         });
 
@@ -153,7 +162,13 @@ class SelectedPiece{
 
             Color color = Options.getColor(GameEngine.getCurrentTurn());
             JButton[][] grid = MainGrid.getMainGridButtons();
+            //Hint markings
+            previousHintLocation = new int[]{r,c};
             grid[r][c].setBorder(BorderFactory.createLineBorder(color,2));
+            if(Options.getIsColorblind()) {
+                grid[r][c].setIcon(Player.getPlayerIcon(GameEngine.getCurrentTurn()));
+            }
+            grid[r][c].setFont(new Font ("Arial", Font.BOLD | Font.ITALIC, 20));
         });
 
         JPanel buttons = new JPanel();
