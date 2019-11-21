@@ -24,6 +24,7 @@ public class GameEngine {
     private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
+    //Player Index, Piece Index. Gives the first possible piece that is placeable
     private static HashMap<Integer,Integer> easyPlayableMap = new HashMap<>();
 
     //Player Number, {Piece Number, [skipRotate, skipFlipRight, skipFlipUp]}
