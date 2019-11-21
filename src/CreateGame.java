@@ -25,12 +25,12 @@ public class CreateGame extends JFrame {
     private JLabel playerLabel, humanLabel, computerLabel, difficultyLabel, isColorblindLabel, scoringLabel, isRandomLabel, player1Label, player2Label, player3Label, player4Label;
     private JComboBox<String> playerBox, humanBox, computerBox, difficultyBox, isColorblindBox, scoringBox, isRandomBox, player1Box, player2Box, player3Box, player4Box;
     private ArrayList<JLabel> labelList;
-    private ArrayList<JComboBox> boxList, playerBoxList, playerNumberEventBoxList;
+    private ArrayList<JComboBox<String>> boxList, playerBoxList, playerNumberEventBoxList;
     private ArrayList<String[]> temp;
     private String[] colorOption1 = new String[]{"Blue & Red","Yellow & Green"};
     private String[] colorOption2 = new String[]{"Blue","Yellow","Red","Green"};
     private String[] nullString = new String[]{null};
-    private HashMap<String,JComboBox> map;
+    private HashMap<String,JComboBox<String>> map;
     private JPanel right,left,bottom,main,inner;
     private Random randgen = new Random();
     private JButton start,back;
@@ -302,7 +302,7 @@ public class CreateGame extends JFrame {
                     break;
             }
             playerNumberEventBoxList.forEach(box -> {
-                box.setModel(new DefaultComboBoxModel<>(temp.remove(0)));
+                box.setModel(new DefaultComboBoxModel<String>(temp.remove(0)));
                 box.setSelectedItem(null);
             });
             isRandomBox.setSelectedItem("Not Random");
@@ -378,14 +378,14 @@ public class CreateGame extends JFrame {
      * then Player 2 selected color becomes null and will have to select a new color again
      * @param box where X the player number
      */
-    private void playerColorEvent(JComboBox box) {
+    private void playerColorEvent(JComboBox<String> box) {
         if (playerBox.getSelectedIndex() != -1)
         {
             if (box.getSelectedIndex() != -1)
             {
                 String s = (String) box.getSelectedItem();
                 if (map.containsKey(s)) {
-                    JComboBox temp = map.get(s);
+                    JComboBox<String> temp = map.get(s);
                     if (temp.getSelectedItem().equals(s)) {
                         temp.setSelectedItem(null);
                         map.remove(s,temp);
@@ -407,7 +407,7 @@ public class CreateGame extends JFrame {
 
         //TODO: name s something better
         s = ""; //error list string
-        ArrayList<JComboBox> test = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox));
+        ArrayList<JComboBox<String>> test = new ArrayList<>(Arrays.asList(playerBox,humanBox,computerBox,difficultyBox,isColorblindBox,scoringBox,isRandomBox));
         ArrayList<String> errorMessage = new ArrayList<>(Arrays.asList("number of players selected!\n","number of human players selected! \n","number of computer players selected! \n","difficulty selected! \n","colorblind option selected! \n","scoring type selected! \n","is color random choice!\n"));
         ArrayList<String> errormsgPlayerColor = new ArrayList<>(Arrays.asList("player 1 color selected! \n","player 2 color selected! \n","player 3 color selected! \n","player 4 color selected! \n"));
         test.forEach(box -> {

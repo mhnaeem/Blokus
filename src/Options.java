@@ -16,6 +16,7 @@ abstract class Options {
     private static HashMap<Integer, int[]> isFirstTurnMap = new HashMap<>();
     private static boolean darkMode = false;
     private static GameGUI gameGUIObject;
+    private static MainGrid mainGridObject;
 
     public static void setOptions(Boolean isColorblind, String difficulty, String scoringType, HashMap<Integer, Color> mapOfColors, Integer number_of_players, Integer number_of_computer){
         AI_player_index_List = new ArrayList<>();
@@ -40,9 +41,9 @@ abstract class Options {
         setPlayerNames();
         setNameOfAlternatePlayer();
 
+        mainGridObject= new MainGrid();
 
-
-        JPanel mainGridPanel = new MainGrid().getMainGridPanel();
+        JPanel mainGridPanel = MainGrid.getMainGridPanel();
         gameGUIObject = new GameGUI(mainGridPanel);
         new GameEngine();
     }
