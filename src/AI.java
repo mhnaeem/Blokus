@@ -32,7 +32,6 @@ abstract class AI {
       int random_piece = GameEngine.getEasyPlayableMap().get(currentTurn);
       possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
       if (possibleMoves.size()==0){
-          GameEngine.hasGameEndedEvent();
           GameEngine.updateCurrentTurn();
       }
       else {
@@ -80,8 +79,7 @@ abstract class AI {
                 }
             }
             if (longestPiece==-1 ||possibleMoves.get(longestPiece).size()==0){
-                    GameEngine.hasGameEndedEvent();
-                    GameEngine.updateCurrentTurn();
+                GameEngine.updateCurrentTurn();
             }
             else {
             int index = rand.nextInt(possibleMoves.get(longestPiece).size());
@@ -160,7 +158,6 @@ abstract class AI {
                 }
             }
             if (longestPiece == -1 || possibleMoves.get(longestPiece).size() == 0) {
-                GameEngine.hasGameEndedEvent();
                 GameEngine.updateCurrentTurn();
             } else {
                 int index = rand.nextInt(possibleMoves.get(longestPiece).size());

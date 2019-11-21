@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.concurrent.TimeUnit;
 
 class MainGrid {
     private static JPanel mainGridPanel;
@@ -99,7 +98,6 @@ class MainGrid {
                         }
                         PlayerGrid.removePieceEvent(selectedPiece); //this should remove piece from PlayerGrid for the current player
                         Options.firstTurnCornerMoveEvent();
-                        GameEngine.hasGameEndedEvent();
                         GameEngine.setSelectedPiece(null);
                         GameEngine.updateCurrentTurn();
                     }

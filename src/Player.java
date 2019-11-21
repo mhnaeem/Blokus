@@ -11,6 +11,7 @@ public class Player {
     private PlayerGrid playerGrid;
     private ArrayList<Integer> availablePiecesIndexes;
     private static Player[] players = new Player[5];
+    private boolean outOfGame = false;
 
     public Player(int index){
         this.setIndex(index);
@@ -85,6 +86,14 @@ public class Player {
                 break;
         }
         return icon;
+    }
+
+    public boolean isOutOfGame(){
+        return this.outOfGame;
+    }
+
+    public void setOutOfGame(boolean gameEnd){
+        this.outOfGame = gameEnd;
     }
 
 }
