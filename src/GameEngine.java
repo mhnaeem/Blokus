@@ -483,6 +483,7 @@ public class GameEngine {
 
         for (int player = 1; player <= 4; player++) {
             doesPlayerHasMove.put(player,false);
+            easyPlayableMap.put(player,-1);
         }
 
         for (int player_index = 1; player_index <= Options.getNumberOfPlayers(); player_index++){

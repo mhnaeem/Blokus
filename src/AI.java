@@ -120,21 +120,30 @@ abstract class AI {
         Random rand = new Random();
         ArrayList<String[]> possibleMoves;
         int random_piece = GameEngine.getEasyPlayableMap().get(currentTurn);
-        possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
-        int index = rand.nextInt(possibleMoves.size());
-        String[] move = possibleMoves.get(index);
-        splitMoveAndRotateAndFlipAndPlace(move, random_piece);
+        if (random_piece==-1){
+            //TODO pass current turn here idont know if its correct way to pass turn anymore lmao
+            GameEngine.updateCurrentTurn();
+            return;
+        }
+        else {
+            GameEngine.setSelectedPiece(random_piece);
+            possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
+            int index = rand.nextInt(possibleMoves.size());
+            String[] move = possibleMoves.get(index);
+            splitMoveAndRotateAndFlipAndPlace(move, random_piece);
+        }
+
     }
 
     private static void mediumMove(){
         HashMap<Integer,ArrayList<String[]>> possibleMoves = new HashMap<>();
-
         Player.getPlayer(currentTurn).getAvailablePieces().forEach(piece-> {
             GameEngine.setSelectedPiece(piece);
             possibleMoves.put(piece,GameEngine.getPossibleAIMoves(piece));
         });
 
         int longestPiece = -1;
+        //LONGEST PIECE IS FIRST AVAILABLE LONGEST PIECE FROM PLAYERS AVAILABLE PIECES
         for (int piece : longestPieceList) {
             if (possibleMoves.containsKey(piece)) {
                 longestPiece = piece;
@@ -186,11 +195,17 @@ abstract class AI {
 //
 //        }
 
-
-        if (longestPiece == -1 || possibleMoves.get(longestPiece).size() == 0){
-            GameEngine.updateCurrentTurn();
+        //IF LONGEST PIECE HAS NO MOVES SELECT FIRST PLAYABLE PIECE
+        if (possibleMoves.get(longestPiece).size() == 0){
+            longestPiece = GameEngine.getEasyPlayableMap().get(currentTurn);
+            GameEngine.setSelectedPiece(longestPiece);
         }
-
+        //IF NO PLAYABLE PIECE PASS TURN ELSE MAKE MOVE
+        if (longestPiece == -1){
+            //TODO Pass turn here
+            GameEngine.updateCurrentTurn();
+            return;
+        }
         else {
             int index = new Random().nextInt(possibleMoves.get(longestPiece).size());
             String[] move = possibleMoves.get(longestPiece).get(index);
@@ -199,7 +214,6 @@ abstract class AI {
     }
 
     private static void hardMove() {
-        Random rand = new Random();
         HashMap<Integer, ArrayList<String[]>> possibleMoves = new HashMap<>();
         ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
         for (int piece : availablePieces) {
@@ -215,18 +229,27 @@ abstract class AI {
             String[] move = blockingMove.get(p.get());
             splitMoveAndRotateAndFlipAndPlace(move, p.get());
         } else {
+            //NO BLOKING MOVES MAKE MOVES ACCORDING TO LONGEST PIECE
             int longestPiece = -1;
             for (int piece : longestPieceList) {
                 if (possibleMoves.containsKey(piece)) {
                     longestPiece = piece;
-                    //System.out.println("longestPiece"+longestPiece);
                     break;
                 }
             }
-            if (longestPiece == -1 || possibleMoves.get(longestPiece).size() == 0) {
+            //IF LONGEST PIECE HAS NO POSSIBLE MOVES THEN SELECT FIRST PLAYABLE PIECE
+            if (possibleMoves.get(longestPiece).size() == 0){
+                longestPiece = GameEngine.getEasyPlayableMap().get(currentTurn);
+                GameEngine.setSelectedPiece(longestPiece);
+            }
+            //IF NO FIRST PLAYABLE PIECE PASSS TURN
+            if (longestPiece == -1){
+                //TODO Pass turn here
                 GameEngine.updateCurrentTurn();
-            } else {
-                int index = rand.nextInt(possibleMoves.get(longestPiece).size());
+                return;
+            }
+            else {
+                int index = new Random().nextInt(possibleMoves.get(longestPiece).size());
                 String[] move = possibleMoves.get(longestPiece).get(index);
                 splitMoveAndRotateAndFlipAndPlace(move, longestPiece);
             }
