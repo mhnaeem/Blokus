@@ -15,7 +15,7 @@ import java.util.Map;
 public class GameEngine {
 
     private static Integer selectedPiece = null;
-    private static int currentTurn;
+    private static int currentTurn=0;
     private static int turn_index = 0;
     private static int alternateTurn = 1;
     public static int savedTurn= -1;

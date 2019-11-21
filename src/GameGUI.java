@@ -82,14 +82,10 @@ class GameGUI extends JFrame {
     public static void setPlayerTurnTopPanel(int currentTurn){
 
         if(currentTurn == 0){
-            for (int player = 0; player < Options.getNumberOfPlayers(); player++) {
-                if(Options.getColor(player) == Color.BLUE){
-                    currentTurn = player;
-                }
-            }
+            currentTurn=Options.getTurnOrderAccordingToColors(0);
         }
 
-        text = "<html><p style='font-size:40px'>Player " + currentTurn +
+        text = "<html><p style='font-size:40px'>" + Player.getPlayer(currentTurn).getPlayerName()+
                 "</p></html>";
 
 
