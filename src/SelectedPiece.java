@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ class SelectedPiece{
     private JButton[][] selectedButtonGrid;
     public static JButton pass;
     private static JButton rotate, flipUp, flipRight, back, hint;
-    public static int[] previousHintLocation = new int[]{0,0};
+    public static int[] previousHintLocation = new int[]{10,10};
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
