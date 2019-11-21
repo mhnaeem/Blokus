@@ -486,7 +486,7 @@ public class GameEngine {
             easyPlayableMap.put(player,-1);
         }
 
-        for (int player_index = 1; player_index <= Options.getNumberOfPlayers(); player_index++){
+        for (int player_index = 1; player_index <= 4; player_index++){
 
             if(Player.getPlayer(player_index).isOutOfGame()){
                 continue;
@@ -696,7 +696,7 @@ public class GameEngine {
 
     private static HashMap<Integer, HashMap<Integer, Boolean[]>> setDirectionsForEachPlayer(){
         HashMap<Integer, HashMap<Integer, Boolean[]>> toReturn = new HashMap<>();
-        for (int player = 1; player <= Options.getNumberOfPlayers(); player++) {
+        for (int player = 1; player <= 4; player++) {
             HashMap<Integer, Boolean[]> mapToAdd = new HashMap<>();
             for (int piece = 0; piece < 21; piece++) {
                 Boolean[] arrayToAdd = new Boolean[]{false, false, false};
