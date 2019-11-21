@@ -26,6 +26,7 @@ public class GameEngine {
     private static ArrayList<String> enabledButtonCoordinates = new ArrayList<>();
     private static HashMap<Integer,Boolean> doesPlayerHasMove = new HashMap<>();
     private static Boolean gameEnded = false;
+    private static HashMap<Integer,Integer> easyPlayableMap = new HashMap<>();
 
     public GameEngine() {
         selectedPiece = null;
@@ -34,6 +35,7 @@ public class GameEngine {
         savedTurn = currentTurn;
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
         alternateTurn = 1;
+        hasGameEndedEvent();
         if (isAITurn(currentTurn)){
             PlayerGrid.disableAllPlayerGrids();
             AI.makeMove();
@@ -496,6 +498,7 @@ public class GameEngine {
             for (int piece_index:availablePieces) {
                 if (canAPieceBePlaced(piece_index, player_index)) {
                     doesPlayerHasMove.put(player_index, true);
+                    easyPlayableMap.put(player_index,piece_index);
                     break outerloop;
                 }
             }
@@ -558,7 +561,7 @@ public class GameEngine {
    public static HashMap<Integer, String[]> moveThatBlockOtherPlayerEdges(ArrayList<Integer> available_pieces , HashMap<Integer,ArrayList<String[]>> map, int turn){
        HashMap<Integer,String[]> toReturn= new HashMap<>();
        ArrayList<Integer> turn_list = new ArrayList<>(Arrays.asList(1,2,3,4));
-       turn_list.remove(turn);
+       Integer remove = turn_list.remove(turn-1);
        ArrayList<String> OtherPlayerEdges = new ArrayList<>();
        turn_list.forEach(index->OtherPlayerEdges.addAll(calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(index))));
        for (int piece:available_pieces){
@@ -631,5 +634,9 @@ public class GameEngine {
         Piece.resetActionList();
         GameEngine.setSelectedPiece(originalPieceIndex);
         return toReturn;
+    }
+
+    public static HashMap<Integer,Integer> getEasyPlayableMap(){
+        return easyPlayableMap;
     }
 }

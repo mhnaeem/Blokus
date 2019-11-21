@@ -29,10 +29,7 @@ abstract class AI {
         Random rand = new Random();
       ArrayList<String[]> possibleMoves;
       ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
-      int random_piece = availablePieces.get((int)Math.random()*availablePieces.size());
-      possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
-      //int random_piece = availablePieces.get(rand.nextInt(availablePieces.size()));
-      System.out.println(random_piece);
+      int random_piece = GameEngine.getEasyPlayableMap().get(currentTurn);
       possibleMoves = GameEngine.getPossibleAIMoves(random_piece);
       if (possibleMoves.size()==0){
           GameEngine.hasGameEndedEvent();
