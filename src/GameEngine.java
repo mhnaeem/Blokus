@@ -128,7 +128,6 @@ public class GameEngine {
         return false;
     }
 
-
     private static ArrayList<String> calculateBoardEdge(JButton[][] grid, Color color) {
         ArrayList<String> toReturn = new ArrayList<>();
         int row = grid[0].length;
@@ -279,7 +278,6 @@ public class GameEngine {
         return toReturn;
     }
 
-
     public static int getCurrentTurn() {
         return currentTurn;
     }
@@ -293,7 +291,6 @@ public class GameEngine {
     public static void setAlternateTurn(int alternate_turn){
         alternateTurn = alternate_turn;
     }
-
 
     public static void updateCurrentTurn() {
 
@@ -319,13 +316,12 @@ public class GameEngine {
         hasGameEnded();
         Piece.resetActionList();
         // current turn to use it in GameGUI class
-        currentTurn = getCurrentTurn();
         GameGUI.setPlayerTurnTopPanel(currentTurn);
 
         if(Player.getPlayer(currentTurn).getAvailablePieces().isEmpty() || !Player.getPlayer(currentTurn).isOutOfGame()) {
 
             if(Player.getPlayer(currentTurn).getAvailablePieces().isEmpty()){
-                new SelectedPiece(currentTurn, "0,0", PlayerGrid.getPlayerGridPanel(currentTurn)).pass.doClick();
+                SelectedPiece.pass.doClick();
             }
 
             if (isAITurn(currentTurn)) {
@@ -361,7 +357,7 @@ public class GameEngine {
             }
         }
         else{
-            new SelectedPiece(currentTurn, "0,0", PlayerGrid.getPlayerGridPanel(currentTurn)).pass.doClick();
+            SelectedPiece.pass.doClick();
         }
     }
 
@@ -390,7 +386,6 @@ public class GameEngine {
     static void setSelectedPiece(Integer piece_index) {
         selectedPiece = piece_index;
     }
-
 
     private static HashMap<Integer, Integer> playerScoring() {
         int numPlayers = Options.getNumberOfPlayers();
@@ -488,7 +483,6 @@ public class GameEngine {
 
         for (int player_index = 1; player_index <= Options.getNumberOfPlayers(); player_index++){
 
-            //TODO: Testing
             if(Player.getPlayer(player_index).isOutOfGame()){
                 continue;
             }
@@ -625,7 +619,6 @@ public class GameEngine {
         enabledButtonCoordinates = calculatedEnabledButtonCoordinates();
         Piece.resetActionList();
 
-        outerloop:
         for (int rotate = 1; rotate <= 4; rotate++) {
             Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
             for (int flipRight = 1; flipRight <= 2; flipRight++) {
