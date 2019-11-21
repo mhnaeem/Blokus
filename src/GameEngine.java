@@ -392,7 +392,7 @@ public class GameEngine {
     }
 
     private static HashMap<Integer, Integer> playerScoring() {
-        int numPlayers = Options.getNumberOfPlayers();
+        int numPlayers = Options.getRealNumberOfPlayers();
 
         HashMap<Integer, Integer> playerScoreList = new HashMap<>();
         Map.Entry<Integer, Integer> min = null;

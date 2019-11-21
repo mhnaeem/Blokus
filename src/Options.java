@@ -97,6 +97,10 @@ abstract class Options {
         //return numberOfPlayers;
     }
 
+    public static Integer getRealNumberOfPlayers(){
+        return numberOfPlayers;
+    }
+
     /**
      * this function sets the name of the alternate player from player_number to alternate player
      * if there is an alternate player in the game
