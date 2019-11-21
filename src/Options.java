@@ -29,6 +29,7 @@ abstract class Options {
         new Player(2);
         new Player(3);
         new Player(4);
+        calculateTurnOrderAccordingToColors();
         if (numberOfPlayers==3){
             hasAlternatePlayer = true;
         }
@@ -38,7 +39,6 @@ abstract class Options {
         setAIPlayerOptions();
         setPlayerNames();
         setNameOfAlternatePlayer();
-        calculateTurnOrderAccordingToColors();
 
 
 
@@ -129,14 +129,14 @@ abstract class Options {
         AI_player_index_List.clear();
         if (Options.hasAlternatePlayer()){
             if (numberOfAI==2){
-                Player.getPlayer(3).setName("AI Player 1");
+                Player.getPlayer(2).setName("AI Player 1");
+                AI_player_index_List.add(2);
+                Player.getPlayer(3).setName("AI Player 2");
                 AI_player_index_List.add(3);
-                Player.getPlayer(4).setName("AI Player 2");
-                AI_player_index_List.add(4);
             }
             else if (numberOfAI==1){
-                AI_player_index_List.add(4);
-                Player.getPlayer(4).setName("AI Player");
+                AI_player_index_List.add(3);
+                Player.getPlayer(3).setName("AI Player");
             }
         }
         else if (numberOfPlayers==4) {
@@ -148,7 +148,7 @@ abstract class Options {
                 Player.getPlayer(4).setName("AI Player 3");
                 AI_player_index_List.add(4);
             }
-            if (numberOfAI == 2) {
+            else if (numberOfAI == 2) {
                 Player.getPlayer(3).setName("AI Player 1");
                 AI_player_index_List.add(3);
                 Player.getPlayer(4).setName("AI Player 2");
@@ -159,8 +159,12 @@ abstract class Options {
             }
         }
         else if (numberOfPlayers==2){
-            AI_player_index_List.add(2);
-            AI_player_index_List.add(4);
+            if (numberOfAI==1){
+                Player.getPlayer(2).setName("AI Player");
+                AI_player_index_List.add(2);
+                Player.getPlayer(4).setName("AI Player");
+                AI_player_index_List.add(4);
+            }
         }
 
     }
