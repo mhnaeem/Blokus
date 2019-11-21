@@ -26,6 +26,9 @@ public class GameEngine {
     private static Boolean gameEnded = false;
     private static HashMap<Integer,Integer> easyPlayableMap = new HashMap<>();
 
+    //Player Number, {Piece Number, [skipRotate, skipFlipRight, skipFlipUp]}
+    private static HashMap<Integer, HashMap<Integer, Boolean[]>> directionForEachPlayer = setDirectionsForEachPlayer();
+
     public GameEngine() {
         selectedPiece = null;
         turn_index = 0;
@@ -616,18 +619,64 @@ public class GameEngine {
         ArrayList<String[]> toReturn = new ArrayList<>();
         Integer originalPieceIndex = GameEngine.getSelectedPiece();
         GameEngine.setSelectedPiece(piece_index);
-        enabledButtonCoordinates = calculatedEnabledButtonCoordinates();
         Piece.resetActionList();
 
-        for (int rotate = 1; rotate <= 4; rotate++) {
-            Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
-            for (int flipRight = 1; flipRight <= 2; flipRight++) {
-                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
-                for (int flipUp = 1; flipUp <= 2; flipUp++) {
-                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
-                    for(String selectedPoint : enabledButtonCoordinates){
-                        if(isLegal(selectedPoint)){
-                            toReturn.add(new String[]{selectedPoint, String.valueOf(rotate), String.valueOf(flipRight), String.valueOf(flipUp)});
+        boolean broke = false;
+        boolean skipRotate = directionForEachPlayer.get(currentTurn).get(piece_index)[0];
+        boolean skipFlipRight = directionForEachPlayer.get(currentTurn).get(piece_index)[1];
+        boolean skipFlipUp = directionForEachPlayer.get(currentTurn).get(piece_index)[2];
+
+        if(!skipRotate && !skipFlipRight && !skipFlipUp) {
+            for (String selectedPoint : enabledButtonCoordinates) {
+                if (isLegal(selectedPoint)) {
+                    toReturn.add(new String[]{selectedPoint, "0", "0", "0"});
+                    broke = true;
+                    break;
+                }
+            }
+        }
+        if(!broke) {
+            broke = false;
+            for (int rotate = 1; rotate <= 4; rotate++) {
+                Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece_index)));
+                if(!skipRotate) {
+                    for (String selectedPoint : enabledButtonCoordinates) {
+                        if (isLegal(selectedPoint)) {
+                            toReturn.add(new String[]{selectedPoint, String.valueOf(rotate), "0", "0"});
+                            broke = true;
+                            break;
+                        }
+                    }
+                }
+                if(!broke){
+                    skipRotate = directionForEachPlayer.get(currentTurn).get(piece_index)[0] = true;
+                }
+
+                if (skipRotate) {
+                    broke = false;
+                    for (int flipRight = 1; flipRight <= 2; flipRight++) {
+                        Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece_index)));
+                        if(!skipFlipRight) {
+                            for (String selectedPoint : enabledButtonCoordinates) {
+                                if (isLegal(selectedPoint)) {
+                                    toReturn.add(new String[]{selectedPoint, String.valueOf(rotate), String.valueOf(flipRight), "0"});
+                                    broke = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(!broke){
+                            skipFlipRight = directionForEachPlayer.get(currentTurn).get(piece_index)[1] = true;
+                        }
+                        if(skipFlipRight) {
+                            for (int flipUp = 1; flipUp <= 2; flipUp++) {
+                                Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece_index)));
+                                for (String selectedPoint : enabledButtonCoordinates) {
+                                    if (isLegal(selectedPoint)) {
+                                        toReturn.add(new String[]{selectedPoint, String.valueOf(rotate), String.valueOf(flipRight), String.valueOf(flipUp)});
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -641,5 +690,19 @@ public class GameEngine {
 
     public static HashMap<Integer,Integer> getEasyPlayableMap(){
         return easyPlayableMap;
+    }
+
+    private static HashMap<Integer, HashMap<Integer, Boolean[]>> setDirectionsForEachPlayer(){
+        HashMap<Integer, HashMap<Integer, Boolean[]>> toReturn = new HashMap<>();
+        for (int player = 1; player <= Options.getNumberOfPlayers(); player++) {
+            HashMap<Integer, Boolean[]> mapToAdd = new HashMap<>();
+            for (int piece = 0; piece < 21; piece++) {
+                Boolean[] arrayToAdd = new Boolean[]{false, false, false};
+                mapToAdd.put(piece, arrayToAdd);
+            }
+            toReturn.put(player, mapToAdd);
+        }
+
+        return toReturn;
     }
 }
