@@ -18,8 +18,10 @@ abstract class AI {
                 break;
             case "Medium":
                 AI.mediumMove();
+                break;
             case "Hard":
                 AI.hardMove();
+                break;
         }
     }
 
@@ -112,6 +114,7 @@ abstract class AI {
             MainGrid.getMainGridPanel().updateUI();
         }
     }
+
     private static void hardMove() {
         Random rand = new Random();
         HashMap<Integer, ArrayList<String[]>> possibleMoves = new HashMap<>();
