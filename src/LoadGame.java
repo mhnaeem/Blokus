@@ -30,6 +30,8 @@ class LoadGame {
         loadTurn(lines.get(1));
         loadMainGrid(lines.get(2).substring(10));
         loadPlayerGrids(new String[]{lines.get(3),lines.get(4),lines.get(5),lines.get(6)});
+        //TODO: Trying to pick a better piece
+        AI.setLongestPieceListMap(AI.makeLongestPieceListMap());
     }
 
     private void loadOptions(String line) {
