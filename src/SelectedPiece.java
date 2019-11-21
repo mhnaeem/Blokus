@@ -1,9 +1,4 @@
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,7 +23,7 @@ class SelectedPiece{
     private int playerIndex;
     private JButton[][] selectedButtonGrid;
     public static JButton pass;
-    private static JButton rotate, flipUp, flipRight, back;
+    private static JButton rotate, flipUp, flipRight, back, hint;
 
     SelectedPiece(int player_index, String selected_button_name, Component player_grid_panel){
 
@@ -63,12 +58,14 @@ class SelectedPiece{
             flipRight.setEnabled(false);
             rotate.setEnabled(false);
             back.setEnabled(false);
+            hint.setEnabled(false);
         }
         else {
             flipUp.setEnabled(true);
             flipRight.setEnabled(true);
             rotate.setEnabled(true);
             back.setEnabled(true);
+            hint.setEnabled(true);
         }
 
         frm.add(main);
@@ -94,6 +91,7 @@ class SelectedPiece{
         ImageIcon closeIcon = new ImageIcon("./Assets/Icons/close.png");
         ImageIcon rotateIcon = new ImageIcon("./Assets/Icons/rotate.png");
         ImageIcon passIcon = new ImageIcon("./Assets/Icons/pass.png");
+        ImageIcon hintIcon = new ImageIcon("./Assets/Icons/iconfinder_bulb_1511312.png");
 
         //Set the actionListeners for each button
         rotate = new JButton(rotateIcon);
@@ -127,11 +125,43 @@ class SelectedPiece{
             frm.dispose();
         });
 
+
+        //TODO: Hint items will go here
+        hint = new JButton(hintIcon);
+        hint.addActionListener(ev -> {
+
+            ArrayList<String[]> possibleMoves = GameEngine.getPossibleAIMoves(GameEngine.getSelectedPiece());
+
+            String[] move = possibleMoves.get(0);
+
+            String[] selectedPoint = move[0].split(",");
+            int r = Integer.parseInt(selectedPoint[0]);
+            int c = Integer.parseInt(selectedPoint[1]);
+            int rotation = Integer.parseInt(move[1]);
+            int flipRight = Integer.parseInt(move[2]);
+            int flipUp = Integer.parseInt(move[3]);
+
+            for (int i = 1; i <= rotation; i++) {
+                rotate.doClick();
+            }
+            for (int i = 1; i <= flipRight; i++) {
+                SelectedPiece.flipRight.doClick();
+            }
+            for (int i = 1; i <= flipUp; i++) {
+                SelectedPiece.flipUp.doClick();
+            }
+
+            Color color = Options.getColor(GameEngine.getCurrentTurn());
+            JButton[][] grid = MainGrid.getMainGridButtons();
+            grid[r][c].setBorder(BorderFactory.createLineBorder(color,2));
+        });
+
         JPanel buttons = new JPanel();
         buttons.add(pass);
         buttons.add(rotate);
         buttons.add(flipUp);
         buttons.add(flipRight);
+        buttons.add(hint);
         buttons.add(back);
 
         main.add(buttons);
