@@ -1,11 +1,10 @@
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class MenuCreator extends JMenuBar {
 
@@ -194,7 +193,13 @@ class MenuCreator extends JMenuBar {
 
             }
             if(e.getSource() == resetGame){
-                System.out.println("Reset Game Option Selected");
+
+                HashMap<Integer, Color> map = new HashMap<>();
+                for (int i = 1; i <= Options.getNumberOfPlayers(); i++) {
+                    map.put(i, Options.getColor(i));
+                }
+                gameGUI.dispose();
+                Options.setOptions(Options.getIsColorblind(),Options.getDifficulty(), Options.getScoringType(),map,Options.getNumberOfPlayers(),Options.getNumberOfAI());
             }
             if(e.getSource() == resetProperties){
                 createGame.resetEvent();
