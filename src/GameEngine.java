@@ -3,6 +3,7 @@ import java.awt.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -553,24 +554,45 @@ public class GameEngine {
     }
 
 
-    //FOR AI
-//    public static HashMap<Integer,ArrayList<String[]>> moveThatBlockOtherPlayerEdges(ArrayList<Integer> available_pieces ,HashMap<Integer,ArrayList<String[]>> map,int turn){
-//        HashMap<Integer,ArrayList<String[]>> toReturn= new HashMap<>();
-//        ArrayList<Integer> turn_list = new ArrayList<>(Arrays.asList(1,2,3,4));
-//        turn_list.remove(turn);
-//        ArrayList<String> OtherPlayerEdges = new ArrayList<>();
-//        turn_list.forEach(index->OtherPlayerEdges.addAll(calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(index))));
-//        available_pieces.forEach(piece->{
-//            if (map.containsKey(piece)){
-//                map.get(piece).forEach(strings -> {
-//                    if(OtherPlayerEdges.contains(strings[0])){
-//                        toReturn.put(piece,map.get(piece));
-//                    }
-//                });
-//            }
-//        });
-//        return toReturn;
-//    }
+
+   public static HashMap<Integer, String[]> moveThatBlockOtherPlayerEdges(ArrayList<Integer> available_pieces , HashMap<Integer,ArrayList<String[]>> map, int turn){
+       HashMap<Integer,String[]> toReturn= new HashMap<>();
+       ArrayList<Integer> turn_list = new ArrayList<>(Arrays.asList(1,2,3,4));
+       turn_list.remove(turn);
+       ArrayList<String> OtherPlayerEdges = new ArrayList<>();
+       turn_list.forEach(index->OtherPlayerEdges.addAll(calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(index))));
+       for (int piece:available_pieces){
+               map.get(piece).forEach(strings -> {
+                   Piece.resetActionList();
+                   String selectedPoint = strings[0];
+                   int rotate = Integer.parseInt(strings[1]);
+                   int flipRight = Integer.parseInt(strings[2]);
+                   int flipUp = Integer.parseInt(strings[3]);
+                   for (int rot=1;rot<=rotate;rot++){
+                       Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(piece)));
+                   }
+                   for (int fr=1;fr<=flipRight;fr++){
+                       Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(piece)));
+                   }
+                   for (int fu=1;fu<=flipUp;fu++){
+                       Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(piece)));
+                   }
+                   String[] button = selectedPoint.split(",");
+                   int r = Integer.parseInt(button[0]);
+                   int c = Integer.parseInt(button[1]);
+                   for (int[] action:Piece.getActionsList(piece)){
+                       String point = r+action[1] + "," + c+action[0];
+                       if(OtherPlayerEdges.contains(point)){
+                           String[] tReturn = new String[] {selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)};
+                           toReturn.put(piece,tReturn);
+                           break;
+                       }
+                   }
+               });
+           }
+       Piece.resetActionList();
+       return toReturn;
+   }
 
     public static boolean isAITurn(int turnIndex){
         return Options.getAI_player_index_List().contains(turnIndex);

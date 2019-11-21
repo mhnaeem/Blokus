@@ -1,8 +1,8 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO restructure and move code to appropriate class
 abstract class AI {
@@ -112,5 +112,83 @@ abstract class AI {
             MainGrid.getMainGridPanel().updateUI();
         }
     }
-    private static void hardMove(){ }
+    private static void hardMove() {
+        Random rand = new Random();
+        HashMap<Integer, ArrayList<String[]>> possibleMoves = new HashMap<>();
+        ArrayList<Integer> availablePieces = Player.getPlayer(currentTurn).getAvailablePieces();
+        for (int piece : availablePieces) {
+            GameEngine.setSelectedPiece(piece);
+            possibleMoves.put(piece, GameEngine.getPossibleAIMoves(piece));
+        }
+        HashMap<Integer, String[]> blockingMove = GameEngine.moveThatBlockOtherPlayerEdges(availablePieces, possibleMoves, currentTurn);
+        if (!blockingMove.isEmpty()) {
+            AtomicInteger p = new AtomicInteger();
+            blockingMove.forEach((k, v) -> {
+                p.set(k);
+            });
+            String[] move = blockingMove.get(p.get());
+            String[] selectedPoint = move[0].split(",");
+            int r = Integer.parseInt(selectedPoint[0]);
+            int c = Integer.parseInt(selectedPoint[1]);
+            int rotation = Integer.parseInt(move[1]);
+            int flipRight = Integer.parseInt(move[2]);
+            int flipUp = Integer.parseInt(move[3]);
+            GameEngine.setSelectedPiece(p.get());
+            Piece.resetActionList();
+            for (int i = 1; i <= rotation; i++) {
+                //System.out.println("rotation");
+                Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(p.get())));
+            }
+            for (int i = 1; i <= flipRight; i++) {
+                //System.out.println("flipright");
+                Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(p.get())));
+            }
+            for (int i = 1; i <= flipUp; i++) {
+                //System.out.println("flipup");
+                Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(p.get())));
+            }
+            MainGrid.getMainGridPanel().updateUI();
+            MainGrid.getMainGridButtons()[r][c].doClick();
+            MainGrid.getMainGridPanel().updateUI();
+        } else {
+            int longestPiece = -1;
+            for (int piece : longestPieceList) {
+                if (possibleMoves.containsKey(piece)) {
+                    longestPiece = piece;
+                    //System.out.println("longestPiece"+longestPiece);
+                    break;
+                }
+            }
+            if (longestPiece == -1 || possibleMoves.get(longestPiece).size() == 0) {
+                GameEngine.hasGameEndedEvent();
+                GameEngine.updateCurrentTurn();
+            } else {
+                int index = rand.nextInt(possibleMoves.get(longestPiece).size());
+                String[] move = possibleMoves.get(longestPiece).get(index);
+                String[] selectedPoint = move[0].split(",");
+                int r = Integer.parseInt(selectedPoint[0]);
+                int c = Integer.parseInt(selectedPoint[1]);
+                int rotation = Integer.parseInt(move[1]);
+                int flipRight = Integer.parseInt(move[2]);
+                int flipUp = Integer.parseInt(move[3]);
+                GameEngine.setSelectedPiece(longestPiece);
+                Piece.resetActionList();
+                for (int i = 1; i <= rotation; i++) {
+                    //System.out.println("rotation");
+                    Piece.setActionList(SelectedPiece.rotateCounterClock(Piece.getActionsList(longestPiece)));
+                }
+                for (int i = 1; i <= flipRight; i++) {
+                    //System.out.println("flipright");
+                    Piece.setActionList(SelectedPiece.flipRight(Piece.getActionsList(longestPiece)));
+                }
+                for (int i = 1; i <= flipUp; i++) {
+                    //System.out.println("flipup");
+                    Piece.setActionList(SelectedPiece.flipUp(Piece.getActionsList(longestPiece)));
+                }
+                MainGrid.getMainGridPanel().updateUI();
+                MainGrid.getMainGridButtons()[r][c].doClick();
+                MainGrid.getMainGridPanel().updateUI();
+            }
+        }
+    }
 }
