@@ -32,6 +32,9 @@ abstract class Options {
         if (numberOfPlayers==3){
             hasAlternatePlayer = true;
         }
+        else {
+            hasAlternatePlayer = false;
+        }
         setAIPlayerOptions();
         setPlayerNames();
         setNameOfAlternatePlayer();
@@ -107,9 +110,14 @@ abstract class Options {
      * by default players are name 1,2,3,4 regardless of the amount of players playing
      */
     private static void setPlayerNames(){
-        if (numberOfPlayers==2){
+        if (numberOfPlayers==2 && numberOfAI==0){
             Player.getPlayer(3).setName("Player 1");
             Player.getPlayer(4).setName("Player 2");
+        }
+        else if (numberOfPlayers==2 && numberOfAI==1) {
+            Player.getPlayer(2).setName("AI Player");
+            Player.getPlayer(3).setName("Player 1");
+            Player.getPlayer(4).setName("AI Player");
         }
     }
 
@@ -131,8 +139,8 @@ abstract class Options {
                 Player.getPlayer(4).setName("AI Player");
             }
         }
-        else{
-            if (numberOfAI==3){
+        else if (numberOfPlayers==4) {
+            if (numberOfAI == 3) {
                 Player.getPlayer(2).setName("AI Player 1");
                 AI_player_index_List.add(2);
                 Player.getPlayer(3).setName("AI Player 2");
@@ -140,18 +148,21 @@ abstract class Options {
                 Player.getPlayer(4).setName("AI Player 3");
                 AI_player_index_List.add(4);
             }
-            if (numberOfAI==2){
+            if (numberOfAI == 2) {
                 Player.getPlayer(3).setName("AI Player 1");
                 AI_player_index_List.add(3);
                 Player.getPlayer(4).setName("AI Player 2");
                 AI_player_index_List.add(4);
-            }
-            else if (numberOfAI==1){
+            } else if (numberOfAI == 1) {
                 Player.getPlayer(4).setName("AI Player");
                 AI_player_index_List.add(4);
             }
         }
-        //TODO set AI DIFFICULTY HERE
+        else if (numberOfPlayers==2){
+            AI_player_index_List.add(2);
+            AI_player_index_List.add(4);
+        }
+
     }
 
 
