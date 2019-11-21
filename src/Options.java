@@ -69,7 +69,7 @@ abstract class Options {
         mapOfColors = map_Of_Colors;
     }
 
-    private static void setNumberOfPlayers(Integer number_of_players){ numberOfPlayers = number_of_players;}
+    private static void setNumberOfPlayers(Integer number_of_players){ numberOfPlayers = 4;}
 
     public static Boolean getIsColorblind(){
         return isColorblind;
