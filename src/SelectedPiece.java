@@ -84,7 +84,9 @@ class SelectedPiece{
     public static void removeBorderFromPreviousHintLocation(){
         JButton[][] grid = MainGrid.getMainGridButtons();
         grid[previousHintLocation[0]][previousHintLocation[1]].setBorder(UIManager.getBorder("Button.border"));
-        grid[previousHintLocation[0]][previousHintLocation[1]].setIcon(null);
+        if(grid[previousHintLocation[0]][previousHintLocation[1]].isEnabled()){
+            grid[previousHintLocation[0]][previousHintLocation[1]].setIcon(null);
+        }
     }
 
     private void createButtons(){
