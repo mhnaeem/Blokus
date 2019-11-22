@@ -142,34 +142,40 @@ class SelectedPiece{
 
             ArrayList<String[]> possibleMoves = GameEngine.getPossibleAIMoves(GameEngine.getSelectedPiece());
 
-            String[] move = possibleMoves.get(0);
+            if(possibleMoves.isEmpty()){
+                JOptionPane.showMessageDialog(null, "There are no hints available for this piece, try another one.","No Hints Available", JOptionPane.INFORMATION_MESSAGE);
+                frm.dispose();
+            }
+            else {
+                String[] move = possibleMoves.get(0);
 
-            String[] selectedPoint = move[0].split(",");
-            int r = Integer.parseInt(selectedPoint[0]);
-            int c = Integer.parseInt(selectedPoint[1]);
-            int rotation = Integer.parseInt(move[1]);
-            int flipRight = Integer.parseInt(move[2]);
-            int flipUp = Integer.parseInt(move[3]);
+                String[] selectedPoint = move[0].split(",");
+                int r = Integer.parseInt(selectedPoint[0]);
+                int c = Integer.parseInt(selectedPoint[1]);
+                int rotation = Integer.parseInt(move[1]);
+                int flipRight = Integer.parseInt(move[2]);
+                int flipUp = Integer.parseInt(move[3]);
 
-            for (int i = 1; i <= rotation; i++) {
-                rotate.doClick();
-            }
-            for (int i = 1; i <= flipRight; i++) {
-                SelectedPiece.flipRight.doClick();
-            }
-            for (int i = 1; i <= flipUp; i++) {
-                SelectedPiece.flipUp.doClick();
-            }
+                for (int i = 1; i <= rotation; i++) {
+                    rotate.doClick();
+                }
+                for (int i = 1; i <= flipRight; i++) {
+                    SelectedPiece.flipRight.doClick();
+                }
+                for (int i = 1; i <= flipUp; i++) {
+                    SelectedPiece.flipUp.doClick();
+                }
 
-            Color color = Options.getColor(GameEngine.getCurrentTurn());
-            JButton[][] grid = MainGrid.getMainGridButtons();
-            //Hint markings
-            previousHintLocation = new int[]{r,c};
-            grid[r][c].setBorder(BorderFactory.createLineBorder(color,2));
-            if(Options.getIsColorblind()) {
-                grid[r][c].setIcon(Player.getPlayerIcon(GameEngine.getCurrentTurn()));
+                Color color = Options.getColor(GameEngine.getCurrentTurn());
+                JButton[][] grid = MainGrid.getMainGridButtons();
+                //Hint markings
+                previousHintLocation = new int[]{r, c};
+                grid[r][c].setBorder(BorderFactory.createLineBorder(color, 2));
+                if (Options.getIsColorblind()) {
+                    grid[r][c].setIcon(Player.getPlayerIcon(GameEngine.getCurrentTurn()));
+                }
+                grid[r][c].setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 20));
             }
-            grid[r][c].setFont(new Font ("Arial", Font.BOLD | Font.ITALIC, 20));
         });
 
         JPanel buttons = new JPanel();
