@@ -18,6 +18,7 @@ class GameGUI extends JFrame {
     public static int currentTurn;
     private static String text;
     private static JEditorPane paragraph = new JEditorPane();
+    private static TitledBorder title;
 
     public GameGUI(JPanel GridPanel){
 
@@ -37,7 +38,7 @@ class GameGUI extends JFrame {
         mainGridPanel.add(playerTurnPanel);
         mainGridPanel.add(GridPanel);
 
-        TitledBorder title = BorderFactory.createTitledBorder("Turn");
+        title = BorderFactory.createTitledBorder("Turn");
         title.setTitleFont(new Font(Font.SANS_SERIF, Font.PLAIN,25));
         title.setTitleJustification(TitledBorder.CENTER);
         playerTurnPanel.setBorder(title);
@@ -79,16 +80,47 @@ class GameGUI extends JFrame {
         setJMenuBar(new MenuCreator(new String[]{"endGame","newGame","saveGame","load","resetGame","exit","howTo","about"}, this, "game"));
     }
 
-    public static void setPlayerTurnTopPanel(int currentTurn){
+    private static void setTitleColor(int currentTurn){
+        Color color = Color.BLACK;
 
+        if(Options.isDarkMode()){
+            color = Color.white;
+        }
+        if(!Options.getIsColorblind()){
+            color = Options.getColor(currentTurn);
+        }
+        title.setTitleColor(color);
+    }
+
+
+    public static void setPlayerTurnTopPanel(int currentTurn){
         if(currentTurn == 0){
             currentTurn=Options.getTurnOrderAccordingToColors(0);
         }
 
-        text = "<html><p style='font-size:40px'>" + Player.getPlayer(currentTurn).getPlayerName()+
+        String color = "#000000";
+
+        if(Options.isDarkMode()){
+            color = "#ffffff";
+        }
+        if(!Options.getIsColorblind()){
+            Color tempColor = Player.getPlayer(currentTurn).getColor();
+            if(tempColor == Color.BLUE){
+                color = "#0000ff";
+            }
+            if(tempColor == Color.GREEN){
+                color = "#00ff00";
+            }
+            if(tempColor == Color.RED){
+                color = "#ff0000";
+            }
+            if(tempColor == Color.YELLOW){
+                color = "#ffff00";
+            }
+        }
+
+        text = "<html><p style='font-size:40px; color: " + color + "'>" + Player.getPlayer(currentTurn).getPlayerName()+
                 "</p></html>";
-
-
 
         paragraph.setContentType("text/html");//set content as html
         paragraph.setText(text);
@@ -99,6 +131,7 @@ class GameGUI extends JFrame {
         playerTurnPanel.add(paragraph);
 //        System.out.println("Player "+ currentTurn +"'s turn.");
 
+        setTitleColor(currentTurn);
     }
 
     private void createPlayingPieces() {
