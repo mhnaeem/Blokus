@@ -361,7 +361,12 @@ public class GameEngine {
             }
         }
         else{
-            SelectedPiece.pass.doClick();
+            if(!isAITurn(currentTurn)){
+                new SelectedPiece(currentTurn, "0,0",PlayerGrid.getPlayerGridPanel(currentTurn));
+            }
+            else {
+                SelectedPiece.pass.doClick();
+            }
         }
     }
 
@@ -392,7 +397,7 @@ public class GameEngine {
     }
 
     private static HashMap<Integer, Integer> playerScoring() {
-        int numPlayers = Options.getNumberOfPlayers();
+        int numPlayers = Options.getRealNumberOfPlayers();
 
         HashMap<Integer, Integer> playerScoreList = new HashMap<>();
         Map.Entry<Integer, Integer> min = null;

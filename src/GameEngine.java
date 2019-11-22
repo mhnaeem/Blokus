@@ -361,7 +361,12 @@ public class GameEngine {
             }
         }
         else{
-            SelectedPiece.pass.doClick();
+            if(!isAITurn(currentTurn)){
+                new SelectedPiece(currentTurn, "0,0",PlayerGrid.getPlayerGridPanel(currentTurn));
+            }
+            else {
+                SelectedPiece.pass.doClick();
+            }
         }
     }
 

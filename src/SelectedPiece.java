@@ -108,9 +108,9 @@ class SelectedPiece{
 
         pass = new JButton(passIcon);
         pass.addActionListener(ev -> {
+            frm.dispose();
             GameEngine.setSelectedPiece(null);
             removeBorderFromPreviousHintLocation();
-            frm.dispose();
             GameEngine.updateCurrentTurn();
         });
 
