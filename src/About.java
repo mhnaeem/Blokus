@@ -227,14 +227,29 @@ public class About extends JFrame {
         goBackButton.addActionListener(actionEvent -> About.this.dispose());
     }
 
+
+    /**
+     * when Sources button is pressed
+     * Modifies text variable
+     * adds Source information with website link of icons to text variable
+     * adds text variable to paragraph label
+     */
     private void sourcesButtonEvent(){
         text="<html><p>Link to our project in GitHub : <a href=\"https://github.com/mhnaeem/comp2005-fall19-group9\">comp2005-fall19-group9</a><br>" +
                 "Link to original owners of the game we created for this project: <a href=\"https://www.mattelgames.com/en-ca/blokus\">Mattel Games</a><br>" +
                 "Link to Wikipedia for more information about Blokus: <a href=\"https://en.wikipedia.org/wiki/Blokus\">WIKIPEDIA</a><br>" +
-                "Link to the source where we got our icon from: <a href=\"https://www.flaticon.com/free-icon/tetris_566312\">FLATICON</a><br></p></html>";
+                "Link to the source of tetris icon: <a href=\"https://www.flaticon.com/free-icon/tetris_566312\">Tetris</a><br>" +
+                "Link to the source of close icon: <a href=\"https://www.flaticon.com/free-icon/error_482603?term=close%20icon&page=1&position=10\">Close</a><br>"+
+                "Link to the source of flip left/right icon: <a href=\"https://www.iconfinder.com/icons/1031523/arrows_double_arrow_doublechevronleftright_left_right_arrow_icon\">Flip Left/Right</a><br>"+
+                "Link to the source of flip Up/Down icon: <a href=\"https://www.iconfinder.com/icons/3140023/arrows_down_up_up_down_up_down_arrow_up_down_arrows_icon\">Flip Up/Down</a><br>"+
+                "Link to the source of rotate icon: <a href=\"https://www.flaticon.com/free-icon/rotating-arrow-to-the-right_33811?term=rotate&page=1&position=58\">Rotate</a><br>"+
+                "Link to the source of hint icon: <a href=\"https://www.flaticon.com/free-icon/lightbulb_702797?term=light%20bulb&page=5&position=38\">Hint</a><br>"+
+                "Link to the source of pass icon: <a href=\"https://icon-library.net/icon/icon-check-mark-5.html\">Pass</a><br></p></html><br>";
+
+
 
         paragraph.setText(text);
-        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+        paragraph.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
     }
 
     /**
