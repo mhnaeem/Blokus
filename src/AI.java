@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 abstract class AI {
     private static int currentTurn;
     private static ArrayList<Integer> longestPieceList = new ArrayList<>(Arrays.asList(18,10,4,12,5,7,9,6,1,2,11,13,0,3,8,16,14,15,19,20,17));//in order of longest piece
-    private static HashMap<Integer, HashMap<String, ArrayList<Integer>>> longestPieceListMap = makeLongestPieceListMap();
+    //private static HashMap<Integer, HashMap<String, ArrayList<Integer>>> longestPieceListMap = makeLongestPieceListMap();
 
     public static void makeMove(){
         PlayerGrid.disableAllPlayerGrids();
@@ -27,47 +27,47 @@ abstract class AI {
     }
 
     //TODO: Trying to pick a better piece
-    public static HashMap<Integer,HashMap<String, ArrayList<Integer>>> makeLongestPieceListMap(){
-        HashMap<Integer,HashMap<String, ArrayList<Integer>>> toReturn = new HashMap<>();
-
-        for (int player = 1; player <= Options.getNumberOfPlayers(); player++) {
-            HashMap<String, ArrayList<Integer>> toReturn1 = new HashMap<>();
-            ArrayList<Integer> hardList = new ArrayList<>(Arrays.asList(18,10,12,5,9,4));
-            ArrayList<Integer> mediumList = new ArrayList<>(Arrays.asList(0,8,16,13,11,1,2,3,6,7));
-            ArrayList<Integer> easyList = new ArrayList<>(Arrays.asList(19,20,17,15,14));
-            int finalPlayer = player;
-            hardList.removeIf(piece -> {
-                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
-            });
-            mediumList.removeIf(piece -> {
-                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
-            });
-            easyList.removeIf(piece -> {
-                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
-            });
-            toReturn1.put("Hard", hardList);
-            toReturn1.put("Medium", mediumList);
-            toReturn1.put("Easy", easyList);
-            toReturn.put(player, toReturn1);
-        }
-        return toReturn;
-    }
+//    public static HashMap<Integer,HashMap<String, ArrayList<Integer>>> makeLongestPieceListMap(){
+//        HashMap<Integer,HashMap<String, ArrayList<Integer>>> toReturn = new HashMap<>();
+//
+//        for (int player = 1; player <= Options.getNumberOfPlayers(); player++) {
+//            HashMap<String, ArrayList<Integer>> toReturn1 = new HashMap<>();
+//            ArrayList<Integer> hardList = new ArrayList<>(Arrays.asList(18,10,12,5,9,4));
+//            ArrayList<Integer> mediumList = new ArrayList<>(Arrays.asList(0,8,16,13,11,1,2,3,6,7));
+//            ArrayList<Integer> easyList = new ArrayList<>(Arrays.asList(19,20,17,15,14));
+//            int finalPlayer = player;
+//            hardList.removeIf(piece -> {
+//                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
+//            });
+//            mediumList.removeIf(piece -> {
+//                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
+//            });
+//            easyList.removeIf(piece -> {
+//                return !Player.getPlayer(finalPlayer).getAvailablePieces().contains(piece);
+//            });
+//            toReturn1.put("Hard", hardList);
+//            toReturn1.put("Medium", mediumList);
+//            toReturn1.put("Easy", easyList);
+//            toReturn.put(player, toReturn1);
+//        }
+//        return toReturn;
+//    }
 
     //TODO: Trying to pick a better piece
-    public static void setLongestPieceListMap(HashMap<Integer,HashMap<String, ArrayList<Integer>>> map){
-        longestPieceListMap = map;
-    }
-
-    private static ArrayList<Integer> arrayListOfPiecesToSelect(String difficulty){
-        if(!longestPieceListMap.get(currentTurn).get(difficulty).isEmpty()){
-            return longestPieceListMap.get(currentTurn).get(difficulty);
-        }
-        System.out.println("All the pieces have been used up, arrayListOfPiecesToSelect");
-        return null;
-    }
+//    public static void setLongestPieceListMap(HashMap<Integer,HashMap<String, ArrayList<Integer>>> map){
+//        longestPieceListMap = map;
+//    }
+//
+//    private static ArrayList<Integer> arrayListOfPiecesToSelect(String difficulty){
+//        if(!longestPieceListMap.get(currentTurn).get(difficulty).isEmpty()){
+//            return longestPieceListMap.get(currentTurn).get(difficulty);
+//        }
+//        System.out.println("All the pieces have been used up, arrayListOfPiecesToSelect");
+//        return null;
+//    }
 
     private static void splitMoveAndRotateAndFlipAndPlace(String[] move, int piece_index){
-        removeFromLongestPieceListMap(piece_index);
+        //removeFromLongestPieceListMap(piece_index);
         String[] selectedPoint = move[0].split(",");
         int r = Integer.parseInt(selectedPoint[0]);
         int c = Integer.parseInt(selectedPoint[1]);
@@ -95,26 +95,26 @@ abstract class AI {
     }
 
     //TODO: Trying to pick a better piece
-    private static void removeFromLongestPieceListMap(int piece_index){
-        String difficulty = "";
-        currentTurn = GameEngine.getCurrentTurn();
-
-        if(longestPieceListMap.containsKey(currentTurn)){
-            if(!longestPieceListMap.get(currentTurn).get("Hard").isEmpty()){
-                difficulty = "Hard";
-            }
-            else if(!longestPieceListMap.get(currentTurn).get("Medium").isEmpty()){
-                difficulty = "Medium";
-            }
-            else if(!longestPieceListMap.get(currentTurn).get("Easy").isEmpty()){
-                difficulty = "Easy";
-            }
-            if(longestPieceListMap.get(currentTurn).containsKey(difficulty)){
-                longestPieceListMap.get(currentTurn).get(difficulty).removeIf(piece -> piece == piece_index);
-                System.out.println("Player: " + currentTurn + " Size: " + longestPieceListMap.get(currentTurn).get(difficulty).size() + " " + difficulty);
-            }
-        }
-    }
+//    private static void removeFromLongestPieceListMap(int piece_index){
+//        String difficulty = "";
+//        currentTurn = GameEngine.getCurrentTurn();
+//
+//        if(longestPieceListMap.containsKey(currentTurn)){
+//            if(!longestPieceListMap.get(currentTurn).get("Hard").isEmpty()){
+//                difficulty = "Hard";
+//            }
+//            else if(!longestPieceListMap.get(currentTurn).get("Medium").isEmpty()){
+//                difficulty = "Medium";
+//            }
+//            else if(!longestPieceListMap.get(currentTurn).get("Easy").isEmpty()){
+//                difficulty = "Easy";
+//            }
+//            if(longestPieceListMap.get(currentTurn).containsKey(difficulty)){
+//                longestPieceListMap.get(currentTurn).get(difficulty).removeIf(piece -> piece == piece_index);
+//                System.out.println("Player: " + currentTurn + " Size: " + longestPieceListMap.get(currentTurn).get(difficulty).size() + " " + difficulty);
+//            }
+//        }
+//    }
 
     private static void easyMove(){
         Random rand = new Random();
