@@ -122,6 +122,7 @@ abstract class AI {
         int random_piece = GameEngine.getEasyPlayableMap().get(currentTurn);
         if (random_piece==-1){
             //TODO pass current turn here idont know if its correct way to pass turn anymore lmao
+            SelectedPiece.pass.doClick();
             GameEngine.updateCurrentTurn();
             return;
         }
