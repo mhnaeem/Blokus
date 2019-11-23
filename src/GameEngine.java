@@ -596,7 +596,7 @@ public class GameEngine {
                    int r = Integer.parseInt(button[0]);
                    int c = Integer.parseInt(button[1]);
                    for (int[] action : Piece.getActionsList(piece)){
-                       String point = r + action[1] + "," + c + action[0];
+                       String point = (r + action[1]) + "," + (c + action[0]);
                        if(OtherPlayerEdges.contains(point)){
                            String[] tReturn = new String[] {selectedPoint,String.valueOf(rotate),String.valueOf(flipRight),String.valueOf(flipUp)};
                            toReturn.put(piece,tReturn);
