@@ -150,10 +150,10 @@ class GameOver extends JFrame{
                 Integer pl = Collections.min(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
                 if(pl != null && playerScores.containsKey(pl)){
                     if(winner){
-                        text += "<h1>Winner is: Player " + pl + "</h1>";
+                        text += "<h1>Winner is: "+Player.getPlayer(pl).getPlayerName()+ "</h1>";
                         winner = false;
                     }
-                    text += "<p>Player " + pl + " Scored : " + playerScores.get(pl) + " squares left </p></br>";
+                    text += "<p>" + Player.getPlayer(pl).getPlayerName() + " Scored : " + playerScores.get(pl) + " squares left </p></br>";
                     playerScores.remove(pl);
                 }
             }
