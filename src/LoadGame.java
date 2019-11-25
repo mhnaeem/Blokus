@@ -62,6 +62,7 @@ class LoadGame {
         if (Options.hasAlternatePlayer()){
             GameEngine.setAlternateTurn(alternate_turn);
         }
+        GameGUI.setPlayerTurnTopPanel(GameEngine.getCurrentTurn());
     }
 
     private void loadMainGrid(String line){
