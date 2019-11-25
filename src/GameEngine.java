@@ -31,6 +31,7 @@ public class GameEngine {
     private static HashMap<Integer, HashMap<Integer, Boolean[]>> directionForEachPlayer = setDirectionsForEachPlayer();
 
     public GameEngine() {
+        gameEnded =false;
         selectedPiece = null;
         turn_index = 0;
         currentTurn = Options.getTurnOrderAccordingToColors(turn_index);
@@ -318,6 +319,9 @@ public class GameEngine {
         PlayerGrid.disableOtherPlayerGrids(currentTurn);
 
         hasGameEnded();
+        if (gameEnded){
+            return;
+        }
         Piece.resetActionList();
         // current turn to use it in GameGUI class
         GameGUI.setPlayerTurnTopPanel(currentTurn);
