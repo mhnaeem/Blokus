@@ -576,7 +576,8 @@ public class GameEngine {
    public static HashMap<Integer, String[]> moveThatBlockOtherPlayerEdges(ArrayList<Integer> available_pieces , HashMap<Integer,ArrayList<String[]>> map, int turn){
        HashMap<Integer,String[]> toReturn = new HashMap<>();
        ArrayList<Integer> turn_list = new ArrayList<>(Arrays.asList(1,2,3,4));
-       Integer remove = turn_list.remove(turn-1);
+       //Integer remove = turn_list.remove(turn-1);
+       turn_list.removeIf(turn_number->isAITurn(turn_number));
        ArrayList<String> OtherPlayerEdges = new ArrayList<>();
        turn_list.forEach(index -> OtherPlayerEdges.addAll(calculateBoardEdge(MainGrid.getMainGridButtons(),Options.getColor(index))));
        for (int piece : available_pieces){
