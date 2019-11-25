@@ -145,7 +145,7 @@ class GameOver extends JFrame{
     private void sortPlayerScores(){
         text = "<html>";
         boolean winner = true;
-        for (int i = 1; i <= Options.getNumberOfPlayers(); i++){
+        for (int i = 1; i <= Options.getRealNumberOfPlayers(); i++){
             if(Collections.max(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey() != null){
                 Integer pl = Collections.min(playerScores.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
                 if(pl != null && playerScores.containsKey(pl)){
