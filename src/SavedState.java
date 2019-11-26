@@ -41,6 +41,8 @@ class SavedState {
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
             this.date = myDateObj.format(myFormatObj);
 
+            this.date = this.date.replace(".","");
+
             this.time = myDateObj.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
             String newBrokenTime = "";
@@ -91,9 +93,11 @@ class SavedState {
         File[] listOfFiles = new File("./SavedGames").listFiles();
         for (File listOfFile : listOfFiles) {
             String file = listOfFile.toString();
-            String date = file.substring(13,22);
-            String time = file.substring(24,30);
-            String name = file.substring(30, file.length()-4);
+            file = file.substring(13,file.length()).replace(".","");
+
+            String date = file.substring(0,11);
+            String time = file.substring(11,17);
+            String name = file.substring(17, file.length()-3);
 
             time = time.substring(0,2) + ":" + time.substring(2,4) + ":" + time.substring(4,6);
 
