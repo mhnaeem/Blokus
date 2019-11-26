@@ -93,11 +93,11 @@ class SavedState {
         File[] listOfFiles = new File("./SavedGames").listFiles();
         for (File listOfFile : listOfFiles) {
             String file = listOfFile.toString();
-            file = file.substring(13,file.length()).replace(".","");
+            String newFile = file.substring(13,file.length()).replace(".","");
 
-            String date = file.substring(0,11);
-            String time = file.substring(11,17);
-            String name = file.substring(17, file.length()-3);
+            String date = newFile.substring(0,11);
+            String time = newFile.substring(11,17);
+            String name = newFile.substring(17, newFile.length()-3);
 
             time = time.substring(0,2) + ":" + time.substring(2,4) + ":" + time.substring(4,6);
 
