@@ -1,0 +1,8 @@
+1) Save game text to show game has saved
+2) Networking
+3) Alternate player testing
+4) Surrender button for each player
+5) Optimizations to the dark mode
+6) Speed optimizations
+7) Possibily hard code the edges
+8) Move to object oriented programming
